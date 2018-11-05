@@ -1,9 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-    return(res.json({ hello: 'World!' }));
-});
+const Direccion = require('../controllers/DireccionController').Direccion;
+
+/* DIRECCION */
+router.get('/direccion', Direccion.list);
+router.get('/direccion/:id', Direccion.show);
+router.post('/direccion', Direccion.create);
+router.patch('/direccion/:id', Direccion.update);
+router.delete('/direccion/:id', Direccion.destroy);
+
 
 module.exports = router;
