@@ -6,20 +6,20 @@ module.exports = function(sequelize, DataTypes) {
         nombre: DataTypes.TEXT
     });
 
-    /*Campo.associate = function(models) {
+    Campo.associate = function(models) {
         Campo.hasMany(models.Estudiante, {
             foreignKey: 'campo_id'
         });
         Campo.hasMany(models.Investigador, {
             foreignKey: 'campo_id'
         });
-        Campo.hasMany(models.Groupo, {
+        Campo.hasMany(models.Grupo, {
             foreignKey: 'campo_id'
         });
         Campo.hasMany(models.Articulo, {
             foreignKey: 'campo_id'
         });
-    };*/
+    };
 
     return Campo;
 };

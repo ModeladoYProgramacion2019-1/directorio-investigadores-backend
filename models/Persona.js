@@ -3,10 +3,8 @@
 module.exports = function(sequelize, DataTypes) {
     const Persona = sequelize.define("Persona", {
         persona_id : { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        primer_nombre: DataTypes.TEXT,
-        segundo_nombre: DataTypes.TEXT,
-        apellido_paterno: DataTypes.TEXT,
-        apellido_materno: DataTypes.TEXT,
+        nombre: DataTypes.TEXT,
+        apellido: DataTypes.TEXT,
         curriculum: DataTypes.TEXT,
         biografia: DataTypes.TEXT,
         sede_id: DataTypes.INTEGER,
