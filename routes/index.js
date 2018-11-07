@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const Direccion = require('../controllers/DireccionController').Direccion;
+const Direccion = require('../controllers/API/DireccionController').Direccion;
 
 /* DIRECCION */
 router.get('/direccion', Direccion.list);
