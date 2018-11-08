@@ -112,10 +112,10 @@ let destroy = function(req, res){
     try{
         Models.Direccion.destroy({
             where: { direccion_id: req.params.id}
-        }).then(function (admin) {
+        }).then(function (direccion) {
             return res.json({
                 success: true,
-                resource: admin
+                resource: direccion
             });
         });
     }catch(error){
