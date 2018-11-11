@@ -15,6 +15,7 @@
 </template>
 
 <script>
+    /* eslint-disable */
     import Footer from '@/components/Footer.vue'
     import MexicoMap from '@/components/MexicoMap.vue'
     import Navbar from '@/components/Navbar.vue'
@@ -30,10 +31,6 @@
 </script>
 
 <style>
-    h5 {
-        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
-    }
     header.landingHead {
         position: relative;
         background: url('../assets/images/background.png') no-repeat center center;
@@ -50,5 +47,4 @@
     .btn-margin-left {
         margin-left: 15px;
     }
-
 </style>
