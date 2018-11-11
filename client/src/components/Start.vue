@@ -7,18 +7,22 @@
       <h5> Haga click en una entidad en el mapa para realizar una búsqueda.</h5>
     </header>
 
+    <MexicoMap/>
+
     <Footer/>
 
   </div>
 </template>
 
 <script>
-    import Navbar from '@/components/Navbar.vue'
     import Footer from '@/components/Footer.vue'
+    import MexicoMap from '@/components/MexicoMap.vue'
+    import Navbar from '@/components/Navbar.vue'
 
     export default {
         name: 'Start',
         components: {
+            MexicoMap,
             Navbar,
             Footer
         }
@@ -37,10 +41,6 @@
         background-attachment : fixed;
         padding-top: 8rem;
         padding-bottom: 8rem;
-    }
-    div.mapDiv {
-        background-color: #342F2F;
-        width: 100%;
     }
     img{
         margin-top: 10px;
