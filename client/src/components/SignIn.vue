@@ -20,6 +20,10 @@
         <a class="btn btn-light" href="/">Cancelar</a>
         <a class="btn btn-primary btn-margin-left" href="/">Acceder</a>
       </form>
+      &nbsp;
+      <h5>¿No tiene una cuenta?
+          <a class="btn btn-warning" href="/">Registrese aquí</a>
+      </h5>
     </header>
 
 </template>
