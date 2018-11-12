@@ -5,7 +5,7 @@
 </template>
 
 <style>
-body {
+html{
     background-color: #E3E7ED;
 }
 #app {

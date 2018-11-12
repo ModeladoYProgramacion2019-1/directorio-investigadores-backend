@@ -21,7 +21,6 @@
         <a class="btn btn-primary btn-margin-left" href="/">Acceder</a>
       </form>
     </header>
-  </div>
 
 </template>
 
@@ -31,7 +30,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     h5 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 700;

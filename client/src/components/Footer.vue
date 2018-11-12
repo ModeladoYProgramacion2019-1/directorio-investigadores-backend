@@ -14,7 +14,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     footer.landingFooter{
         background-color: #E3E7ED;
         height: 70px;
