@@ -262,7 +262,7 @@
     }
 </script>
 
-<style>
+<style scoped>
     .map {
       background-color: #342F2F;
       width: 100%;
