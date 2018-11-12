@@ -22,7 +22,7 @@
       </form>
       &nbsp;
       <h5>¿No tiene una cuenta?
-          <a class="btn btn-warning" href="/">Registrese aquí</a>
+          <a class="btn btn-dark" href="/">Registrese aquí</a>
       </h5>
     </header>
 
@@ -56,7 +56,7 @@
         margin-left: 15px;
     }
     .signInInput {
-        max-width: 60%;
+        max-width: 1000px;
         margin: auto;
     }
 </style>
