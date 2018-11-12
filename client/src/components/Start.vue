@@ -40,7 +40,4 @@
         object-fit: scale-down;
         max-width: 100%;
     }
-    .btn-margin-left {
-        margin-left: 15px;
-    }
 </style>
