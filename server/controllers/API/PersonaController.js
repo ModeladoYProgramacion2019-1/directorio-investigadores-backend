@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Persona.findAll(consulta).then(function(personas){
-            if(direcciones){
+            if(personas){
                 return res.json({
                   success: false,
                   code: 400,
@@ -111,7 +111,7 @@ let create = function(req, res){
 let destroy = function(req, res){
     try{
         Models.Persona.destroy({
-            where: { direccion_id: req.params.id}
+            where: { persona_id: req.params.id}
         }).then(function (persona) {
             return res.json({
                 success: true,
@@ -139,7 +139,7 @@ let update = function(req, res){
                     error: "No matching persona found"
                 });
             }else{
-                direccion.update(data).then(function(updated){
+                persona.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,

@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Institucion = function(){
+let Administrador = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -21,18 +21,18 @@ let list = function(req, res){
             });
         }
         console.log(consulta);
-        Models.Institucion.findAll(consulta).then(function(instituciones){
-            if(instituciones){
+        Models.Administrador.findAll(consulta).then(function(administradores){
+            if(administradores){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching institution found"
+                  error: "No matching admin found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: instituciones
+                  resource: administradores
                 });
             }
         });
@@ -48,18 +48,18 @@ let list = function(req, res){
 
 let show = function(req, res){
     try{
-        Models.Institucion.findOne(req.params.id).then(function(institucion){
-            if(!institucion){
+        Models.Administrador.findOne(req.params.id).then(function(administrador){
+            if(!administrador){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching institution found"
+                  error: "No matching admin found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: institucion
+                    resource: administrador
                 });
             }
         });
@@ -76,25 +76,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.nombre){
+        if(!data.id_persona){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing name of the institution parameter"
+                error: "Missing admin name parameter"
             });
         }
-        Models.Institucion.create(data).then(function(institucion){
-            if(institucion){
+        Models.Administrador.create(data).then(function(administrador){
+            if(administrador){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: institucion
+                    resource: administrador
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create institution"
+                    error: "Could not create admin"
                 });
             }
         });
@@ -110,12 +110,12 @@ let create = function(req, res){
 
 let destroy = function(req, res){
     try{
-        Models.Institucion.destroy({
-            where: { institucion_id: req.params.id}
-        }).then(function (institucion) {
+        Models.Administrador.destroy({
+            where: { administrador_id: req.params.id}
+        }).then(function (administrador) {
             return res.json({
                 success: true,
-                resource: institucion
+                resource: administrador
             });
         });
     }catch(error){
@@ -131,15 +131,15 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Institucion.findOne(req.params.id).then(function(institucion){
-            if(!institucion){
+        Models.Administrador.findOne(req.params.id).then(function(administrador){
+            if(!administrador){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching institution found"
+                    error: "No matching admin found"
                 });
             }else{
-                direccion.update(data).then(function(updated){
+                administrador.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
@@ -158,4 +158,4 @@ let update = function(req, res){
     }
 }
 
-exports.Institucion = new Institucion();
+exports.Administrador = new Administrador();

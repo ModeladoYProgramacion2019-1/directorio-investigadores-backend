@@ -139,7 +139,7 @@ let update = function(req, res){
                     error: "No matching student found"
                 });
             }else{
-                direccion.update(data).then(function(updated){
+                estudiante.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
