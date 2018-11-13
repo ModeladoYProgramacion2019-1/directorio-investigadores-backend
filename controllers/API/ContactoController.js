@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Direccion = function(){
+let Contacto = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -10,7 +10,7 @@ let Direccion = function(){
     this.update = update;
 };
 
-let list = function(req, res){        
+let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
@@ -21,18 +21,18 @@ let list = function(req, res){
             });
         }
         console.log(consulta);
-        Models.Direccion.findAll(consulta).then(function(direcciones){
-            if(direcciones){
+        Models.Contacto.findAll(consulta).then(function(contactos){
+            if(contactos){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching adress found"
+                  error: "No matching contact found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: direcciones
+                  resource: contactos
                 });
             }
         });
@@ -48,18 +48,18 @@ let list = function(req, res){
 
 let show = function(req, res){
     try{
-        Models.Direccion.findOne(req.params.id).then(function(direccion){
-            if(!direccion){
+        Models.Contacto.findOne(req.params.id).then(function(contacto){
+            if(!contacto){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching address found"
+                  error: "No matching contact found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: direccion
+                    resource: contacto
                 });
             }
         });
@@ -76,25 +76,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.estado){
+        if(!data.correo_personal){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing state parameter"
+                error: "Missing personal email parameter"
             });
         }
-        Models.Direccion.create(data).then(function(direccion){
-            if(direccion){
+        Models.Contacto.create(data).then(function(contacto){
+            if(contacto){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: direccion
+                    resource: contacto
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create address"
+                    error: "Could not create contact"
                 });
             }
         });
@@ -110,12 +110,12 @@ let create = function(req, res){
 
 let destroy = function(req, res){
     try{
-        Models.Direccion.destroy({
-            where: { direccion_id: req.params.id}
-        }).then(function (admin) {
+        Models.Contacto.destroy({
+            where: { contacto_id: req.params.id}
+        }).then(function (contacto) {
             return res.json({
                 success: true,
-                resource: admin
+                resource: contacto
             });
         });
     }catch(error){
@@ -131,15 +131,15 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Direccion.findOne(req.params.id).then(function(direccion){
-            if(!direccion){
+        Models.Contacto.findOne(req.params.id).then(function(contacto){
+            if(!contacto){
                 return res.json({
                     success: false,
                     code: 400,
                     error: "No matching address found"
                 });
             }else{
-                direccion.update(data).then(function(updated){
+                contacto.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
@@ -158,4 +158,4 @@ let update = function(req, res){
     }
 }
 
-exports.Direccion = new Direccion();
+exports.Contacto = new Contacto();

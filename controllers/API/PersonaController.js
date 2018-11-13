@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Direccion = function(){
+let Persona = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -10,7 +10,7 @@ let Direccion = function(){
     this.update = update;
 };
 
-let list = function(req, res){        
+let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
@@ -21,18 +21,18 @@ let list = function(req, res){
             });
         }
         console.log(consulta);
-        Models.Direccion.findAll(consulta).then(function(direcciones){
-            if(direcciones){
+        Models.Persona.findAll(consulta).then(function(personas){
+            if(personas){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching adress found"
+                  error: "No matching person found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: direcciones
+                  resource: personas
                 });
             }
         });
@@ -48,18 +48,18 @@ let list = function(req, res){
 
 let show = function(req, res){
     try{
-        Models.Direccion.findOne(req.params.id).then(function(direccion){
-            if(!direccion){
+        Models.Persona.findOne(req.params.id).then(function(persona){
+            if(!persona){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching address found"
+                  error: "No matching person found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: direccion
+                    resource: persona
                 });
             }
         });
@@ -76,25 +76,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.estado){
+        if(!data.nombre || !data.apellido){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing state parameter"
+                error: "Missing name or last name parameter"
             });
         }
-        Models.Direccion.create(data).then(function(direccion){
-            if(direccion){
+        Models.Persona.create(data).then(function(persona){
+            if(persona){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: direccion
+                    resource: persona
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create address"
+                    error: "Could not create person"
                 });
             }
         });
@@ -110,12 +110,12 @@ let create = function(req, res){
 
 let destroy = function(req, res){
     try{
-        Models.Direccion.destroy({
-            where: { direccion_id: req.params.id}
-        }).then(function (admin) {
+        Models.Persona.destroy({
+            where: { persona_id: req.params.id}
+        }).then(function (persona) {
             return res.json({
                 success: true,
-                resource: admin
+                resource: persona
             });
         });
     }catch(error){
@@ -131,12 +131,12 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Direccion.findOne(req.params.id).then(function(direccion){
-            if(!direccion){
+        Models.Persona.findOne(req.params.id).then(function(persona){
+            if(!persona){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching address found"
+                    error: "No matching persona found"
                 });
             }else{
                 direccion.update(data).then(function(updated){
@@ -158,4 +158,4 @@ let update = function(req, res){
     }
 }
 
-exports.Direccion = new Direccion();
+exports.Persona = new Persona();
