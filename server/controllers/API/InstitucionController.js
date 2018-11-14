@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Persona = function(){
+let Institucion = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -21,18 +21,18 @@ let list = function(req, res){
             });
         }
         console.log(consulta);
-        Models.Persona.findAll(consulta).then(function(personas){
-            if(personas){
+        Models.Institucion.findAll(consulta).then(function(instituciones){
+            if(instituciones){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching person found"
+                  error: "No matching institution found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: personas
+                  resource: instituciones
                 });
             }
         });
@@ -48,18 +48,18 @@ let list = function(req, res){
 
 let show = function(req, res){
     try{
-        Models.Persona.findOne(req.params.id).then(function(persona){
-            if(!persona){
+        Models.Institucion.findOne(req.params.id).then(function(institucion){
+            if(!institucion){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching person found"
+                  error: "No matching institution found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: persona
+                    resource: institucion
                 });
             }
         });
@@ -76,25 +76,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.nombre || !data.apellido){
+        if(!data.nombre){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing name or last name parameter"
+                error: "Missing name of the institution parameter"
             });
         }
-        Models.Persona.create(data).then(function(persona){
-            if(persona){
+        Models.Institucion.create(data).then(function(institucion){
+            if(institucion){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: persona
+                    resource: institucion
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create person"
+                    error: "Could not create institution"
                 });
             }
         });
@@ -110,12 +110,12 @@ let create = function(req, res){
 
 let destroy = function(req, res){
     try{
-        Models.Persona.destroy({
-            where: { persona_id: req.params.id}
-        }).then(function (persona) {
+        Models.Institucion.destroy({
+            where: { institucion_id: req.params.id}
+        }).then(function (institucion) {
             return res.json({
                 success: true,
-                resource: persona
+                resource: institucion
             });
         });
     }catch(error){
@@ -131,15 +131,15 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Persona.findOne(req.params.id).then(function(persona){
-            if(!persona){
+        Models.Institucion.findOne(req.params.id).then(function(institucion){
+            if(!institucion){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching persona found"
+                    error: "No matching institution found"
                 });
             }else{
-                persona.update(data).then(function(updated){
+                institucion.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
@@ -158,4 +158,4 @@ let update = function(req, res){
     }
 }
 
-exports.Persona = new Persona();
+exports.Institucion = new Institucion();

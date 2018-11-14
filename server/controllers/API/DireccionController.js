@@ -10,7 +10,7 @@ let Direccion = function(){
     this.update = update;
 };
 
-let list = function(req, res){
+let list = function(req, res){        
     try{
         var consulta = {}
         if(req.query){

@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Persona = function(){
+let Estudiante = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -21,18 +21,18 @@ let list = function(req, res){
             });
         }
         console.log(consulta);
-        Models.Persona.findAll(consulta).then(function(personas){
-            if(personas){
+        Models.Estudiante.findAll(consulta).then(function(estudiantes){
+            if(estudiantes){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching person found"
+                  error: "No matching student found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: personas
+                  resource: estudiantes
                 });
             }
         });
@@ -48,18 +48,18 @@ let list = function(req, res){
 
 let show = function(req, res){
     try{
-        Models.Persona.findOne(req.params.id).then(function(persona){
-            if(!persona){
+        Models.Estudiante.findOne(req.params.id).then(function(estudiante){
+            if(!estudiante){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching person found"
+                  error: "No matching student found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: persona
+                    resource: estudiante
                 });
             }
         });
@@ -76,25 +76,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.nombre || !data.apellido){
+        if(!data.nivel_estudiando){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing name or last name parameter"
+                error: "Missing current level of studies parameter"
             });
         }
-        Models.Persona.create(data).then(function(persona){
-            if(persona){
+        Models.Estudiante.create(data).then(function(estudiante){
+            if(estudiante){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: persona
+                    resource: estudiante
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create person"
+                    error: "Could not create student"
                 });
             }
         });
@@ -110,12 +110,12 @@ let create = function(req, res){
 
 let destroy = function(req, res){
     try{
-        Models.Persona.destroy({
-            where: { persona_id: req.params.id}
-        }).then(function (persona) {
+        Models.Estudiante.destroy({
+            where: { estudiante_id: req.params.id}
+        }).then(function (estudiante) {
             return res.json({
                 success: true,
-                resource: persona
+                resource: estudiante
             });
         });
     }catch(error){
@@ -131,15 +131,15 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Persona.findOne(req.params.id).then(function(persona){
-            if(!persona){
+        Models.Estudiante.findOne(req.params.id).then(function(estudiante){
+            if(!estudiante){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching persona found"
+                    error: "No matching student found"
                 });
             }else{
-                persona.update(data).then(function(updated){
+                estudiante.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
@@ -158,4 +158,4 @@ let update = function(req, res){
     }
 }
 
-exports.Persona = new Persona();
+exports.Estudiante = new Estudiante();
