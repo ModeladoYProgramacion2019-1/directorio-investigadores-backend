@@ -4,6 +4,7 @@
     <Navbar/>
     <header class ="stateHeader text-white text-center">
       <h1 class="mb-5">{{stateName}}</h1>
+      <h1 class="mb-5">{{campi}}</h1>
     </header>
 
     <form class="bar text-center">
@@ -11,20 +12,15 @@
     </form>
 
     <div class="box" style="margin:auto;">
-        <b-card  bg-variant="dark" text-variant="white" title="Instituto Autónomo de Investigación"
+        <b-card  v-for="campus in campi"
+                 bg-variant="dark" text-variant="white" title="Instituto Autónomo de Investigación"
                  class="sCard" style="max-width : 80em;">
           <p class="card-text">
-            {{stateName}}, calle Bruno Diaz, número 42.
+            {{campus.estado}}, calle Bruno Diaz, número 42.
           </p>
-          <b-button href="#" variant="primary">Ver sede</b-button>
-        </b-card>
-
-        <b-card  bg-variant="dark" text-variant="white" title="Centro de Desarrollo del Bajío"
-                 class="sCard" style="max-width : 80em;">
-          <p class="card-text">
-            {{stateName}}, calle James Tiberius Kirk, número 1701.
-          </p>
-          <b-button href="#" variant="primary">Ver sede</b-button>
+          <router-link to="/sede">
+            <b-button href="#" variant="primary">Ver sede</b-button>
+          </router-link>
         </b-card>
 
     </div>
@@ -47,7 +43,8 @@ export default {
     },
     data: function () {
       return {
-        stateName : "sta"
+        stateName : "",
+        campi : []
       }
     },
     methods : {
@@ -56,7 +53,10 @@ export default {
         }
     },
     mounted () {
-        this.getPath()
+        this.getPath(),
+        this.$axios.get('/direccion').then((response) => {
+			this.campi = response.data.resource;
+		})
     }
 }
 </script>
