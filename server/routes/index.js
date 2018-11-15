@@ -10,6 +10,8 @@ const Estudiante = require('../controllers/API/EstudianteController').Estudiante
 const Institucion = require('../controllers/API/InstitucionController').Institucion;
 const Investigador = require('../controllers/API/InvestigadorController').Investigador;
 const Persona = require('../controllers/API/PersonaController').Persona;
+const Rol = require('../controllers/API/RolController').Rol;
+const Sede = require('../controllers/API/SedeController').Sede;
 
 
 
@@ -98,5 +100,20 @@ router.get('/API/persona/:id', Persona.show);
 router.post('/API/persona', Persona.create);
 router.patch('/API/persona/:id', Persona.update);
 router.delete('/API/persona/:id', Persona.destroy);
+
+/* ROL */
+router.get('/API/rol', Rol.list);
+router.get('/API/rol/:id', Rol.show);
+router.post('/API/rol', Rol.create);
+router.patch('/API/rol/:id', Rol.update);
+router.delete('/API/rol/:id', Rol.destroy);
+
+/* SEDE */
+router.get('/API/sede', Sede.list);
+router.get('/API/sede/:id', Sede.show);
+router.post('/API/sede', Sede.create);
+router.patch('/API/sede/:id', Sede.update);
+router.delete('/API/sede/:id', Sede.destroy);
+
 
 module.exports = router;
