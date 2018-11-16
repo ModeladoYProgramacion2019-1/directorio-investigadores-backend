@@ -4,8 +4,8 @@
         <a class="navbar-brand" href="/">Red Nacional de Investigación</a>
         <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="¿Que está buscando?" aria-label="Search">
-          <router-link to="/search">
-            <a class="btn btn-secondary" href="/search">Búsqueda avanzada</a>
+          <router-link to="/busqueda">
+            <a class="btn btn-secondary" href="#">Búsqueda avanzada</a>
           </router-link>
           <router-link to="/login">
             <a class="btn btn-primary btn-margin-left" href="#">Acceder</a>
