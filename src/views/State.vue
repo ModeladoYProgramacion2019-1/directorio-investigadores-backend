@@ -4,7 +4,6 @@
     <Navbar/>
     <header class ="stateHeader text-white text-center">
       <h1 class="mb-5">{{stateName}}</h1>
-      <h1 class="mb-5">{{campi}}</h1>
     </header>
 
     <form class="bar text-center">
@@ -18,8 +17,8 @@
           <p class="card-text">
             {{campus.estado}}, calle Bruno Diaz, número 42.
           </p>
-          <router-link to="/sede">
-            <b-button href="#" variant="primary">Ver sede</b-button>
+          <router-link :to="{path: '/sede/' + campus.estado}">
+            <b-button :href="{path: '/sede/' + campus.estado}" variant="primary">Ver sede</b-button>
           </router-link>
         </b-card>
 
