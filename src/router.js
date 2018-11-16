@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
+import Campus from './views/Campus.vue'
 
 //Fixed routes
 
@@ -24,9 +25,14 @@ export default new Router({
       component: Login
     },
     {
-      path: '/search',
+      path: '/busqueda',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/sede/:id',
+      name: '',
+      component: Campus
     },
 
 
