@@ -12,13 +12,10 @@
 
     <div class="box" style="margin:auto;">
         <b-card  v-for="campus in campi"
-                 bg-variant="dark" text-variant="white" title="Instituto Autónomo de Investigación"
+                 bg-variant="dark" text-variant="white" :title="campus.nombre"
                  class="sCard" style="max-width : 80em;">
-          <p class="card-text">
-            {{campus.estado}}, calle Bruno Diaz, número 42.
-          </p>
-          <router-link :to="{path: '/sede/' + campus.estado}">
-            <b-button :href="{path: '/sede/' + campus.estado}" variant="primary">Ver sede</b-button>
+          <router-link :to="{path: '/sede/' + campus.sede_id}">
+            <b-button :href="{path: '/sede/' + campus.sede_id}" variant="info">Ver sede</b-button>
           </router-link>
         </b-card>
 
@@ -53,8 +50,20 @@ export default {
     },
     mounted () {
         this.getPath(),
-        this.$axios.get('/direccion').then((response) => {
-			this.campi = response.data.resource;
+        this.$axios.get('/direccion?estado=' + this.stateName).then((response) => {
+			let addresses = response.data.resource;
+            let identifiers = [];
+            for (var addressIndex in addresses) {
+                identifiers.push(addresses[addressIndex].direccion_id);
+            }
+            for (var index in identifiers) {
+                this.$axios.get('/sede?direccion_id=' + identifiers[index]).then((response) => {
+                    let campiAtAddress = response.data.resource;
+                    for (var campusIndex in campiAtAddress) {
+                        this.campi.push(campiAtAddress[campusIndex]);
+                    }
+                })
+            }
 		})
     }
 }
