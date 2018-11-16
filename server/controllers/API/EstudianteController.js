@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Estudiante.findAll(consulta).then(function(estudiantes){
-            if(estudiantes){
+            if(!estudiantes){
                 return res.json({
                   success: false,
                   code: 400,

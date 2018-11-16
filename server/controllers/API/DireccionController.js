@@ -10,7 +10,7 @@ let Direccion = function(){
     this.update = update;
 };
 
-let list = function(req, res){        
+let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Direccion.findAll(consulta).then(function(direcciones){
-            if(direcciones){
+            if(!direcciones){
                 return res.json({
                   success: false,
                   code: 400,

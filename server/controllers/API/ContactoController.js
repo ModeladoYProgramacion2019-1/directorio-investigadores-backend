@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Contacto.findAll(consulta).then(function(contactos){
-            if(contactos){
+            if(!contactos){
                 return res.json({
                   success: false,
                   code: 400,

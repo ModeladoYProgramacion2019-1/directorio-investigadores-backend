@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Institucion.findAll(consulta).then(function(instituciones){
-            if(instituciones){
+            if(!instituciones){
                 return res.json({
                   success: false,
                   code: 400,
