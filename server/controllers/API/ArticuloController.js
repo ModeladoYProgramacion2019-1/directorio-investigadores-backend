@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Articulo.findAll(consulta).then(function(articulos){
-            if(articulos){
+            if(!articulos){
                 return res.json({
                   success: false,
                   code: 400,

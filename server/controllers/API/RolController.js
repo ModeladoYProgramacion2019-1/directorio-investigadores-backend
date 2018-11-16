@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Rol.findAll(consulta).then(function(roles){
-            if(roles){
+            if(!roles){
                 return res.json({
                     success: false,
                     code: 400,
