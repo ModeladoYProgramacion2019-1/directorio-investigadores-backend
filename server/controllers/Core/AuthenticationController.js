@@ -15,7 +15,7 @@ let signUp = async function(req, res){
             return res.json({
                 success: false,
                 code: 400,
-                error: "No se recivió un token"
+                error: "No se recibió una ficha"
             });
         }
 
@@ -44,7 +44,7 @@ let signUp = async function(req, res){
             contraseña: decoded.contraseña
         }
         var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "3m"});
-        Email.sendVerifyAccount(nueva, tokenData);
+        Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"),tokenData);
 
         return res.json({
             success:true,
