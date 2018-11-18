@@ -34,22 +34,24 @@ let signUp = async function(req, res){
             nombre: decoded.nombre,
             apellido: decoded.apellido,
             contacto_id: contactoNuevo.get("contacto_id"),
-            contraseña: bcrypt.hashSync(decoded.contraseña, bcrypt.genSaltSync(8))
+            contraseña: bcrypt.hashSync(decoded.contraseña, bcrypt.genSaltSync(8)),
+            is_verified: false
         }
         var nueva = await Models.Persona.create(data_persona);
 
         var tokenData = {
             nombre: nueva.get("nombre")+" "+nueva.get("apellido"),
             correo: contactoNuevo.get("correo_personal"),
-            contraseña: decoded.contraseña
+            contraseña: decoded.contraseña,
+            persona_id: nueva.get("id")
         }
         var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "3m"});
-        Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"),signupToken);
+        Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"), signupToken);
 
         return res.json({
             success:true,
             code: 200
-        })
+        });
     }catch(error){
         console.log(error);
         return res.json({
