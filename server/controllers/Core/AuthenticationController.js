@@ -44,7 +44,7 @@ let signUp = async function(req, res){
             contraseña: decoded.contraseña
         }
         var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "3m"});
-        Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"),tokenData);
+        Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"),signupToken);
 
         return res.json({
             success:true,
