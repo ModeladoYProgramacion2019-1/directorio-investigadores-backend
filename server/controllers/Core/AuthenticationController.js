@@ -54,9 +54,9 @@ let signUp = async function(req, res){
         var nueva = await Models.Persona.create(data_persona);
 
         var tokenData = {
-            nombre: nueva.get("nombre")+" "+nueva.get("apellido"),
-            correo: contactoNuevo.get("correo_personal"),
-            contraseña: decoded.contraseña,
+            nombre: nueva.get("nombre"),
+            apellido: nueva.get("apellido")
+            correo_personal: contactoNuevo.get("correo_personal"),
             persona_id: nueva.get("persona_id")
         }
         var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "90 days"});
