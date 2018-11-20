@@ -30,6 +30,19 @@ let signUp = async function(req, res){
             })
         }
 
+        var existingContact = Models.Contacto.findOne({
+            where: {
+                correo_personal: decoded.correo_personal
+            }
+        });
+        if(existingContact && !decoded.force){
+            return res.json({
+                success: false,
+                code: 400,
+                error: "Este correo ya esta registrado"
+            });
+        }
+
         var contactoNuevo = await Models.Contacto.create({correo_personal: decoded.correo_personal});
         var data_persona = {
             nombre: decoded.nombre,
