@@ -30,7 +30,7 @@ let signUp = async function(req, res){
             })
         }
 
-        var existingContact = Models.Contacto.findOne({
+        var existingContact = await Models.Contacto.findOne({
             where: {
                 correo_personal: decoded.correo_personal
             }
