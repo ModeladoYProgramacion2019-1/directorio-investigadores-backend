@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Campo.findAll(consulta).then(function(campos){
-            if(campos){
+            if(!campos){
                 return res.json({
                   success: false,
                   code: 400,

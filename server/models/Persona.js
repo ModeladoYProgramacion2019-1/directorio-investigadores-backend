@@ -10,7 +10,8 @@ module.exports = function(sequelize, DataTypes) {
         sede_id: DataTypes.INTEGER,
         direccion_id: DataTypes.INTEGER,
         contacto_id: DataTypes.INTEGER,
-        contraseña: DataTypes.TEXT
+        contraseña: DataTypes.TEXT,
+        is_verified: DataTypes.BOOLEAN
     });
 
     Persona.associate = function(models) {

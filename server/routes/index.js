@@ -13,8 +13,9 @@ const Persona = require('../controllers/API/PersonaController').Persona;
 const Rol = require('../controllers/API/RolController').Rol;
 const Sede = require('../controllers/API/SedeController').Sede;
 
+const Authentication = require('../controllers/Core/AuthenticationController').Authentication;
 
-
+/*********************SERVE STATIC FILES*****************************/
 
 /*SEND HOME PAGE*/
 router.get('/', function (req, res) {
@@ -24,7 +25,6 @@ router.get('/', function (req, res) {
     res.sendFile(__dirname.slice(0,__dirname.indexOf("server/routes"))+"dist/index.html")
 });
 
-/*SERVE STATIC FILES*/
   //CSS
 router.get('/css/:fileName', function (req, res) {
     res.sendFile(__dirname.slice(0,__dirname.indexOf("server/routes"))+"dist/css/"+req.params.fileName);
@@ -37,6 +37,8 @@ router.get('/js/:fileName', function (req, res) {
 router.get('/img/:fileName', function (req, res) {
     res.sendFile(__dirname.slice(0,__dirname.indexOf("server/routes"))+"dist/img/"+req.params.fileName);
 });
+
+/*********************CRUD ENDPOINTS*****************************/
 
 /* DIRECCION */
 router.get('/API/direccion', Direccion.list);
@@ -115,5 +117,8 @@ router.post('/API/sede', Sede.create);
 router.patch('/API/sede/:id', Sede.update);
 router.delete('/API/sede/:id', Sede.destroy);
 
+/*********************CORE CONTROLLERS*****************************/
+router.post('/API/signUp', Authentication.signUp);
+router.post('/API/signUp/verify', Authentication.acceptVerification);
 
 module.exports = router;
