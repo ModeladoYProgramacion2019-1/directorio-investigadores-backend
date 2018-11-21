@@ -3,19 +3,19 @@
 
     <Navbar/>
     <header class ="stateHeader text-white text-center">
-      <h1 class="mb-5">{{stateName}}</h1>
+      <h1 class="mb-5">{{name}}</h1>
     </header>
 
     <form class="bar text-center">
-        <h4>Sedes de investigación en {{stateName}} :</h4>
+        <h4>Sedes de investigación en {{name}} :</h4>
     </form>
 
     <div class="box" style="margin:auto;">
         <b-card  v-for="campus in campi"
                  bg-variant="dark" text-variant="white" :title="campus.nombre"
                  class="sCard" style="max-width : 80em;">
-          <router-link :to="{path: '/sede/' + campus.sede_id}">
-            <b-button :href="{path: '/sede/' + campus.sede_id}" variant="info">Ver sede</b-button>
+          <router-link :to="{path: '/sede/' + campus.sede_id, query: {sede_id : campus.sede_id}}">
+            <b-button :href="{path: '/sede/' + campus.sede_id, query: {sede_id :campus.sede_id}}" variant="info">Ver sede</b-button>
           </router-link>
         </b-card>
 
@@ -30,6 +30,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
+var functions = require('@/functions')
 
 export default {
     name: 'State',
@@ -39,18 +40,20 @@ export default {
     },
     data: function () {
       return {
-        stateName : "",
+        name : "",
+        stateCode : "",
         campi : []
       }
     },
     methods : {
-        getPath() {
-            this.stateName = window.location.pathname.split("/").pop()
+        getInfo() {
+            this.stateCode = window.location.pathname.split("/").pop()
+            this.name = functions.getStateName(this.stateCode)
         }
     },
     mounted () {
-        this.getPath(),
-        this.$axios.get('/direccion?estado=' + this.stateName).then((response) => {
+        this.getInfo(),
+        this.$axios.get('/direccion?estado=' + this.stateCode).then((response) => {
 			let addresses = response.data.resource;
             let identifiers = [];
             for (var addressIndex in addresses) {
