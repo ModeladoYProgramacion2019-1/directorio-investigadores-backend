@@ -22,7 +22,7 @@ let list = function(req, res){
         }
         console.log(consulta);
         Models.Administrador.findAll(consulta).then(function(administradores){
-            if(administradores){
+            if(!administradores){
                 return res.json({
                   success: false,
                   code: 400,
