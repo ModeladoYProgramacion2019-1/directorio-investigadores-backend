@@ -1,3 +1,4 @@
+//Fixed routes
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
@@ -5,8 +6,7 @@ import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
 import Campus from './views/Campus.vue'
-
-//Fixed routes
+import Verify from './views/Verify.vue'
 
 Vue.use(Router)
 
@@ -17,22 +17,42 @@ export default new Router({
     {
       path: '/',
       name: 'home',
-      component: Home
+      component: Home,
+      meta: {
+          title: 'Red Nacional de Investigación'
+      }
     },
     {
       path: '/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: {
+          title: 'RNI | Login'
+      }
+    },
+    {
+      path: '/verifica',
+      name: 'Verify',
+      component: Verify,
+      meta: {
+          title: 'RNI | Autenticación'
+      }
     },
     {
       path: '/busqueda',
       name: 'Search',
-      component: Search
+      component: Search,
+      meta: {
+          title: 'RNI | Búsqueda por campos'
+      }
     },
     {
       path: '/sede/:id',
-      name: '',
-      component: Campus
+      name: 'Campus',
+      component: Campus,
+      meta: {
+          title: 'RNI | [Sede]'
+      }
     },
 
 
@@ -196,7 +216,6 @@ export default new Router({
       name: 'Estado de México',
       component: State
     },
-
 
     {
       path: '/about',
