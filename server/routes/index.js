@@ -121,4 +121,5 @@ router.delete('/API/sede/:id', Sede.destroy);
 router.post('/API/signUp', Authentication.signUp);
 router.post('/API/signUp/verify', Authentication.acceptVerification);
 
+
 module.exports = router;

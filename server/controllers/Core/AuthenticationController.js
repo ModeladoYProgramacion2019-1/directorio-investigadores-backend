@@ -54,6 +54,7 @@ let signUp = async function(req, res){
         var nueva = await Models.Persona.create(data_persona);
 
         var tokenData = {
+
             nombre: nueva.get("nombre"),
             apellido: nueva.get("apellido")
             correo_personal: contactoNuevo.get("correo_personal"),
@@ -61,7 +62,7 @@ let signUp = async function(req, res){
         }
         var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "90 days"});
         Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"), signupToken);
-
+      
         return res.json({
             success:true,
             code: 200
