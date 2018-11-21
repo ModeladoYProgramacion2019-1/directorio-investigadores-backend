@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
+import SignUp from './views/SignUp.vue'
 import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
@@ -25,6 +26,15 @@ export default new Router({
       component: Login
     },
     {
+
+      path: '/signup',
+      name: 'SignUp',
+      component: SignUp
+
+    },
+    {
+      path: '/search',
+
       path: '/busqueda',
       name: 'Search',
       component: Search
