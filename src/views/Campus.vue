@@ -42,6 +42,7 @@ export default {
     },
     data: function () {
       return {
+        id : null,
         campusName : "",
         institucion : "Institucion de prueba",
         direccion : "Direccion de prueba no. 12",
@@ -49,12 +50,16 @@ export default {
       }
     },
     methods : {
-        getPath() {
-            this.campusName = window.location.pathname.split("/").pop()
+        getInfo() {
+            this.id = this.$route.query.sede_id;
+            this.$axios.get('/sede?sede_id=' + this.id).then((response) => {
+                let campus = response.data.resource;
+                this.campusName = campus[0].nombre;
+            })
         }
     },
     mounted () {
-        this.getPath()
+        this.getInfo()
     }
 }
 </script>
