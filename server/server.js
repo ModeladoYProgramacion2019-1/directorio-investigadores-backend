@@ -3,10 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var Models  = require('./server/models');
+var Models  = require('./models');
 var bodyParser = require('body-parser')
 
-var routes = require('./server/routes/index');
+var routes = require('./routes/index');
 
 var app = express();
 
@@ -36,7 +36,7 @@ Models.sequelize.sync().then(function(){
 
 app.use(function (req, res, next) {
     // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + port)
+  res.setHeader('Access-Control-Allow-Origin', process.env.frontend_url)
 
     // Request methods you wish to allow
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
@@ -74,7 +74,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.use(express.static(path.join(__dirname, '/dist')));
+//app.use(express.static(path.join(__dirname, '/dist')));
 
 /**
  * Normalize a port into a number, string, or false.
