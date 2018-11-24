@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
         fecha_publicacion: DataTypes.DATE,
         url: DataTypes.TEXT,
         revista: DataTypes.TEXT,
-        id_campo: DataTypes.INTEGER
+        campo_id: DataTypes.INTEGER
     });
 
     Articulo.associate = function(models) {
