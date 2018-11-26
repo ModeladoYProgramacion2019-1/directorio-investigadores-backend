@@ -14,13 +14,25 @@ let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
-            console.log(req.query);
             consulta.where = {}
             Object.keys(req.query).forEach(function(key){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
-        console.log(consulta);
+        consulta.include = [
+          {
+            model: Models.Persona
+          },
+          {
+            model: Models.Institucion
+          },
+          {
+            model: Models.Direccion
+          },
+          {
+            model: Models.Contacto
+          }
+        ]
         Models.Sede.findAll(consulta).then(function(sedes){
             if(!sedes){
                 return res.json({
@@ -41,14 +53,32 @@ let list = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
 
 let show = function(req, res){
     try{
-        Models.Sede.findOne(req.params.id).then(function(sede){
+        Models.Sede.findOne({
+            where: {
+                sede_id: req.params.sede_id
+            },
+            include: [
+              {
+                model: Models.Persona
+              },
+              {
+                model: Models.Institucion
+              },
+              {
+                model: Models.Direccion
+              },
+              {
+                model: Models.Contacto
+              }
+            ]
+        }).then(function(sede){
             if(!sede){
                 return res.json({
                     success: false,
@@ -68,7 +98,7 @@ let show = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 };
@@ -103,7 +133,7 @@ let create = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -123,7 +153,7 @@ let destroy = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -131,7 +161,11 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Sede.findOne(req.params.id).then(function(sede){
+        Models.Sede.findOne({
+            where: {
+                sede_id: req.params.id
+            }
+        }).then(function(sede){
             if(!sede){
                 return res.json({
                     success: false,
@@ -153,7 +187,7 @@ let update = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }

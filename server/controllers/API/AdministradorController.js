@@ -14,13 +14,19 @@ let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
-            console.log(req.query);
             consulta.where = {}
             Object.keys(req.query).forEach(function(key){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
-        console.log(consulta);
+        consulta.include =  [
+          {
+            model: Models.Rol,
+            include: [
+              {model: Models.Permiso}
+            ]
+          }
+        ]
         Models.Administrador.findAll(consulta).then(function(administradores){
             if(!administradores){
                 return res.json({
@@ -41,14 +47,26 @@ let list = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
 
 let show = function(req, res){
     try{
-        Models.Administrador.findOne(req.params.id).then(function(administrador){
+        Models.Administrador.findOne({
+          where: {
+              administrador_id: req.params.id
+          },
+          include: [
+            {
+              model: Models.Rol,
+              include: [
+                {model: Models.Permiso}
+              ]
+            }
+          ]
+        }).then(function(administrador){
             if(!administrador){
                 return res.json({
                   success: false,
@@ -68,7 +86,7 @@ let show = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -80,7 +98,7 @@ let create = function(req, res){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing admin name parameter"
+                error: "Missing persona_id parameter"
             });
         }
         Models.Administrador.create(data).then(function(administrador){
@@ -103,7 +121,7 @@ let create = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -111,7 +129,9 @@ let create = function(req, res){
 let destroy = function(req, res){
     try{
         Models.Administrador.destroy({
-            where: { administrador_id: req.params.id}
+            where: {
+              administrador_id: req.params.id
+            }
         }).then(function (administrador) {
             return res.json({
                 success: true,
@@ -123,7 +143,7 @@ let destroy = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -131,7 +151,11 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Administrador.findOne(req.params.id).then(function(administrador){
+        Models.Administrador.findOne({
+            where:{
+                administrador_id: req.params.id
+            }
+        }).then(function(administrador){
             if(!administrador){
                 return res.json({
                     success: false,
@@ -153,7 +177,7 @@ let update = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
