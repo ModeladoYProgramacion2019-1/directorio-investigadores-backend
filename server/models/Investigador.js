@@ -19,6 +19,9 @@ module.exports = function(sequelize, DataTypes) {
         Investigador.belongsTo(models.Rol, {
             foreignKey: 'rol_id'
         });
+        Investigador.hasMany(models.Estudiante, {
+            foreignKey: 'investigador_id'
+        })
     };
 
     return Investigador;

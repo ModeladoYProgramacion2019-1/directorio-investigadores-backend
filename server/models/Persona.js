@@ -21,10 +21,6 @@ module.exports = function(sequelize, DataTypes) {
         Persona.belongsTo(models.Contacto, {
             foreignKey: 'contacto_id'
         });
-        Persona.belongsToMany(models.Grupo,{
-            foreignKey: 'persona_id',
-            through: models.PersonaEnGrupo
-        });
         Persona.belongsTo(models.Sede, {
             foreignKey: 'sede_id'
         });
