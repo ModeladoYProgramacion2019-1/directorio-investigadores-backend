@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
     Articulo.associate = function(models) {
         Articulo.belongsToMany(models.Persona, {
             foreignKey: 'articulo_id',
-            through: 'PersonaEnArticulo'
+            through: models.PersonaEnArticulo
         });
         Articulo.belongsTo(models.Campo, {
             foreignKey: 'campo_id'

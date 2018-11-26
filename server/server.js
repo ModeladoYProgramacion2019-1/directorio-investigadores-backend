@@ -40,7 +40,7 @@ var corsOptions = {
   methods: "GET,PUT,POST,PATCH,DELETE",
   optionsSuccessStatus: 200
 }
-console.log(corsOptions)
+
 app.use(cors(corsOptions))
 
 app.set('view engine', 'ejs');
