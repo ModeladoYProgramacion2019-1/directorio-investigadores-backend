@@ -8,7 +8,7 @@ module.exports = function(sequelize, DataTypes) {
         direccion_id: DataTypes.INTEGER,
         institucion_id: DataTypes.INTEGER,
         contacto_id: DataTypes.INTEGER,
-        clave: { type: DataTypes.TEXT, unique: true}
+        clave: { type: DataTypes.STRING, unique: true, length: 5}
     });
 
     Sede.associate = function(models) {

@@ -5,7 +5,7 @@ module.exports = function(sequelize, DataTypes) {
         institucion_id : { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         nombre: DataTypes.TEXT,
         descripcion: DataTypes.TEXT,
-        clave: { type: DataTypes.TEXT, unique: true}
+        clave: { type: DataTypes.STRING, unique: true, length: 5}
     });
 
     Institucion.associate = function(models) {
