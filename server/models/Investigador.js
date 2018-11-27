@@ -4,9 +4,9 @@ module.exports = function(sequelize, DataTypes) {
     const Investigador = sequelize.define("Investigador", {
         investigador_id : { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         titulo: DataTypes.TEXT,
-        id_persona: DataTypes.INTEGER,
-        id_campo: DataTypes.INTEGER,
-        id_rol: DataTypes.INTEGER
+        persona_id: DataTypes.INTEGER,
+        campo_id: DataTypes.INTEGER,
+        rol_id: DataTypes.INTEGER
     });
 
     Investigador.associate = function(models) {
@@ -19,6 +19,9 @@ module.exports = function(sequelize, DataTypes) {
         Investigador.belongsTo(models.Rol, {
             foreignKey: 'rol_id'
         });
+        Investigador.hasMany(models.Estudiante, {
+            foreignKey: 'investigador_id'
+        })
     };
 
     return Investigador;

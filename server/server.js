@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var Models  = require('./models');
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
 var routes = require('./routes/index');
 
@@ -34,19 +35,13 @@ Models.sequelize.sync().then(function(){
     server.on('listening', onListening);
 });
 
-app.use(function (req, res, next) {
-    // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', process.env.frontend_url)
+var corsOptions = {
+  origin: process.env.frontend_url,
+  methods: "GET,PUT,POST,PATCH,DELETE",
+  optionsSuccessStatus: 200
+}
 
-    // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-
-    // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
-
-    // Pass to next layer of middleware
-  next()
-})
+app.use(cors(corsOptions))
 
 app.set('view engine', 'ejs');
 app.use('/', routes);

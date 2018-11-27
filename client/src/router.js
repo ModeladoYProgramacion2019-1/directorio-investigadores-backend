@@ -1,3 +1,4 @@
+//Fixed routes
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
@@ -6,8 +7,7 @@ import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
 import Campus from './views/Campus.vue'
-
-//Fixed routes
+import Verify from './views/Verify.vue'
 
 Vue.use(Router)
 
@@ -26,6 +26,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/verifica',
+      name: 'Verify',
+      component: Verify
+    },
+    {
 
       path: '/signup',
       name: 'SignUp',
@@ -41,11 +46,9 @@ export default new Router({
     },
     {
       path: '/sede/:id',
-      name: '',
+      name: 'Campus',
       component: Campus
     },
-
-
     {
       path: '/aguascalientes',
       name: 'Aguascalientes',
@@ -206,7 +209,6 @@ export default new Router({
       name: 'Estado de México',
       component: State
     },
-
 
     {
       path: '/about',
