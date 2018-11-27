@@ -50,4 +50,4 @@ function getStateCode(url) {
     }
 }
 
-export { getStateName }
+export { getStateName, getStateCode }

@@ -19,7 +19,7 @@
             title="Dirección"
             style="max-width: 96%"
     >
-      <p class="card-text" style="color: white;"> {{direccion}}</p>
+      <p class="card-text" style="color: white;"> {{address}}</p>
     </b-card>
     </div>
 
@@ -42,19 +42,24 @@ export default {
     },
     data: function () {
       return {
+        id : null,
         campusName : "",
         institucion : "Institucion de prueba",
-        direccion : "Direccion de prueba no. 12",
+        address : "Direccion de prueba no. 12",
         contacto : "contacto@contacto.com"
       }
     },
     methods : {
-        getPath() {
-            this.campusName = window.location.pathname.split("/").pop()
+        getInfo() {
+            this.id = this.$route.query.sede_id;
+            this.$axios.get('/sede?sede_id=' + this.id).then((response) => {
+                let campus = response.data.resource;
+                this.campusName = campus[0].nombre;
+            })
         }
     },
     mounted () {
-        this.getPath()
+        this.getInfo()
     }
 }
 </script>
