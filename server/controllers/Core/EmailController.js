@@ -20,7 +20,7 @@ let send = function (data) {
 let sendVerifyAccount = function(persona, email,token) {
     var pathToTemplate = path.join(__dirname, "..", "..", "Email Templates", "activate.html");
     var activateTemplate = fs.readFileSync(pathToTemplate).toString();
-    activateTemplate = activateTemplate.replace(/{{URL}}/gm, process.env.frontend_url+"/activa?token="+token);
+    activateTemplate = activateTemplate.replace(/{{URL}}/gm, process.env.frontend_url+"/verifica?token="+token);
     activateTemplate = activateTemplate.replace(/{{nombre}}/gm, persona.get("nombre"));
     activateTemplate = activateTemplate.replace(/{{apellido}}/gm, persona.get("apellido"));
     var data = {
