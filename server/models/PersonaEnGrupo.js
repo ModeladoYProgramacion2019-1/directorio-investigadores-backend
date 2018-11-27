@@ -4,8 +4,7 @@ module.exports = function(sequelize, DataTypes) {
     const PersonaEnGrupo = sequelize.define("PersonaEnGrupo", {
         personaEnGrupo_id : { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         grupo_id : DataTypes.INTEGER,
-        persona_id : DataTypes.INTEGER,
-        rol: DataTypes.STRING
+        persona_id : DataTypes.INTEGER
     });
 
     PersonaEnGrupo.associate = function(models) {

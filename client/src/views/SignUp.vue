@@ -1,22 +1,22 @@
 <template>
-  <div class="Login">
+  <div class="SignUp">
     <Navbar/>
-    <SignIn/>
+    <SignUpForm/>
     <Footer/>
   </div>
 </template>
 
 <script>
 /* eslint-disable */
-import Navbar from '@/components/Navbar.vue'
-import SignIn from '@/components/SignIn.vue'
-import Footer from '@/components/Footer.vue'
 
+import Navbar from '@/components/Navbar.vue'
+import Footer from '@/components/Footer.vue'
+import SignUpForm from '@/components/SignUpForm.vue'
 export default {
-  name: 'Login',
+  name: 'SignUp',
   components: {
+    SignUpForm,
     Navbar,
-    SignIn,
     Footer
   }
 }

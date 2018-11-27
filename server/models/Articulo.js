@@ -8,13 +8,13 @@ module.exports = function(sequelize, DataTypes) {
         fecha_publicacion: DataTypes.DATE,
         url: DataTypes.TEXT,
         revista: DataTypes.TEXT,
-        id_campo: DataTypes.INTEGER
+        campo_id: DataTypes.INTEGER
     });
 
     Articulo.associate = function(models) {
         Articulo.belongsToMany(models.Persona, {
             foreignKey: 'articulo_id',
-            through: 'PersonaEnArticulo'
+            through: models.PersonaEnArticulo
         });
         Articulo.belongsTo(models.Campo, {
             foreignKey: 'campo_id'

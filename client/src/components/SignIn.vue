@@ -2,7 +2,7 @@
 
     <header class ="signInHead text-white text-center">
       <h1 class="mb-5">Inicio de Sesión</h1>
-      <form class="container text-center loginForm">
+      <form class="container text-center SignUpForm">
         <div class="input-group mb-3 text-center signInInput">
           <input type="text"
                 class="form-control"
@@ -22,8 +22,9 @@
       </form>
       &nbsp;
       <h5>¿No tiene una cuenta?
-          <a class="btn btn-dark" href="/">Registrese aquí</a>
+          <a class="btn btn-dark" href="/signup">Registrese aquí</a>
       </h5>
+
     </header>
 
 </template>

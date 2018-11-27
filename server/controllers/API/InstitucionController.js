@@ -14,13 +14,19 @@ let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
-            console.log(req.query);
             consulta.where = {}
             Object.keys(req.query).forEach(function(key){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
-        console.log(consulta);
+        consulta.include =  [
+          {
+            model: Models.Sede,
+          },
+          {
+            model: Models.Grupo
+          }
+        ]
         Models.Institucion.findAll(consulta).then(function(instituciones){
             if(!instituciones){
                 return res.json({
@@ -41,14 +47,26 @@ let list = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
 
 let show = function(req, res){
     try{
-        Models.Institucion.findOne(req.params.id).then(function(institucion){
+        Models.Institucion.findOne({
+            where: {
+                institucion_id: req.params.id
+            },
+            include: [
+              {
+                model: Models.Sede,
+              },
+              {
+                model: Models.Grupo
+              }
+            ]
+        }).then(function(institucion){
             if(!institucion){
                 return res.json({
                   success: false,
@@ -68,7 +86,7 @@ let show = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -80,7 +98,7 @@ let create = function(req, res){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing name of the institution parameter"
+                error: "Missing name parameter"
             });
         }
         Models.Institucion.create(data).then(function(institucion){
@@ -103,7 +121,7 @@ let create = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -123,7 +141,7 @@ let destroy = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -131,7 +149,11 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Institucion.findOne(req.params.id).then(function(institucion){
+        Models.Institucion.findOne({
+            whre: {
+                institucion_id: req.params.id
+            }
+        }).then(function(institucion){
             if(!institucion){
                 return res.json({
                     success: false,
@@ -153,7 +175,7 @@ let update = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }

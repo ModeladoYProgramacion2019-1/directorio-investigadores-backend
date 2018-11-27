@@ -3,8 +3,8 @@
 module.exports = function(sequelize, DataTypes) {
     const Administrador = sequelize.define("Administrador", {
         administrador_id : { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        id_persona: DataTypes.INTEGER,
-        id_rol: DataTypes.INTEGER
+        persona_id: DataTypes.INTEGER,
+        rol_id: DataTypes.INTEGER
     });
 
     Administrador.associate = function(models) {

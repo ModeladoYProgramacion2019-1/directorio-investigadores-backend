@@ -14,13 +14,11 @@ let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
-            console.log(req.query);
             consulta.where = {}
             Object.keys(req.query).forEach(function(key){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
-        console.log(consulta);
         Models.Contacto.findAll(consulta).then(function(contactos){
             if(!contactos){
                 return res.json({
@@ -41,14 +39,18 @@ let list = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
 
 let show = function(req, res){
     try{
-        Models.Contacto.findOne(req.params.id).then(function(contacto){
+        Models.Contacto.findOne({
+            where: {
+                contacto_id: req.params.id
+            }
+        }).then(function(contacto){
             if(!contacto){
                 return res.json({
                   success: false,
@@ -68,7 +70,7 @@ let show = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -103,7 +105,7 @@ let create = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -123,7 +125,7 @@ let destroy = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -131,7 +133,11 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Contacto.findOne(req.params.id).then(function(contacto){
+        Models.Contacto.findOne({
+            where: {
+                contacto_id: req.params.id
+            }
+        }).then(function(contacto){
             if(!contacto){
                 return res.json({
                     success: false,
@@ -153,7 +159,7 @@ let update = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }

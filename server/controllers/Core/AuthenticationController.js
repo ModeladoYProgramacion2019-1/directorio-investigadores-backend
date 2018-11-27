@@ -55,7 +55,7 @@ let signUp = async function(req, res){
 
         var tokenData = {
             nombre: nueva.get("nombre"),
-            apellido: nueva.get("apellido")
+            apellido: nueva.get("apellido"),
             correo_personal: contactoNuevo.get("correo_personal"),
             persona_id: nueva.get("persona_id")
         }

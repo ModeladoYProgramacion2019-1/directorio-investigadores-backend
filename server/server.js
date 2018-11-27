@@ -3,10 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var Models  = require('./server/models');
+var Models  = require('./models');
 var bodyParser = require('body-parser')
+var cors = require('cors')
 
-var routes = require('./server/routes/index');
+var routes = require('./routes/index');
 
 var app = express();
 
@@ -34,19 +35,13 @@ Models.sequelize.sync().then(function(){
     server.on('listening', onListening);
 });
 
-app.use(function (req, res, next) {
-    // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + port)
+var corsOptions = {
+  origin: process.env.frontend_url,
+  methods: "GET,PUT,POST,PATCH,DELETE",
+  optionsSuccessStatus: 200
+}
 
-    // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE')
-
-    // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type')
-
-    // Pass to next layer of middleware
-  next()
-})
+app.use(cors(corsOptions))
 
 app.set('view engine', 'ejs');
 app.use('/', routes);
@@ -74,7 +69,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.use(express.static(path.join(__dirname, '/dist')));
+//app.use(express.static(path.join(__dirname, '/dist')));
 
 /**
  * Normalize a port into a number, string, or false.

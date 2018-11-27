@@ -14,13 +14,73 @@ let list = function(req, res){
     try{
         var consulta = {}
         if(req.query){
-            console.log(req.query);
             consulta.where = {}
             Object.keys(req.query).forEach(function(key){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
-        console.log(consulta);
+        consulta. include = [
+          {
+            model: Models.Grupo
+          },
+          {
+            model: Models.Sede
+          },
+          {
+            model: Models.Articulo
+          },
+          {
+            model: Models.Direccion
+          },
+          {
+            model: Models.Contacto
+          },
+          {
+            model: Models.Administrador,
+            include: [
+              {
+                model: Models.Rol,
+                include: [
+                  {model: Models.Permiso}
+                ]
+              }
+            ]
+          },
+          {
+            model: Models.Estudiante,
+            include: [
+              {
+                model: Models.Campo
+              },
+              {
+                model: Models.Investigador
+              },
+              {
+                model: Models.Rol,
+                include: [
+                  {model: Models.Permiso}
+                ]
+              }
+            ]
+          },
+          {
+            model: Models.Investigador,
+            include: [
+              {
+                model: Models.Estudiante
+              },
+              {
+                model: Models.Rol,
+                include: [
+                  {model: Models.Permiso}
+                ]
+              },
+              {
+                model: Models.Campo
+              }
+            ]
+          }
+        ]
         Models.Persona.findAll(consulta).then(function(personas){
             if(!personas){
                 return res.json({
@@ -41,14 +101,80 @@ let list = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
 
 let show = function(req, res){
     try{
-        Models.Persona.findOne(req.params.id).then(function(persona){
+        Models.Persona.findOne({
+            where: {
+                persona_id: req.params.id
+            },
+            include: [
+              {
+                model: Models.Grupo
+              },
+              {
+                model: Models.Sede
+              },
+              {
+                model: Models.Articulo
+              },
+              {
+                model: Models.Direccion
+              },
+              {
+                model: Models.Contacto
+              },
+              {
+                model: Models.Administrador,
+                include: [
+                  {
+                    model: Models.Rol,
+                    include: [
+                      {model: Models.Permiso}
+                    ]
+                  }
+                ]
+              },
+              {
+                model: Models.Estudiante,
+                include: [
+                  {
+                    model: Models.Campo
+                  },
+                  {
+                    model: Models.Investigador
+                  },
+                  {
+                    model: Models.Rol,
+                    include: [
+                      {model: Models.Permiso}
+                    ]
+                  }
+                ]
+              },
+              {
+                model: Models.Investigador,
+                include: [
+                  {
+                    model: Models.Estudiante
+                  },
+                  {
+                    model: Models.Rol,
+                    include: [
+                      {model: Models.Permiso}
+                    ]
+                  },
+                  {
+                    model: Models.Campo
+                  }
+                ]
+              }
+            ]
+        }).then(function(persona){
             if(!persona){
                 return res.json({
                   success: false,
@@ -68,7 +194,7 @@ let show = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -103,7 +229,7 @@ let create = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -123,7 +249,7 @@ let destroy = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
@@ -131,12 +257,16 @@ let destroy = function(req, res){
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Persona.findOne(req.params.id).then(function(persona){
+        Models.Persona.findOne({
+            where: {
+                persona_id: req.params.id
+            }
+        }).then(function(persona){
             if(!persona){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching persona found"
+                    error: "No matching person found"
                 });
             }else{
                 persona.update(data).then(function(updated){
@@ -153,7 +283,7 @@ let update = function(req, res){
         return res.json({
             success: false,
             code: 500,
-            error: error.toString()
+            error: error
         });
     }
 }
