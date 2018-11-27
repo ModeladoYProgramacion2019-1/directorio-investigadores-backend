@@ -1,17 +1,15 @@
 <template>
 
     <div class ="authDiv text-white text-center">
-      <h2 class="mb-5">Hola [Nombre], ingresa tu correo para verificar el registro:</h2>
+      <h1 class="mb-5">Hola {{name}}!</h1>
+      <h3 class="mb-5">
+          Para verificar tu registro, sólo confirma que este es tu correo
+          electrónico:
+      </h3>
+      <h4 class="mb-5">{{mail}}</h4>
       <form class="container text-center loginForm">
-        <div class="input-group mb-3 text-center authInput">
-          <input type="password"
-                class="form-control"
-                placeholder="Correo electrónico"
-                aria-label="Correo electrónico"
-                aria-describedby="basic-addon1">
-        </div>
         <a class="btn btn-light" href="/">Cancelar</a>
-        <a class="btn btn-primary btn-margin-left" href="/">Verificar</a>
+        <a class="btn btn-primary btn-margin-left" href="/" @click="sendToBackend">Verificar</a>
       </form>
   </div>
 
@@ -23,20 +21,40 @@
         name: 'Authenticate',
         data: function () {
           return {
-            correo : ""
+            token : "",
+            name : "",
+            mail : ""
           }
         },
         methods : {
-            checkAuthentication(){
-                var data = {
-                    correo : this.correo
+            getInfo(){
+                var url = window.location.search
+                this.token = url.replace("?token=", "");
+                try {
+                    var decoded = jwt.verify(this.token, process.env.VUE_APP_JWT_key);
+                    this.name = decoded.nombre
+                    this.mail = decoded.correo_personal
+                } catch (error) {
+
                 }
-                var authToken = jwt.sign(tokenData, process.env.JWT_key,
-                                        {expiresIn: "3m"});
-                this.$axios.post('/signUp/Verify', authToken).then((response) => {
-                    return response;
+            },
+            sendToBackend(){
+                this.$axios.post('/signUp/verify?token='+this.token).then(function(response){
+                    console.log(response)
+                    if(response.data){
+                        if(response.success){
+                            //TODO notify that the email was sent successfully
+                        }else{
+                            //TODO notify of an error
+                        }
+                    }else{
+                        //TODO notify of an error
+                    }
                 });
             }
+        },
+        mounted () {
+            this.getInfo()
         }
     }
 
@@ -52,8 +70,8 @@
         background: url('../assets/images/login.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 8rem;
-        padding-bottom: 8rem;
+        padding-top: 6rem;
+        padding-bottom: 6rem;
     }
     img{
         margin-top: 10px;
