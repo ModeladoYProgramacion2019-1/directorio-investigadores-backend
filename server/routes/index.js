@@ -118,7 +118,7 @@ router.patch('/API/sede/:id', Sede.update);
 router.delete('/API/sede/:id', Sede.destroy);
 
 /*********************CORE CONTROLLERS*****************************/
-router.post('/API/signUp', Authentication.signUp);
 router.post('/API/signUp/verify', Authentication.acceptVerification);
+router.post('/API/signUp', Authentication.signUp);
 
 module.exports = router;
