@@ -4,8 +4,8 @@ var states =
     "bajaCalifornia" : ["Baja California","BCN"],
     "bajaCaliforniaSur" : ["Baja California Sur", "BCS"],
     "campeche" : ["Campeche", "CAM"],
-    "chihuahua" : ["Chihuahua", "CHP"],
-    "chiapas" : ["Chiapas", "CHH"],
+    "chihuahua" : ["Chihuahua", "CHH"],
+    "chiapas" : ["Chiapas", "CHP"],
     "cdmx" : ["Ciudad de México", "CMX"],
     "coahuila" : ["Coahuila", "COA"],
     "colima" : ["Colima", "COL"],
@@ -34,6 +34,42 @@ var states =
     "zacatecas" : ["Zacatecas", "ZAC"]
 }
 
+var codes =
+{
+    "AGU" : "Aguacalientes",
+    "BCN" : "Baja California",
+    "BCS" : "Baja California Sur",
+    "CAM" : "Campeche",
+    "CHH" : "Chihuahua",
+    "CHP" : "Chiapas",
+    "CMX" : "Ciudad de México",
+    "COA" : "Coahuila",
+    "COL" : "Colima",
+    "DUR" : "Durango",
+    "GUA" : "Guanajuato",
+    "GRO" : "Guerrero",
+    "HID" : "Hidalgo",
+    "JAL" : "Jalisco",
+    "MEX" : "Estado de México",
+    "MIC" : "Michoacán",
+    "MOR" : "Morelos",
+    "NAY" : "Nayarit",
+    "NLE" : "Nuevo León",
+    "OAX" : "Oaxaca",
+    "PUE" : "Puebla",
+    "QUE" : "Querétaro",
+    "ROO" : "Quintana Roo",
+    "SLP" : "San Luis Potosí",
+    "SIN" : "Sinaloa",
+    "SON" : "Sonora",
+    "TAB" : "Tabasco",
+    "TAM" : "Tamaulipas",
+    "TLA" : "Tlaxcala",
+    "VER" : "Veracruz",
+    "YUC" : "Yucatán",
+    "ZAC" : "Zacatecas"
+}
+
 function getStateName(url) {
     if (url in states){
         return states[url][0]
@@ -50,4 +86,12 @@ function getStateCode(url) {
     }
 }
 
-export { getStateName, getStateCode }
+function getStateNameWithCode(code) {
+    if (code in codes){
+        return codes[code]
+    } else {
+        return ""
+    }
+}
+
+export { getStateName, getStateCode, getStateNameWithCode }
