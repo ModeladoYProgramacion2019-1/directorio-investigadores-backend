@@ -8,7 +8,7 @@
 
 <script>
 /* eslint-disable */
-
+import VeeValidate from 'vee-validate'
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 import SignUpForm from '@/components/SignUpForm.vue'
