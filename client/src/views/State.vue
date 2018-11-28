@@ -14,9 +14,22 @@
         <b-card  v-for="campus in campi"
                  bg-variant="dark" text-variant="white" :title="campus.nombre"
                  class="sCard" style="max-width : 80em;">
-          <router-link :to="{path: '/sede/' + campus.sede_id, query: {sede_id : campus.sede_id}}">
-            <b-button :href="{path: '/sede/' + campus.sede_id, query: {sede_id :campus.sede_id}}" variant="info">Ver sede</b-button>
-          </router-link>
+            <div v-if="campus.clave != null">
+                <router-link :to="{path: '/sede/' + campus.clave}">
+                    <b-button :href="{path: '/sede/' + campus.clave}"
+                        variant="info">
+                        Ver sede
+                    </b-button>
+                </router-link>
+            </div>
+            <div v-else>
+                <router-link :to="{path: '/sede/' + campus.sede_id}">
+                    <b-button :href="{path: '/sede/' + campus.sede_id}"
+                        variant="info">
+                        Ver sede
+                    </b-button>
+                </router-link>
+            </div>
         </b-card>
 
     </div>
