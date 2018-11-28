@@ -13,13 +13,21 @@
             header-text-variant="light"
             header-tag="header"
             header-bg-variant="dark"
-            :footer="contacto"
+            :footer="mail"
             footer-tag="footer"
             footer-bg-variant="info"
             title="Dirección"
             style="max-width: 96%"
     >
-      <p class="card-text" style="color: white;"> {{address}}</p>
+      <p class="card-text" style="color: white;">
+          Entidad : {{state}}
+          <br>
+          Municipio / Delegación : {{municipality}}
+          <br>
+          Colonia : {{town}}
+          <br>
+          Código postal : {{postalCode}}
+      </p>
     </b-card>
     </div>
 
@@ -33,6 +41,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
+var functions = require('@/functions')
 
 export default {
     name: 'Campus',
@@ -44,17 +53,48 @@ export default {
       return {
         id : null,
         campusName : "",
-        institucion : "Institucion de prueba",
-        address : "Direccion de prueba no. 12",
-        contacto : "contacto@contacto.com"
+        institucion : "La sede no es parte de una institución",
+        state : "",
+        municipality : "",
+        town : "",
+        postalCode : "",
+        mail : "La institucion no cuenta con correo electrónico"
       }
     },
     methods : {
         getInfo() {
-            this.id = this.$route.query.sede_id;
-            this.$axios.get('/sede?sede_id=' + this.id).then((response) => {
-                let campus = response.data.resource;
+            var campusUrl = window.location.pathname.split("/").pop()
+            this.$axios.get('/sede?clave=' + campusUrl).then((keyResponse) => {
+                let campus = keyResponse.data.resource;
+                if (campus.length ===0) {
+                    this.$axios.get('/sede?sede_id=' + campusUrl).then((idResponse) => {
+                        campus = idResponse.data.resource;
+                    })
+                }
+                this.id = campus[0].sede_id;
                 this.campusName = campus[0].nombre;
+                if (campus[0].Institucion != null){
+                    this.institucion = campus[0].Institucion.nombre;
+                }
+                if (campus[0].Direccion != null){
+                    var address = ""
+                    if (campus[0].Direccion.estado != null) {
+                        this.state = functions.getStateNameWithCode(campus[0].Direccion.estado)
+                    }
+                    if (campus[0].Direccion.municipio != null) {
+                        this.municipality = campus[0].Direccion.municipio
+                    }
+                    if (campus[0].Direccion.colonia != null) {
+                        this.town = campus[0].Direccion.colonia
+                    }
+                    if (campus[0].Direccion.cp != null) {
+                        this.postalCode = campus[0].Direccion.cp
+                    }
+                    this.address = address
+                }
+                if (campus[0].Contacto != null) {
+                    this.mail = campus[0].Contacto.correo_institucion;
+                }
             })
         }
     },
