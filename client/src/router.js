@@ -28,7 +28,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/verifica',
+      path: '/activa',
       name: 'Verify',
       component: Verify
     },
