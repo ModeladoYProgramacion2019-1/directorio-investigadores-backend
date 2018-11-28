@@ -7,6 +7,7 @@ import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
 import Campus from './views/Campus.vue'
+import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
 
 Vue.use(Router)
@@ -39,7 +40,6 @@ export default new Router({
     },
     {
       path: '/search',
-
       path: '/busqueda',
       name: 'Search',
       component: Search
@@ -48,6 +48,11 @@ export default new Router({
       path: '/sede/:id',
       name: 'Campus',
       component: Campus
+    },
+    {
+      path: '/institucion/:id',
+      name: 'Institute',
+      component: Institute
     },
     {
       path: '/aguascalientes',
