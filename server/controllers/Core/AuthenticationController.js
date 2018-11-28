@@ -21,8 +21,8 @@ let signUp = async function(req, res){
         }
 
         var decoded = jwt.verify(req.query.token, process.env.JWT_key);
-        console.log(decoded);
         if(!decoded.correo_personal || !decoded.nombre || !decoded.apellido){
+            console.log("INCOMPLETE DATA");
             return res.json({
                 success: false,
                 code: 400,
@@ -36,6 +36,7 @@ let signUp = async function(req, res){
             }
         });
         if(existingContact && !decoded.force){
+            console.log("ALREADY IN USE")
             return res.json({
                 success: false,
                 code: 400,
@@ -51,6 +52,7 @@ let signUp = async function(req, res){
             contraseña: bcrypt.hashSync(decoded.contraseña, bcrypt.genSaltSync(8)),
             is_verified: false
         }
+        console.log(data_persona)
         var nueva = await Models.Persona.create(data_persona);
 
         var tokenData = {

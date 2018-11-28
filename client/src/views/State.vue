@@ -14,9 +14,22 @@
         <b-card  v-for="campus in campi"
                  bg-variant="dark" text-variant="white" :title="campus.nombre"
                  class="sCard" style="max-width : 80em;">
-          <router-link :to="{path: '/sede/' + campus.sede_id}">
-            <b-button :href="{path: '/sede/' + campus.sede_id}" variant="info">Ver sede</b-button>
-          </router-link>
+            <div v-if="campus.clave != null">
+                <router-link :to="{path: '/sede/' + campus.clave}">
+                    <b-button :href="{path: '/sede/' + campus.clave}"
+                        variant="info">
+                        Ver sede
+                    </b-button>
+                </router-link>
+            </div>
+            <div v-else>
+                <router-link :to="{path: '/sede/' + campus.sede_id}">
+                    <b-button :href="{path: '/sede/' + campus.sede_id}"
+                        variant="info">
+                        Ver sede
+                    </b-button>
+                </router-link>
+            </div>
         </b-card>
 
     </div>
@@ -30,7 +43,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
-
+var functions = require('@/functions')
 export default {
     name: 'State',
     components: {
@@ -39,18 +52,22 @@ export default {
     },
     data: function () {
       return {
+        stateCode : "",
         stateName : "",
+        stateUrl : "",
         campi : []
       }
     },
     methods : {
-        getPath() {
-            this.stateName = window.location.pathname.split("/").pop()
+        getInfo() {
+            this.stateUrl = window.location.pathname.split("/").pop()
+            this.stateName = functions.getStateName(this.stateUrl)
+            this.stateCode = functions.getStateCode(this.stateUrl)
         }
     },
     mounted () {
-        this.getPath(),
-        this.$axios.get('/direccion?estado=' + this.stateName).then((response) => {
+        this.getInfo(),
+        this.$axios.get('/direccion?estado=' + this.stateCode).then((response) => {
 			let addresses = response.data.resource;
             let identifiers = [];
             for (var addressIndex in addresses) {

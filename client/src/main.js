@@ -14,7 +14,7 @@ Vue.use(BootstrapVue);
 Vue.config.productionTip = false
 
 Vue.prototype.$axios = axios.create({
-  baseURL: 'http://localhost:3000/API',
+  baseURL: process.env.VUE_APP_api_url + '/API',
   timeout: 1000
 });
 

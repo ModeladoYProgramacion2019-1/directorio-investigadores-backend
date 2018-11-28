@@ -7,6 +7,7 @@
 <style>
 html{
     background-color: #E3E7ED;
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -14,3 +15,4 @@ html{
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
 }
+</style>
