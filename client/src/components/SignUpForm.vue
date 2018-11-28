@@ -2,35 +2,36 @@
     <header class ="signUpHead text-white ">
       <h1 align= "center" class="mb-5">Crea tu cuenta</h1>
 
-      <form data-toggle="validator" role="form">
+      <form >
         <div class="form-group container text-center">
-          <label for="inputName" class="control-label">Nombres: </label>
-          <input v-model="name" type="text" class="form-control" id="inputName" placeholder="Nombre" required>
+          <input v-validate= "'required'"v-model="name" name = "name" type="text" class="form-control"  placeholder="Nombre">
+          <span style="color:red">{{ errors.first('name') }}</span>
         </div>
 
         <div class="form-group container text-center">
-          <label for="inputLastName" class="control-label">Apellidos:</label>
-          <input v-model="lastName" type="text" class="form-control" id="inputLastName" placeholder="Apellido" required>
-        </div>
-
-
-        <div class="form-group container text-center">
-          <label  for="inputEmail" class="control-label">Correo: </label>
-          <input v-model="email" type="email" class="form-control" id="inputEmail" placeholder="Correo electrónico"  required>
-          <div class="help-block with-errors"></div>
+          <input v-validate="'required'"v-model="lastName"  name= "lastName" type="text" class="form-control" placeholder="Apellido">
+          <span style="color:red">{{ errors.first('lastName') }}</span>
         </div>
 
 
         <div class="form-group container text-center">
-          <label for="inputPassword" class="control-label">Contraseña: </label>
-          <input v-model="password" type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Contraseña"  required>
-          <div class="help-block with-errors">Minimo 6 caracteres</div>
+          <input v-validate = "'required|email'" v-model="email" name= "email" type="text" class="form-control"  placeholder="Correo electrónico"  required>
+          <span style="color:red">{{ errors.first('email') }}</span>
         </div>
+
+
+
+
         <div class="form-group container text-center">
-          <label for="inputPasswordConfirm" class="control-label">Confirmar contraseña: </label>
-          <input v-model="confirmation" type="password" data-minlength="6" class="form-control" id="inputPasswordConfirm" placeholder="Confirmación"  required>
-          <div class="help-block with-errors"></div>
+          <input v-validate="'required'" name="password" type="password" class="form-control" placeholder="Contraseña" ref="password">
+          <span style="color:red">{{ errors.first('password') }}</span>
         </div>
+          <div class="form-group container text-center">
+          <input  v-validate="'required|confirmed:password'" name="password_confirmation" type="password" class="form-control" placeholder="Confirmar contraseña" data-vv-as="password">
+          <span style="color:red">{{ errors.first('password_confirmation') }}</span>
+          </div>
+
+
         <div class="form-group container text-center">
         <button type="button" class="btn btn-primary" @click="sendToBackend">Registrate</button>
         </div>
@@ -109,6 +110,3 @@
         margin: auto;
     }
 </style>
-
-
-01T L,00 V,02T L,03T L,04T L,00 V,05T L,06T L,07T L,00 V,08T L,09T V,10T V,00 V,11T V,12T L,13T L,00 V,14T L,15T L,16T L,00 V,17T L,18T L,19T L,00 V,20T L,21T L,22T L,00 V,23T L,24T L,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00 V,00M V,00C V,00C V,00C V,00H V,00 V, V,|09|00|Sin Error.
