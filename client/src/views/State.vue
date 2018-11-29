@@ -2,36 +2,38 @@
   <div class="State">
 
     <Navbar/>
-    <header class ="stateHeader text-white text-center">
+    <div class ="stateDiv text-white text-center">
       <h1 class="mb-5">{{stateName}}</h1>
-    </header>
 
-    <form class="bar text-center">
-        <h4>Sedes de investigación en {{stateName}} :</h4>
-    </form>
+      <div class="bar text-center">
+          <h4>Sedes de investigación en {{stateName}} :</h4>
+      </div>
+    </div>
 
-    <div class="box" style="margin:auto;">
-        <b-card  v-for="campus in campi"
-                 bg-variant="dark" text-variant="white" :title="campus.nombre"
-                 class="sCard" style="max-width : 80em;">
+
+    <div class="box">
+        <div class="card-columns">
+            <b-card  v-for="campus in campi"
+            bg-variant="dark" text-variant="white" :title="campus.nombre"
+            class="shadow-sm sCard" style="max-width : 80em;">
             <div v-if="campus.clave != null">
                 <router-link :to="{path: '/sede/' + campus.clave}">
                     <b-button :href="{path: '/sede/' + campus.clave}"
-                        variant="info">
-                        Ver sede
-                    </b-button>
-                </router-link>
-            </div>
-            <div v-else>
-                <router-link :to="{path: '/sede/' + campus.sede_id}">
-                    <b-button :href="{path: '/sede/' + campus.sede_id}"
-                        variant="info">
-                        Ver sede
-                    </b-button>
-                </router-link>
-            </div>
+                    variant="info" class="shadow">
+                    Ver sede
+                </b-button>
+            </router-link>
+        </div>
+        <div v-else>
+            <router-link :to="{path: '/sede/' + campus.sede_id}">
+                <b-button :href="{path: '/sede/' + campus.sede_id}"
+                variant="info">
+                Ver sede
+            </b-button>
+        </router-link>
+        </div>
         </b-card>
-
+        </div>
     </div>
 
     <Footer/>
@@ -98,27 +100,24 @@ export default {
         color: white;
         padding-top: 12px;
     }
-    header.stateHeader {
+    div.stateDiv {
         position: relative;
         background: url('../assets/images/state.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
         padding-top: 5rem;
-        padding-bottom: 2rem;
     }
     div.box {
         text-align:center;
+        margin: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
-    .bar{
-        background-color: #69747D;
-        height: 60px;
+    div.bar{
+        background-color: #212733;
+        opacity: 0.80;
+        height: 70px;
         width: 100%;
-    }
-    .btn{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 5px;
-        margin-right: 5px;
     }
     .sCard {
         margin:auto;
