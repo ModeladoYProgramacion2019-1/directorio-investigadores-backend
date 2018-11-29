@@ -3,26 +3,31 @@
     <header class ="signInHead text-white text-center">
       <h1 class="mb-5">Inicio de Sesión</h1>
       <form class="container text-center SignUpForm">
-        <div class="input-group mb-3 text-center signInInput">
+        <div class="input-group mb-3 text-center signInInput shadow-sm">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Correo electrónico</span>
+            </div>
           <input type="text"
                 class="form-control"
-                placeholder="Usuario o correo"
                 aria-label="Usuario o correo"
                 aria-describedby="basic-addon1">
         </div>
-        <div class="input-group mb-3 text-center signInInput">
+        <div class="input-group mb-3 text-center signInInput shadow-sm">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Contraseña</span>
+            </div>
           <input type="password"
                 class="form-control"
-                placeholder="Contraseña"
                 aria-label="Contraseña"
                 aria-describedby="basic-addon1">
         </div>
-        <a class="btn btn-light" href="/">Cancelar</a>
-        <a class="btn btn-primary btn-margin-left" href="/">Acceder</a>
+        <a class="btn btn-light shadow" href="/">Cancelar</a>
+        <a class="btn btn-primary btn-margin-left shadow" href="/">Acceder</a>
       </form>
-      &nbsp;
+      <br>
+      <br>
       <h5>¿No tiene una cuenta?
-          <a class="btn btn-dark" href="/signup">Registrese aquí</a>
+          <a class="btn btn-dark shadow" href="/signup">Registrese aquí</a>
       </h5>
 
     </header>
@@ -45,8 +50,8 @@
         background: url('../assets/images/login.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 8rem;
-        padding-bottom: 8rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
     }
     img{
         margin-top: 10px;
