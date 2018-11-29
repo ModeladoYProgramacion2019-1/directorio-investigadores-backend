@@ -2,35 +2,29 @@
   <div class="Campus">
 
     <Navbar/>
-    <header class ="campusHeader text-white text-center">
-      <h1 class="mb-5">{{campusName}}</h1>
-    </header>
+    <div class ="campusDiv text-white text-center">
 
-    <div style="margin:auto;">
-    <b-card :header="institucion"
-            class = "sCard"
-            bg-variant="secondary"
-            header-text-variant="light"
-            header-tag="header"
-            header-bg-variant="dark"
-            :footer="mail"
-            footer-tag="footer"
-            footer-bg-variant="info"
-            title="Dirección"
-            style="max-width: 96%"
-    >
-      <p class="card-text" style="color: white;">
-          Entidad : {{state}}
-          <br>
-          Municipio / Delegación : {{municipality}}
-          <br>
-          Colonia : {{town}}
-          <br>
-          Código postal : {{postalCode}}
-      </p>
-    </b-card>
+        <div class="container-fluid">
+            <b-button class="float-left" variant="outline-light">
+                {{institucion}}
+            </b-button>
+        </div>
+        <h1 class="mb-5">{{campusName}}</h1>
+        <h5>{{mail}}</h5>
+        <h5>Dirección: {{state}}, {{municipality}}, {{town}}</h5>
+        <br/>
+        <div class="container-fluid">
+            <div class="card text-white bg-info mb-3"
+            style="width: 10rem; height: 8rem; opacity : 0.88;">
+            <div class="card-header">
+                Investigadores.</div>
+                <div class="card-body">
+                    <h2 class="card-title">12</h2>
+                </div>
+            </div>
+        </div>
+
     </div>
-
 
     <Footer/>
 
@@ -107,50 +101,37 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+    h1 {
+        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: left;
+        padding-top: 4rem;
+        padding-left: 3rem;
+    }
+    h3 {
+        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: left;
+        padding-left: 3rem;
+    }
     h5 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        text-align: left;
+        padding-left: 3rem;
     }
     h4 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: white;
         padding-top: 12px;
     }
-    header.campusHeader {
+    div.campusDiv {
         position: relative;
         background: url('../assets/images/campus.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 5rem;
-        padding-bottom: 2rem;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
     }
-    div.box {
-        text-align:center;
-    }
-    .institutionBar{
-        background-color: #409BAD;
-        height: 60px;
-        width: 100%;
-    }
-    .addressBar{
-        background-color: #21608E;
-        height: 60px;
-        width: 100%;
-    }
-    .contactBar{
-        background-color: #112A3F;
-        height: 60px;
-        width: 100%;
-    }
-    .btn{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-    .sCard {
-        margin:auto;
-        margin-top: 10px;
+    div.container-fluid {
+        padding-left: 3rem;
     }
     div.Campus{
         background-color: #E3E7ED;
