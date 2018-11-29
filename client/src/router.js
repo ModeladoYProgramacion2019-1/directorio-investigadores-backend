@@ -9,6 +9,7 @@ import State from './views/State.vue'
 import Campus from './views/Campus.vue'
 import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
+import Profile from './views/Profile.vue'
 
 Vue.use(Router)
 
@@ -27,7 +28,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/verifica',
+      path: '/activa',
       name: 'Verify',
       component: Verify
     },
@@ -37,6 +38,11 @@ export default new Router({
       name: 'SignUp',
       component: SignUp
 
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/search',
