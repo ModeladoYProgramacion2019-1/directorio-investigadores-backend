@@ -8,6 +8,7 @@ var bcrypt = require('bcrypt');
 let Authentication = function(){
     this.signUp = signUp;
     this.acceptVerification = acceptVerification;
+    this.login = login;
 }
 
 let signUp = async function(req, res){
@@ -131,6 +132,117 @@ let acceptVerification = async function(req, res){
             error: error
         });
     }
+}
+
+let login = async function(req, res){
+    if(!req.query.token){
+        return res.json({
+            success: false,
+            code: 400,
+            error: "No se recibió una ficha"
+        });
+    }
+    var decoded = jwt.verify(req.query.token, process.env.JWT_key);
+    if(!decoded.contraseña || !decoded.email){
+        console.log("INCOMPLETE DATA");
+        return res.json({
+            success: false,
+            code: 400,
+            error: "Parametros incompletos"
+        })
+    }
+
+    var persona = await Models.Persona.findOne({
+      include:[
+        {
+          model: Models.Direccion
+        },
+        {
+          model: Models.Contacto,
+          where: {
+              correo_personal: decoded.email
+          }
+        },
+        {
+          model: Models.Administrador,
+          include: [
+            {
+              model: Models.Rol,
+              include: [
+                {model: Models.Permiso}
+              ]
+            }
+          ]
+        },
+        {
+          model: Models.Estudiante,
+          include: [
+            {
+              model: Models.Campo
+            },
+            {
+              model: Models.Investigador
+            },
+            {
+              model: Models.Rol,
+              include: [
+                {model: Models.Permiso}
+              ],
+              require: true
+            }
+          ]
+        },
+        {
+          model: Models.Investigador,
+          include: [
+            {
+              model: Models.Estudiante
+            },
+            {
+              model: Models.Rol,
+              include: [
+                {model: Models.Permiso}
+              ]
+            },
+            {
+              model: Models.Campo
+            }
+          ]
+        }
+      ]
+    });
+
+    if(!persona){
+        return res.json({
+            success: false,
+            code: 400,
+            result: "No se encontró la persona"
+        });
+    }
+
+    try{
+      if(bcrypt.compareSync(decoded.contraseña, persona.get("contraseña"))) {
+        return res.json({
+            success: true,
+            code: 200,
+            resource: persona
+        });
+      } else {
+        return res.json({
+            success: false,
+            code: 400,
+            result: "La contraseña no coincide"
+        });
+      }
+    }catch(error){
+        console.log(error);
+        return res.json({
+            success: false,
+            code: 500,
+            result: "Error decifrando la contraseña"
+        });
+    }
+
 }
 
 exports.Authentication = new Authentication();
