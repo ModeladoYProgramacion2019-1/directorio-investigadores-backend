@@ -2,32 +2,33 @@
   <div class="Institute">
 
     <Navbar/>
-    <header class ="instituteHeader text-white text-center">
+    <div class ="instituteDiv text-white text-center">
       <h1 class="mb-5">{{instituteName}}</h1>
-    </header>
+    </div>
 
-    <div class="box" style="margin:auto;">
-        <b-card  v-for="campus in campi"
-                 bg-variant="dark" text-variant="white" :title="campus.nombre"
-                 class="sCard" style="max-width : 80em;">
+    <div class="box">
+        <div class="card-columns">
+            <b-card  v-for="campus in campi"
+            bg-variant="dark" text-variant="white" :title="campus.nombre"
+            class="shadow-sm sCard" style="max-width : 80em;">
             <div v-if="campus.clave != null">
                 <router-link :to="{path: '/sede/' + campus.clave}">
                     <b-button :href="{path: '/sede/' + campus.clave}"
-                        variant="info">
-                        Ver sede
-                    </b-button>
-                </router-link>
-            </div>
-            <div v-else>
-                <router-link :to="{path: '/sede/' + campus.sede_id}">
-                    <b-button :href="{path: '/sede/' + campus.sede_id}"
-                        variant="info">
-                        Ver sede
-                    </b-button>
-                </router-link>
-            </div>
+                    variant="info" class="shadow">
+                    Ver sede
+                </b-button>
+            </router-link>
+        </div>
+        <div v-else>
+            <router-link :to="{path: '/sede/' + campus.sede_id}">
+                <b-button :href="{path: '/sede/' + campus.sede_id}"
+                variant="info">
+                Ver sede
+            </b-button>
+        </router-link>
+        </div>
         </b-card>
-
+        </div>
     </div>
 
 
@@ -80,16 +81,12 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
-    h5 {
+    h1 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        text-align: left;
+        padding-left: 3rem;
     }
-    h4 {
-        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: white;
-        padding-top: 12px;
-    }
-    header.instituteHeader {
+    div.instituteDiv {
         position: relative;
         background: url('../assets/images/campus.png') no-repeat center center;
         background-size: cover;
@@ -99,27 +96,9 @@ export default {
     }
     div.box {
         text-align:center;
-    }
-    .institutionBar{
-        background-color: #409BAD;
-        height: 60px;
-        width: 100%;
-    }
-    .addressBar{
-        background-color: #21608E;
-        height: 60px;
-        width: 100%;
-    }
-    .contactBar{
-        background-color: #112A3F;
-        height: 60px;
-        width: 100%;
-    }
-    .btn{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 5px;
-        margin-right: 5px;
+        margin: auto;
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
     .sCard {
         margin:auto;
