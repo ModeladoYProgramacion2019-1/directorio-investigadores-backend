@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import SignUp from './views/SignUp.vue'
+import Login from './views/Login.vue'
 import VeeValidate from 'vee-validate';
 
 Vue.use(VeeValidate);

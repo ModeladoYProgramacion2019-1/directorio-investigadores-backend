@@ -10,8 +10,11 @@
           <input type="text"
                 class="form-control"
                 aria-label="Usuario o correo"
-                aria-describedby="basic-addon1">
+                aria-describedby="basic-addon1"
+                name= "email"
+                v-validate = "'required|email'">
         </div>
+        <span style="color:red">{{ errors.first('email') }}</span>
         <div class="input-group mb-3 text-center signInInput shadow-sm">
             <div class="input-group-prepend">
                 <span class="input-group-text" id="basic-addon1">Contraseña</span>
@@ -19,10 +22,15 @@
           <input type="password"
                 class="form-control"
                 aria-label="Contraseña"
-                aria-describedby="basic-addon1">
+                aria-describedby="basic-addon1"
+                name= "password"
+                v-validate = "'required'">
         </div>
-        <a class="btn btn-light shadow" href="/">Cancelar</a>
-        <a class="btn btn-primary btn-margin-left shadow" href="/">Acceder</a>
+          <span style="color:red">{{ errors.first('password') }}</span>
+        <div>
+          <a class="btn btn-light shadow" href="/">Cancelar</a>
+          <a class="btn btn-primary btn-margin-left shadow" href="/">Acceder</a>
+      </div>
       </form>
       <br>
       <br>
