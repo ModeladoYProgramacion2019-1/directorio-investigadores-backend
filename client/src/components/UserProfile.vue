@@ -1,6 +1,13 @@
 <template>
   <div class = "UserProfile">
     <div class ="profileDiv text-white text-center">
+        <div v-if="loggedIn"
+            class="container-fluid"
+            style="padding-bottom : 4rem; padding-left : 3rem;">
+            <b-button class="float-left" variant="outline-light">
+                Tu perfil
+            </b-button>
+        </div>
       <h1>{{personName}}</h1>
       <h5>{{mail}}</h5>
       <br>
@@ -30,7 +37,7 @@
       </div>
       <br>
 
-      <div class="container-fluid" style="background-color : #212733; opacity : 0.8;">
+      <div v-if="loggedIn" class="container-fluid" style="background-color : #212733; opacity : 0.8;">
           <div class="row">
             <div class="col buttonCol">
                 <b-btn  href="#" v-b-toggle.accordion1 variant="light">
@@ -69,7 +76,7 @@
 
     <div>
       <div>
-    <b-card-group class="bg-dark">
+    <b-card-group v-if="loggedIn" class="bg-dark">
         <b-card title="Registrate como Investigador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
@@ -92,7 +99,7 @@
           </b-card>
         </b-card-group>
 
-        <div class="text-right bg-secondary" >
+        <div v-if="isAdmin" class="text-right bg-secondary" >
           <button class = "btn btn-warning shadow">
               Accede a la página de administrador
           </button>
@@ -117,18 +124,41 @@ export default {
     data: function () {
       return {
         id : null,
-        personName : "Nombre de usuario",
+        personName : null,
         mail : "correo@correo.com",
-        institucion : "La sede no es parte de una institución",
-        state : "",
-        municipality : "",
-        town : "",
-        postalCode : "",
+        loggedIn : false,
+        isAdmin : false,
       }
     },
     methods : {
+        getInfo(){
+            var personUrl = window.location.pathname.split("/").pop()
+            console.log(personUrl);
+            this.$axios.get('/persona?persona_id=' + personUrl).then((response) => {
+                let person = response.data.resource[0];
+                this.id = person.persona_id;
+                this.personName = person.nombre + " " + person.apellido;
+                this.mail = person.Contacto.correo_personal;
+            })
+        },
+        getCookieInfo(){
+            var user = null
+            user = JSON.parse(this.$cookie.get('user'))
+            console.log(user)
+            if (user != null) {
+                console.log(user.persona_id)
+                if (user.persona_id == window.location.pathname.split("/").pop()) {
+                    this.loggedIn = true;
+                    if (user.Administrador != null) {
+                        this.isAdmin = true
+                    }
+                }
+            }
+        }
     },
     mounted () {
+        this.getInfo()
+        this.getCookieInfo()
     }
 }
 </script>
@@ -149,7 +179,7 @@ export default {
         background: url('../assets/images/profile.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 5rem;
+        padding-top: 3rem;
     }
     img{
         margin-top: 10px;
