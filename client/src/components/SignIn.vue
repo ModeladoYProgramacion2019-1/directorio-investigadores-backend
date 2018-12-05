@@ -1,49 +1,72 @@
 <template>
 
     <header class ="signInHead text-white text-center">
-      <h1 class="mb-5">Inicio de Sesión</h1>
-      <form class="container text-center SignUpForm">
-        <div class="input-group mb-3 text-center signInInput shadow-sm">
-            <div class="input-group-prepend ">
-                <span class="input-group-text" id="basic-addon1">Correo electrónico</span>
-            </div>
-          <input v-model="email"
-                type="text"
-                class="form-control"
-                aria-label="Usuario o correo"
-                aria-describedby="basic-addon1">
-        </div>
-        <div class="input-group mb-3 text-center signInInput shadow-sm">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">Contraseña</span>
-            </div>
-          <input
-                v-model="password"
-                type="password"
-                class="form-control"
-                aria-label="Contraseña"
-                aria-describedby="basic-addon1">
-        </div>
-        <a class="btn btn-light shadow" href="/">Cancelar</a>
-        <button type="button"
-            class="btn btn-primary btn-margin-left shadow"
-            @click="sendToBackend">Acceder</button>
-      </form>
-      <br>
-      <br>
-      <h5>¿No tiene una cuenta?
-          <a class="btn btn-dark shadow" href="/signup">Registrese aquí</a>
-      </h5>
+        <h1 class="mb-5">Inicio de Sesión</h1>
+        <form class="container text-center SignUpForm">
+            <div class="input-group mb-3 text-center signInInput shadow-sm">
+                <div class="input-group-prepend ">
+                    <span class="input-group-text"
+                          id="basic-addon1">
+                        Correo electrónico
+                    </span>
+                </div>
 
-      <b-modal v-model="showErrorModal" hide-footer title="Using Component Methods">
-          <div class="d-block text-center">
-              <h3>{{modalMessage}}</h3>
-          </div>
-          <b-btn class="mt-3" variant="outline-danger" block @click="hideErrorModal">Cerrar</b-btn>
+                <input v-model="email"
+                       type="text"
+                       class="form-control"
+                       aria-label="Usuario o correo"
+                       aria-describedby="basic-addon1">
+            </div>
+
+            <div class="input-group mb-3 text-center signInInput shadow-sm">
+                <div class="input-group-prepend">
+                    <span class="input-group-text"
+                          id="basic-addon1">
+                        Contraseña
+                    </span>
+                </div>
+                <input v-model="password"
+                       type="password"
+                       class="form-control"
+                       aria-label="Contraseña"
+                       aria-describedby="basic-addon1">
+            </div>
+
+            <a class="btn btn-light shadow" href="/">
+                Cancelar
+            </a>
+
+            <button type="button"
+                    class="btn btn-primary btn-margin-left shadow"
+                    @click="sendToBackend">
+                Acceder
+            </button>
+        </form>
+
+        <br>
+        <br>
+
+        <h5>¿No tiene una cuenta?
+            <a class="btn btn-dark shadow"
+               href="/signup">
+                Registrese aquí
+            </a>
+        </h5>
+
+        <b-modal v-model="showErrorModal"
+               hide-footer
+               title="Mensaje:">
+                <div class="d-block text-center">
+                    <h3>{{modalMessage}}</h3>
+                </div>
+                <b-btn class="mt-3"
+                       variant="outline-danger"
+                       block
+                       @click="hideErrorModal">
+                    Cerrar
+                </b-btn>
       </b-modal>
-
     </header>
-
 </template>
 
 <script>
@@ -64,7 +87,9 @@
                         email: this.email,
                         contraseña: this.password
                     }
-                    var token = this.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key, {expiresIn: "1 minute"})
+                    var token = this.$jwt.sign(tokenData,
+                                               process.env.VUE_APP_JWT_key,
+                                               {expiresIn: "1 minute"})
                     this.$axios.get('/login?token='+token).then(response => {
                         console.log(response)
                         if(response.data){
@@ -80,8 +105,10 @@
                                 } else {
                                     var user = response.data.resource
                                     var id = user.persona_id
-                                    this.$cookie.set('user', user, 1)
-                                    this.$router.push({ name: 'Profile', params: {id} })
+                                    this.$cookie.set('user',
+                                                     JSON.stringify(user), 1)
+                                    this.$router.push({ name: 'Profile',
+                                                        params: {id} })
                                 }
                             }
                         }else{
