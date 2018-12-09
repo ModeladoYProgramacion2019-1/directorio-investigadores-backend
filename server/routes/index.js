@@ -14,6 +14,7 @@ const Rol = require('../controllers/API/RolController').Rol;
 const Sede = require('../controllers/API/SedeController').Sede;
 
 const Authentication = require('../controllers/Core/AuthenticationController').Authentication;
+const Search = require('../controllers/Core/SearchController').Search;
 
 /*********************SERVE STATIC FILES*****************************/
 
@@ -121,5 +122,8 @@ router.delete('/API/sede/:id', Sede.destroy);
 router.post('/API/signUp/verify', Authentication.acceptVerification);
 router.post('/API/signUp', Authentication.signUp);
 router.get('/API/login',Authentication.login);
+
+router.post('/API/simpleSearch', Search.simpleSearch);
+router.post('/API/advancedSearch', Search.advancedSearch);
 
 module.exports = router;
