@@ -2,12 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import axios from 'axios'
+import validator from './validator'
 import jsonwebtoken from 'jsonwebtoken'
 
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueCookie from 'vue-cookie'
 
+Vue.use(VueCookie);
 Vue.use(BootstrapVue);
 
 Vue.config.productionTip = false

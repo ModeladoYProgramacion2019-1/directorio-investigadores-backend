@@ -7,7 +7,10 @@ import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
 import Campus from './views/Campus.vue'
+import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
+import Profile from './views/Profile.vue'
+import Paper from './views/Paper.vue'
 
 Vue.use(Router)
 
@@ -26,7 +29,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/verifica',
+      path: '/activa',
       name: 'Verify',
       component: Verify
     },
@@ -38,8 +41,12 @@ export default new Router({
 
     },
     {
+      path: '/profile/:id',
+      name: 'Profile',
+      component: Profile
+    },
+    {
       path: '/search',
-
       path: '/busqueda',
       name: 'Search',
       component: Search
@@ -48,6 +55,16 @@ export default new Router({
       path: '/sede/:id',
       name: 'Campus',
       component: Campus
+    },
+    {
+      path: '/paper/:id',
+      name: 'Paper',
+      component: Paper
+    },
+    {
+      path: '/institucion/:id',
+      name: 'Institute',
+      component: Institute
     },
     {
       path: '/aguascalientes',
