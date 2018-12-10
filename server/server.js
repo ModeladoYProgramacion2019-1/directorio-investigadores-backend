@@ -41,13 +41,16 @@ var corsOptions = {
   optionsSuccessStatus: 200
 }
 
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
+app.use(bodyParser.json());
+
 app.use(cors(corsOptions))
 
 app.set('view engine', 'ejs');
 app.use('/', routes);
 app.use(logger('dev'));
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({extended: true}))
 app.use(cookieParser());
 
 // catch 404 and forward to error handler
