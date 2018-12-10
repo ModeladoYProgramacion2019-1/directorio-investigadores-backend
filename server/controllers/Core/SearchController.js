@@ -11,6 +11,7 @@ let Search = function(){
 
 let simpleSearch = async function(req, res){
     try{
+        console.log(req.body);
         let searchedFor = req.body.data;
         let dataFound = {
             Persona: [],
