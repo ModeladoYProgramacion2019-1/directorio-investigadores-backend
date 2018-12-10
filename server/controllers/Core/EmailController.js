@@ -4,7 +4,8 @@ const path = require('path');
 
 let Email = function(){
     this.send = send;
-    this.sendVerifyAccount = sendVerifyAccount
+    this.sendVerifyAccount = sendVerifyAccount;
+    this.sendResetPassword = sendResetPassword;
 };
 
 let send = function (data) {
@@ -30,6 +31,21 @@ let sendVerifyAccount = function(persona, email,token) {
         html: activateTemplate
     }
     send(data);
+}
+
+let sendResetPassword = function(persona, email, token){
+    var pathToTemplate = path.join(__dirname, "..", "..", "Email Templates", "reset.html");
+    var resetTemplate = fs.readFileSync(pathToTemplate).toString();
+    resetTemplate = resetTemplate.replace(/{{URL}}/gm, process.env.frontend_url+"/verifica?token="+token);
+    resetTemplate = resetTemplate.replace(/{{nombre}}/gm, persona.get("nombre"));
+    resetTemplate = resetTemplate.replace(/{{apellido}}/gm, persona.get("apellido"));
+    var data = {
+        to: email,
+        from: 'investigadores.soporte@gmail.com',
+        subject: 'Solicitud de cambio de contraseña',
+        html: resetTemplate
+    }
+    send(data)
 }
 
 exports.Email = new Email();
