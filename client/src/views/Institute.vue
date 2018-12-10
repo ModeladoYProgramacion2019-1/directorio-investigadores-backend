@@ -1,15 +1,10 @@
 <template>
-  <div class="State">
+  <div class="Institute">
 
     <Navbar/>
-    <div class ="stateDiv text-white text-center">
-      <h1 class="mb-5">{{stateName}}</h1>
-
-      <div class="bar text-center">
-          <h4>Sedes de investigación en {{stateName}} :</h4>
-      </div>
+    <div class ="instituteDiv text-white text-center">
+      <h1 class="mb-5">{{instituteName}}</h1>
     </div>
-
 
     <div class="box">
         <div class="card-columns">
@@ -36,6 +31,7 @@
         </div>
     </div>
 
+
     <Footer/>
 
   </div>
@@ -46,44 +42,38 @@
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 var functions = require('@/functions')
+
 export default {
-    name: 'State',
+    name: 'Institute',
     components: {
       Navbar,
       Footer
     },
     data: function () {
       return {
-        stateCode : "",
-        stateName : "",
-        stateUrl : "",
+        id : null,
+        instituteName : "",
         campi : []
       }
     },
     methods : {
         getInfo() {
-            this.stateUrl = window.location.pathname.split("/").pop()
-            this.stateName = functions.getStateName(this.stateUrl)
-            this.stateCode = functions.getStateCode(this.stateUrl)
+            var instituteUrl = window.location.pathname.split("/").pop()
+            this.$axios.get('/institucion?clave=' + instituteUrl).then((keyResponse) => {
+                let institute = keyResponse.data.resource;
+                if (institute.length ===0) {
+                    this.$axios.get('/sede?sede_id=' + instituteUrl).then((idResponse) => {
+                        institute = idResponse.data.resource;
+                    })
+                }
+                this.id = institute[0].sede_id;
+                this.instituteName = institute[0].nombre;
+                this.campi = institute[0].Sedes;
+            })
         }
     },
     mounted () {
-        this.getInfo(),
-        this.$axios.get('/direccion?estado=' + this.stateCode).then((response) => {
-			let addresses = response.data.resource;
-            let identifiers = [];
-            for (var addressIndex in addresses) {
-                identifiers.push(addresses[addressIndex].direccion_id);
-            }
-            for (var index in identifiers) {
-                this.$axios.get('/sede?direccion_id=' + identifiers[index]).then((response) => {
-                    let campiAtAddress = response.data.resource;
-                    for (var campusIndex in campiAtAddress) {
-                        this.campi.push(campiAtAddress[campusIndex]);
-                    }
-                })
-            }
-		})
+        this.getInfo()
     }
 }
 </script>
@@ -91,21 +81,18 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
-    h5 {
+    h1 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        text-align: left;
+        padding-left: 3rem;
     }
-    h4 {
-        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        color: white;
-        padding-top: 12px;
-    }
-    div.stateDiv {
+    div.instituteDiv {
         position: relative;
-        background: url('../assets/images/state.png') no-repeat center center;
+        background: url('../assets/images/campus.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
         padding-top: 5rem;
+        padding-bottom: 2rem;
     }
     div.box {
         text-align:center;
@@ -113,17 +100,11 @@ export default {
         padding-left: 1rem;
         padding-right: 1rem;
     }
-    div.bar{
-        background-color: #212733;
-        opacity: 0.80;
-        height: 70px;
-        width: 100%;
-    }
     .sCard {
         margin:auto;
         margin-top: 10px;
     }
-    div.State{
+    div.Institute{
         background-color: #E3E7ED;
     }
 </style>

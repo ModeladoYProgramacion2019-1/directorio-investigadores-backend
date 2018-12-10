@@ -12,6 +12,7 @@
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
 import SignUpForm from '@/components/SignUpForm.vue'
+
 export default {
   name: 'SignUp',
   components: {

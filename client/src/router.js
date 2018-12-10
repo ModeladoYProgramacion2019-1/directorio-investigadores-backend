@@ -1,3 +1,4 @@
+//Fixed routes
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from './views/Home.vue'
@@ -6,8 +7,10 @@ import Login from './views/Login.vue'
 import Search from './views/Search.vue'
 import State from './views/State.vue'
 import Campus from './views/Campus.vue'
-
-//Fixed routes
+import Institute from './views/Institute.vue'
+import Verify from './views/Verify.vue'
+import Profile from './views/Profile.vue'
+import Paper from './views/Paper.vue'
 
 Vue.use(Router)
 
@@ -26,6 +29,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/activa',
+      name: 'Verify',
+      component: Verify
+    },
+    {
 
       path: '/signup',
       name: 'SignUp',
@@ -33,19 +41,31 @@ export default new Router({
 
     },
     {
+      path: '/profile/:id',
+      name: 'Profile',
+      component: Profile
+    },
+    {
       path: '/search',
-
       path: '/busqueda',
       name: 'Search',
       component: Search
     },
     {
       path: '/sede/:id',
-      name: '',
+      name: 'Campus',
       component: Campus
     },
-
-
+    {
+      path: '/paper/:id',
+      name: 'Paper',
+      component: Paper
+    },
+    {
+      path: '/institucion/:id',
+      name: 'Institute',
+      component: Institute
+    },
     {
       path: '/aguascalientes',
       name: 'Aguascalientes',
@@ -206,7 +226,6 @@ export default new Router({
       name: 'Estado de México',
       component: State
     },
-
 
     {
       path: '/about',

@@ -2,27 +2,29 @@
   <div class="Campus">
 
     <Navbar/>
-    <header class ="campusHeader text-white text-center">
-      <h1 class="mb-5">{{campusName}}</h1>
-    </header>
+    <div class ="campusDiv text-white text-center">
 
-    <div style="margin:auto;">
-    <b-card :header="institucion"
-            class = "sCard"
-            bg-variant="secondary"
-            header-text-variant="light"
-            header-tag="header"
-            header-bg-variant="dark"
-            :footer="contacto"
-            footer-tag="footer"
-            footer-bg-variant="info"
-            title="Dirección"
-            style="max-width: 96%"
-    >
-      <p class="card-text" style="color: white;"> {{direccion}}</p>
-    </b-card>
+        <div class="container-fluid">
+            <b-button class="float-left" variant="outline-light">
+                {{institucion}}
+            </b-button>
+        </div>
+        <h1 class="mb-5">{{campusName}}</h1>
+        <h5>{{mail}}</h5>
+        <h5>Dirección: {{state}}, {{municipality}}, {{town}}</h5>
+        <br/>
+        <div class="container-fluid">
+            <div class="card text-white bg-info mb-3"
+            style="width: 10rem; height: 8rem; opacity : 0.88;">
+            <div class="card-header">
+                Investigadores.</div>
+                <div class="card-body">
+                    <h2 class="card-title">12</h2>
+                </div>
+            </div>
+        </div>
+
     </div>
-
 
     <Footer/>
 
@@ -33,6 +35,7 @@
 <script>
 import Navbar from '@/components/Navbar.vue'
 import Footer from '@/components/Footer.vue'
+var functions = require('@/functions')
 
 export default {
     name: 'Campus',
@@ -42,19 +45,55 @@ export default {
     },
     data: function () {
       return {
+        id : null,
         campusName : "",
-        institucion : "Institucion de prueba",
-        direccion : "Direccion de prueba no. 12",
-        contacto : "contacto@contacto.com"
+        institucion : "La sede no es parte de una institución",
+        state : "",
+        municipality : "",
+        town : "",
+        postalCode : "",
+        mail : "La institucion no cuenta con correo electrónico"
       }
     },
     methods : {
-        getPath() {
-            this.campusName = window.location.pathname.split("/").pop()
+        getInfo() {
+            var campusUrl = window.location.pathname.split("/").pop()
+            this.$axios.get('/sede?clave=' + campusUrl).then((keyResponse) => {
+                let campus = keyResponse.data.resource;
+                if (campus.length ===0) {
+                    this.$axios.get('/sede?sede_id=' + campusUrl).then((idResponse) => {
+                        campus = idResponse.data.resource;
+                    })
+                }
+                this.id = campus[0].sede_id;
+                this.campusName = campus[0].nombre;
+                if (campus[0].Institucion != null){
+                    this.institucion = campus[0].Institucion.nombre;
+                }
+                if (campus[0].Direccion != null){
+                    var address = ""
+                    if (campus[0].Direccion.estado != null) {
+                        this.state = functions.getStateNameWithCode(campus[0].Direccion.estado)
+                    }
+                    if (campus[0].Direccion.municipio != null) {
+                        this.municipality = campus[0].Direccion.municipio
+                    }
+                    if (campus[0].Direccion.colonia != null) {
+                        this.town = campus[0].Direccion.colonia
+                    }
+                    if (campus[0].Direccion.cp != null) {
+                        this.postalCode = campus[0].Direccion.cp
+                    }
+                    this.address = address
+                }
+                if (campus[0].Contacto != null) {
+                    this.mail = campus[0].Contacto.correo_institucion;
+                }
+            })
         }
     },
     mounted () {
-        this.getPath()
+        this.getInfo()
     }
 }
 </script>
@@ -62,50 +101,37 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 
 <style scoped>
+    h1 {
+        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: left;
+        padding-top: 4rem;
+        padding-left: 3rem;
+    }
+    h3 {
+        font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        text-align: left;
+        padding-left: 3rem;
+    }
     h5 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        font-weight: 700;
+        text-align: left;
+        padding-left: 3rem;
     }
     h4 {
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         color: white;
         padding-top: 12px;
     }
-    header.campusHeader {
+    div.campusDiv {
         position: relative;
         background: url('../assets/images/campus.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 5rem;
-        padding-bottom: 2rem;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
     }
-    div.box {
-        text-align:center;
-    }
-    .institutionBar{
-        background-color: #409BAD;
-        height: 60px;
-        width: 100%;
-    }
-    .addressBar{
-        background-color: #21608E;
-        height: 60px;
-        width: 100%;
-    }
-    .contactBar{
-        background-color: #112A3F;
-        height: 60px;
-        width: 100%;
-    }
-    .btn{
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-    .sCard {
-        margin:auto;
-        margin-top: 10px;
+    div.container-fluid {
+        padding-left: 3rem;
     }
     div.Campus{
         background-color: #E3E7ED;
