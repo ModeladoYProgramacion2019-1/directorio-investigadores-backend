@@ -4,7 +4,7 @@
         <div v-if="loggedIn"
             class="container-fluid"
             style="padding-bottom : 4rem; padding-left : 3rem;">
-            <b-button class="float-left" variant="outline-light">
+            <b-button class="float-left" variant="outline-light" disabled>
                 Tu perfil
             </b-button>
         </div>
@@ -37,36 +37,33 @@
       </div>
       <br>
 
-      <div v-if="loggedIn" class="container-fluid" style="background-color : #212733; opacity : 0.8;">
+      <div class="container-fluid" style="background-color : #212733; opacity : 0.8; ">
           <div class="row">
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
+
+              <div class="col buttonCol">
+                  <b-btn  href="#" variant="light">
+                      Ver artículos
+                  </b-btn>
+              </div>
+              <div class="col buttonCol">
+                  <b-btn  href="#" variant="light">
+                      Ver grupos
+                  </b-btn>
+              </div>
+
+            <div v-if="loggedIn" class="col buttonCol">
+                <b-btn  href="#" variant="success">
                     Nuevo Artículo
                 </b-btn>
             </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
+            <div v-if="loggedIn" class="col buttonCol">
+                <b-btn  href="#" variant="success">
                     Editar Artículos
                 </b-btn>
             </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="info">
+            <div v-if="loggedIn" class="col buttonCol">
+                <b-btn  href="#" variant="info">
                     Editar perfil
-                </b-btn>
-            </div>
-          </div>
-      </div>
-
-      <div class="container-fluid" style="background-color : #212733; opacity : 0.8;">
-          <div class="row">
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
-                    Ver artículos
-                </b-btn>
-            </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
-                    Ver grupos
                 </b-btn>
             </div>
           </div>
@@ -76,7 +73,7 @@
 
     <div>
       <div>
-    <b-card-group v-if="loggedIn" class="bg-dark">
+    <b-card-group v-if="loggedIn" class="bg-dark" >
         <b-card title="Registrate como Investigador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
@@ -186,9 +183,6 @@ export default {
         object-fit: scale-down;
         max-width: 100%;
     }
-    .btn-margin-left {
-        margin-left: 15px;
-    }
     .btn{
         margin-top: 10px;
         margin-bottom: 10px;
@@ -203,8 +197,9 @@ export default {
         max-width: 14rem;
     }
     .buttonCol {
-        max-width: 10rem;
+        max-width: 9rem;
         padding-left: 3rem;
+        padding-right: 3rem;
     }
     .researcherCard {
         background-color: #b5bdc9;

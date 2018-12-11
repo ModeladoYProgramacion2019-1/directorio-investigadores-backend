@@ -1,6 +1,6 @@
 <template>
   <div class="SignUp">
-    <Navbar/>
+    <SimpleNavbar/>
     <SignUpForm/>
     <Footer/>
   </div>
@@ -9,7 +9,7 @@
 <script>
 /* eslint-disable */
 
-import Navbar from '@/components/Navbar.vue'
+import SimpleNavbar from '@/components/SimpleNavbar.vue'
 import Footer from '@/components/Footer.vue'
 import SignUpForm from '@/components/SignUpForm.vue'
 
@@ -17,7 +17,7 @@ export default {
   name: 'SignUp',
   components: {
     SignUpForm,
-    Navbar,
+    SimpleNavbar,
     Footer
   }
 }

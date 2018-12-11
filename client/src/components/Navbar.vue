@@ -23,13 +23,13 @@
             <router-link :to="{name : 'Profile', params : { id: person_id } }">
                 <button v-if="isLoggedIn"
                         class="btn btn-info btn-margin-left">
-                    Ir a mi perfil
+                    Mi perfil
                 </button>
             </router-link>
             <button v-if="isLoggedIn"
                     class="btn btn-primary btn-margin-left"
                     @click="logOut">
-                Cerrar sesión
+                Salir
             </button>
         </form>
       </div>
