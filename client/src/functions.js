@@ -94,4 +94,4 @@ function getStateNameWithCode(code) {
     }
 }
 
-export { getStateName, getStateCode, getStateNameWithCode }
+export { getStateName, getStateCode, getStateNameWithCode, codes }
