@@ -11,6 +11,7 @@ import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
 import Profile from './views/Profile.vue'
 import Paper from './views/Paper.vue'
+import Results from './views/Results.vue'
 
 Vue.use(Router)
 
@@ -41,15 +42,19 @@ export default new Router({
 
     },
     {
-      path: '/profile/:id',
+      path: '/persona/:id',
       name: 'Profile',
       component: Profile
     },
     {
-      path: '/search',
       path: '/busqueda',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/resultados',
+      name: 'Results',
+      component: Results
     },
     {
       path: '/sede/:id',
@@ -57,7 +62,7 @@ export default new Router({
       component: Campus
     },
     {
-      path: '/paper/:id',
+      path: '/artículo/:id',
       name: 'Paper',
       component: Paper
     },
