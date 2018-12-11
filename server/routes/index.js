@@ -120,6 +120,7 @@ router.delete('/API/sede/:id', Sede.destroy);
 /*********************CORE CONTROLLERS*****************************/
 router.post('/API/signUp/verify', Authentication.acceptVerification);
 router.post('/API/signUp', Authentication.signUp);
-router.get('/API/login',Authentication.login);
+router.get('/API/login', Authentication.login);
+router.get('/API/reset', Authentication.resetPassword);
 
 module.exports = router;

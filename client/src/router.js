@@ -12,6 +12,7 @@ import Verify from './views/Verify.vue'
 import Profile from './views/Profile.vue'
 import Paper from './views/Paper.vue'
 import Results from './views/Results.vue'
+import Reset from './views/Reset.vue'
 
 Vue.use(Router)
 
@@ -40,6 +41,11 @@ export default new Router({
       name: 'SignUp',
       component: SignUp
 
+    },
+    {
+      path: '/reset',
+      name: 'Reset',
+      component: Reset
     },
     {
       path: '/persona/:id',
