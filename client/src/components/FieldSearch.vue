@@ -16,9 +16,6 @@
           <b-btn v-b-toggle.accordion3 variant="secondary">
             Sede
           </b-btn>
-          <b-btn v-b-toggle.accordion4 variant="secondary">
-            Grupo
-          </b-btn>
         </b-card-header>
 
         <b-collapse id="accordion1" accordion="my-accordion" role="tabpanel">
