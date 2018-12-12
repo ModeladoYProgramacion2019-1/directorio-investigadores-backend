@@ -5,11 +5,9 @@ const path = require('path');
 let Email = function(){
     this.send = send;
     this.sendVerifyAccount = sendVerifyAccount;
-<<<<<<< HEAD
-    this.sendAccountDeletion = sendAccountDeletion
-=======
+    this.sendAccountDeletion = sendAccountDeletion;
     this.sendResetPassword = sendResetPassword;
->>>>>>> 67dac9d8ec45846978755be7d8db5df19adbde3c
+
 };
 
 let send = function (data) {
@@ -22,7 +20,7 @@ let send = function (data) {
     });
 };
 
-let sendVerifyAccount = function(persona, email,token) {
+let sendVerifyAccount = function(persona, email, token) {
     var pathToTemplate = path.join(__dirname, "..", "..", "Email Templates", "activate.html");
     var activateTemplate = fs.readFileSync(pathToTemplate).toString();
     activateTemplate = activateTemplate.replace(/{{URL}}/gm, process.env.frontend_url+"/verifica?token="+token);
@@ -41,8 +39,8 @@ let sendAccountDeletion = function(persona, email, token){
     var pathToTemplate = path.join(__dirname, "..", "..", "Email Templates", "expire.html");
     var expireTemplate = fs.readFileSync(pathToTemplate).toString();
     expireTemplate = expireTemplate.replace(/{{URL}}/gm, process.env.frontend_url+"/activa?token="+token);
-    expireTemplate = expireTemplate.replace(/{{nombre}}/gm, persona.get("nombre"));
-    expireTemplate = expireTemplate.replace(/{{apellido}}/gm, persona.get("apellido"));
+    expireTemplate = expireTemplate.replace(/{{nombre}}/gm, persona.nombre);
+    expireTemplate = expireTemplate.replace(/{{apellido}}/gm, persona.apellido);
     var data = {
         to: email,
         from: 'investigadores.soporte@gmail.com',
@@ -67,5 +65,4 @@ let sendResetPassword = function(persona, email, token){
     send(data)
 }
 
->>>>>>> 67dac9d8ec45846978755be7d8db5df19adbde3c
 exports.Email = new Email();
