@@ -19,7 +19,7 @@
                 <div class="card-header">
                     Artículos.</div>
                     <div class="card-body">
-                        <h2 class="card-title">37</h2>
+                        <h2 class="card-title">{{paperNumber}}</h2>
                     </div>
                 </div>
             </div>
@@ -40,11 +40,14 @@
       <div class="container-fluid" style="background-color : #212733; opacity : 0.8; ">
           <div class="row">
 
-              <div class="col buttonCol">
-                  <b-btn  href="#" variant="light">
-                      Ver artículos
-                  </b-btn>
-              </div>
+              <router-link :to="{path: '/persona/' + id + '/articulos'}">
+                  <div class="col buttonCol">
+                      <b-btn  variant="light">
+                          Ver artículos
+                      </b-btn>
+                  </div>
+              </router-link>
+
               <div class="col buttonCol">
                   <b-btn  href="#" variant="light">
                       Ver grupos
@@ -74,21 +77,21 @@
     <div>
       <div>
     <b-card-group v-if="loggedIn" class="bg-dark" >
-        <b-card title="Registrate como Investigador" class="researcherCard m-3">
+        <b-card v-if="!isResearcher" title="Registrate como Investigador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow"> Ve al registro. </button>
+                <button class = "btn btn-dark shadow"> Ve al registro </button>
             </p>
 
         </b-card>
-        <b-card title="Registrate como Estudiante" class="researcherCard m-3">
+        <b-card v-if="!isStudent" title="Registrate como Estudiante" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                  <button class = "btn btn-dark shadow"> Ve al registro.</button>
+                  <button class = "btn btn-dark shadow"> Ve al registro</button>
             </p>
 
         </b-card>
-        <b-card title="Registrate como Administrador" class="researcherCard m-3">
+        <b-card v-if="!isAdmin" title="Registrate como Administrador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
                 <button class = "btn btn-dark shadow">Ve al registro</button>
@@ -125,6 +128,9 @@ export default {
         mail : "correo@correo.com",
         loggedIn : false,
         isAdmin : false,
+        isResearcher : false,
+        isStudent : false,
+        paperNumber : 0,
       }
     },
     methods : {
@@ -136,6 +142,7 @@ export default {
                 this.id = person.persona_id;
                 this.personName = person.nombre + " " + person.apellido;
                 this.mail = person.Contacto.correo_personal;
+                this.paperNumber = person.Articulos.length ;
             })
         },
         getCookieInfo(){
@@ -148,6 +155,12 @@ export default {
                     this.loggedIn = true;
                     if (user.Administrador != null) {
                         this.isAdmin = true
+                    }
+                    if (user.Estudiante != null) {
+                        this.isStudent = true
+                    }
+                    if (user.Investigador != null) {
+                        this.isResearcher = true
                     }
                 }
             }
