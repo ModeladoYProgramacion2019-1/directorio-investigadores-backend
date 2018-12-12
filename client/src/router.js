@@ -10,6 +10,7 @@ import Campus from './views/Campus.vue'
 import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
 import Profile from './views/Profile.vue'
+import EditProfile from './views/EditProfile.vue'
 import Paper from './views/Paper.vue'
 
 Vue.use(Router)
@@ -60,6 +61,11 @@ export default new Router({
       path: '/paper/:id',
       name: 'Paper',
       component: Paper
+    },
+    {
+      path: '/editprofile',
+      name: 'EditProfile',
+      component: EditProfile
     },
     {
       path: '/institucion/:id',

@@ -24,6 +24,10 @@ const dict = {
       required: () => 'La contraseña no puede estar vacía'
 
     },
+    new_password: {
+      required: () => 'La contraseña no puede estar vacía'
+
+    },
     password_confirmation: {
       confirmed: function () {
         return "Las contraseñas no son iguales"
