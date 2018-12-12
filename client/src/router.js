@@ -14,6 +14,7 @@ import Paper from './views/Paper.vue'
 import Results from './views/Results.vue'
 import Reset from './views/Reset.vue'
 import Papers from './views/Papers.vue'
+import NewPaper from './views/NewPaper.vue'
 
 Vue.use(Router)
 
@@ -57,6 +58,11 @@ export default new Router({
       path: '/persona/:id/articulos',
       name: 'Papers',
       component: Papers
+    },
+    {
+      path: '/nuevo_articulo',
+      name: 'NewPaper',
+      component: NewPaper
     },
     {
       path: '/busqueda',

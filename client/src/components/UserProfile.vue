@@ -38,11 +38,14 @@
                   </div>
               </router-link>
 
-            <div v-if="loggedIn" class="col buttonCol">
-                <b-btn  href="#" variant="success">
-                    Nuevo Artículo
-                </b-btn>
-            </div>
+              <router-link :to="{path: '/nuevo_articulo'}">
+                  <div v-if="loggedIn" class="col buttonCol">
+                      <b-btn  variant="success">
+                        Nuevo Artículo
+                      </b-btn>
+                  </div>
+              </router-link>
+              
             <div v-if="loggedIn" class="col buttonCol">
                 <b-btn  href="#" variant="success">
                     Editar Artículos
@@ -78,7 +81,7 @@
         <b-card v-if="!isAdmin" title="Registrate como Administrador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow">Ve al registro</button>
+                <button class = "btn btn-dark shadow">Solicita permisos</button>
             </p>
           </b-card>
         </b-card-group>
