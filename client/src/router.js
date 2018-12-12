@@ -13,6 +13,7 @@ import Profile from './views/Profile.vue'
 import Paper from './views/Paper.vue'
 import Results from './views/Results.vue'
 import Reset from './views/Reset.vue'
+import Papers from './views/Papers.vue'
 
 Vue.use(Router)
 
@@ -31,7 +32,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/activa',
+      path: '/verifica',
       name: 'Verify',
       component: Verify
     },
@@ -53,6 +54,11 @@ export default new Router({
       component: Profile
     },
     {
+      path: '/persona/:id/articulos',
+      name: 'Papers',
+      component: Papers
+    },
+    {
       path: '/busqueda',
       name: 'Search',
       component: Search
@@ -68,7 +74,7 @@ export default new Router({
       component: Campus
     },
     {
-      path: '/artículo/:id',
+      path: '/articulo/:id',
       name: 'Paper',
       component: Paper
     },
