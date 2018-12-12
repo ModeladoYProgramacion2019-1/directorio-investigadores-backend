@@ -23,16 +23,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 cardCol">
-                <div class="card text-white bg-dark mb-3"
-                style="width: 14rem; height: 8rem; opacity : 0.88;">
-                <div class="card-header">
-                    Grupos de investigación.</div>
-                    <div class="card-body">
-                        <h2 class="card-title">12</h2>
-                    </div>
-                </div>
-            </div>
           </div>
       </div>
       <br>
@@ -47,12 +37,6 @@
                       </b-btn>
                   </div>
               </router-link>
-
-              <div class="col buttonCol">
-                  <b-btn  href="#" variant="light">
-                      Ver grupos
-                  </b-btn>
-              </div>
 
             <div v-if="loggedIn" class="col buttonCol">
                 <b-btn  href="#" variant="success">
