@@ -11,7 +11,10 @@ import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
 import Profile from './views/Profile.vue'
 import Paper from './views/Paper.vue'
+import Results from './views/Results.vue'
 import Reset from './views/Reset.vue'
+import Papers from './views/Papers.vue'
+import NewPaper from './views/NewPaper.vue'
 
 Vue.use(Router)
 
@@ -30,7 +33,7 @@ export default new Router({
       component: Login
     },
     {
-      path: '/activa',
+      path: '/verifica',
       name: 'Verify',
       component: Verify
     },
@@ -47,15 +50,29 @@ export default new Router({
       component: Reset
     },
     {
-      path: '/profile/:id',
+      path: '/persona/:id',
       name: 'Profile',
       component: Profile
     },
     {
-      path: '/search',
+      path: '/persona/:id/articulos',
+      name: 'Papers',
+      component: Papers
+    },
+    {
+      path: '/nuevo_articulo',
+      name: 'NewPaper',
+      component: NewPaper
+    },
+    {
       path: '/busqueda',
       name: 'Search',
       component: Search
+    },
+    {
+      path: '/resultados',
+      name: 'Results',
+      component: Results
     },
     {
       path: '/sede/:id',
@@ -63,7 +80,7 @@ export default new Router({
       component: Campus
     },
     {
-      path: '/paper/:id',
+      path: '/articulo/:id',
       name: 'Paper',
       component: Paper
     },

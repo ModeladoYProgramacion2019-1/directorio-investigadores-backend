@@ -94,8 +94,8 @@
         background: url('../assets/images/login.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
-        padding-top: 8rem;
-        padding-bottom: 8rem;
+        padding-top: 3rem;
+        padding-bottom: 3rem;
     }
     img{
         margin-top: 10px;
