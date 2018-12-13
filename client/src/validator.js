@@ -84,13 +84,17 @@ const dict = {
       required: () => 'Se requiere escribir el nombre o número de edificio.'
     },
     floor: {
-      required: () => 'Se requiere escribir el número de piso'
+      required: () => 'Se requiere escribir el número de piso.'
     },
     cubicle: {
-      required: () => 'Se requiere escribir el número o nombre del cubículo'
+      required: () => 'Se requiere escribir el número o nombre del cubículo.'
+    },
+    date: {
+      date_format: function(){
+        return "Formáto inválido, inténtalo de nuevo. La fecha se escribe DD-MM-YYYY."
+      },
+      required: () => 'Se requiere escribir una fecha'
     }
-
-
 
   }
 };

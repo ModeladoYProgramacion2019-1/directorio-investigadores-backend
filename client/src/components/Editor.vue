@@ -7,11 +7,12 @@
 
     <div>
       <b-card no-body>
-        <b-tabs pills card vertical>
+        <b-tabs pills card vertical nav-wrapper-class="w-40">
           <b-tab title="Información personal" active>
 
             <div class="text-left mb-3">
               <h3>Información personal</h3>
+              <h5>Edita o actualiza tu Información personal</h5>
               <hr>
             </div>
 
@@ -63,6 +64,7 @@
           <b-tab title="Información institución">
             <div class="text-left mb-3">
               <h3>Información institución</h3>
+              <h5>Edita o actualiza la información de la institución</h5>
               <hr>
             </div>
 
@@ -85,12 +87,17 @@
               <span style="color:red">{{ errors.first('key') }}</span>
             </div>
 
+            <div class = "text-left">
+              <button type="button" class="btn btn-primary">Guardar cambios</button>
+            </div>
+
           </b-tab>
 
           <b-tab title="Información sede">
 
             <div class="text-left mb-3">
               <h3>Información sede </h3>
+              <h5>Edita o actualiza la de la sede</h5>
               <hr>
             </div>
 
@@ -116,8 +123,39 @@
 
             <div class = "text-left container mb-2">
               <label class="control-label">Estado</label>
-              <input v-validate = "'required|'" name= "state" type="text" value= "ESTADO "class="form-control col-sm-5" >
-              <span style="color:red">{{ errors.first('state') }}</span>
+              <select class="form-control" name = "state">
+                <option>Aguascalientes</option>
+                <option>Baja California</option>
+                <option>Baja California Sur</option>
+                <option>Campeche</option>
+                <option>Chiapas</option>
+                <option>Chihuahua</option>
+                <option>Coahuila</option>
+                <option>Colima</option>
+                <option>Durango</option>
+                <option>Guanajuato</option>
+                <option>Guerrero</option>
+                <option>Hidalgo</option>
+                <option>Jalisco</option>
+                <option>México</option>
+                <option>Michoacán</option>
+                <option>Morelos</option>
+                <option>Nayarit</option>
+                <option>Nuevo León</option>
+                <option>Oaxaca</option>
+                <option>Puebla</option>
+                <option>Querétaro </option>
+                <option>Quintana Roo</option>
+                <option>San Luis Potosí</option>
+                <option>Sinaloa</option>
+                <option>Sonora</option>
+                <option>Tabasco</option>
+                <option>Tamaulipas</option>
+                <option>Tlaxcala</option>
+                <option>Veracruz</option>
+                <option>Yucatán</option>
+                <option>Zacatecas</option>
+              </select>
             </div>
 
             <div class = "text-left container mb-2">
@@ -139,19 +177,19 @@
             </div>
 
             <div class = "text-left container mb-2">
-              <label  class="control-label">Código Postal</label>
+              <label  class="control-label">Código postal</label>
               <input v-validate = "'required|numeric'"  name= "PC" type="text" class="form-control col-sm-5"  value="1000"  required>
               <span style="color:red">{{ errors.first('PC') }}</span>
             </div>
 
             <div class = "text-left container mb-2">
               <label class="control-label">Calle</label>
-              <input v-validate = "'required|'"  name= "street" type="text" class="form-control"  value="CALLE"  required>
+              <input v-validate = "'required'"  name= "street" type="text" class="form-control col-sm-5"  value="CALLE"  required>
               <span style="color:red">{{ errors.first('street') }}</span>
             </div>
 
             <div class = "text-left container mb-2">
-              <label  class="control-label">Número Exterior</label>
+              <label  class="control-label">Número exterior</label>
               <input v-validate = "'required|numeric'"  name= "numE" type="text" class="form-control col-sm-5"  value="1"  required>
               <span style="color:red">{{ errors.first('numE') }}</span>
             </div>
@@ -221,8 +259,35 @@
               <button type="button" class="btn btn-primary">Guardar cambios</button>
             </div>
 
+          </b-tab>
+
+          <b-tab title="Información de estudiante" active>
+            <div class="text-left mb-3">
+              <h3>Información de estudiante</h3>
+              <h5>Edita o actualiza tu información como estudiante</h5>
+              <hr>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Máximo grado de estudios</label>
+              <input  v-validate="'required'" name="studies" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('studies') }}</span>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Nivel que se está estudiando</label>
+              <input  v-validate="'required'" name="studiesA" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('studiesA') }}</span>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Fecha de graduación</label>
+              <input  v-validate="'required|date_format:DD-MM-YYYY'" name="date" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('date') }}</span>
+            </div>
 
           </b-tab>
+
 
         </b-tabs>
       </b-card>
