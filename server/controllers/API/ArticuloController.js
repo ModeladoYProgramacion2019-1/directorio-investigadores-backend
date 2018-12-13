@@ -19,6 +19,7 @@ let list = function(req, res){
                 consulta.where[key] = CoreHelper.isLikeSearch(req.query[key]) ? {[Op.like]: req.query[key]} : req.query[key];
             });
         }
+        consulta.include = [{model: Models.Persona}]
         Models.Articulo.findAll(consulta).then(function(articulos){
             if(!articulos){
                 return res.json({
@@ -49,7 +50,8 @@ let show = function(req, res){
         Models.Articulo.findOne({
             where: {
                 articulo_id: req.params.id
-            }
+            },
+            include: [{model: Models.Persona}]
         }).then(function(articulo){
             if(!articulo){
                 return res.json({
