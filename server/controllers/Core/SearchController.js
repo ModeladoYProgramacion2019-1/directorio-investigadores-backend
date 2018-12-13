@@ -12,7 +12,7 @@ let Search = function(){
 let simpleSearch = async function(req, res){
     try{
         console.log(req.body);
-        let searchedFor = req.body.data;
+        let searchedFor = '%' + req.body.data + '%';
         let dataFound = {
             Persona: [],
             Grupo: [],
@@ -21,6 +21,11 @@ let simpleSearch = async function(req, res){
         }
 
         var seatsFound = await Models.Sede.findAll({
+            attributes: [
+                'sede_id', 'nombre', 
+                'descripcion', 'direccion_id', 
+                'institucion_id', 'contacto_id'
+            ],
             where: {
                 nombre: {[Op.like]: searchedFor}
             }
@@ -53,7 +58,7 @@ let simpleSearch = async function(req, res){
         dataFound.Grupo.push(groupsFound);
         dataFound.Sede.push(seatsFound);
         dataFound.Articulo.push(articlesFound);
-        
+        console.log(dataFound.toString())
         return res.json({
             success: true,
             code: 200,
