@@ -22,38 +22,38 @@ let simpleSearch = async function(req, res){
 
         var seatsFound = await Models.Sede.findAll({
             attributes: [
-                'sede_id', 'nombre', 
-                'descripcion', 'direccion_id', 
+                'sede_id', 'nombre',
+                'descripcion', 'direccion_id',
                 'institucion_id', 'contacto_id'
             ],
             where: {
                 nombre: {[Op.like]: searchedFor}
             }
         });
-        
+
         var articlesFound = await Models.Articulo.findAll({
             where: {
-                [Op.or]: 
+                [Op.or]:
                     [{titulo: {[Op.like]: searchedFor}},
-                    {revista: {[Op.like]: searchedFor}}]                
+                    {revista: {[Op.like]: searchedFor}}]
             }
         });
-        
+
         var personsFound = await Models.Persona.findAll({
             where: {
-                [Op.or]: 
+                [Op.or]:
                     [{nombre: {[Op.like]: searchedFor}},
                     {apellido: {[Op.like]: searchedFor}}]
-                // Buscar correo en la tabla direccion        
+                // Buscar correo en la tabla direccion
             }
         });
-        
+
         var groupsFound = await Models.Grupo.findAll({
             where: {
                 nombre: {[Op.like]: searchedFor}
             }
         });
-        
+
         dataFound.Persona.push(personsFound);
         dataFound.Grupo.push(groupsFound);
         dataFound.Sede.push(seatsFound);
@@ -63,21 +63,20 @@ let simpleSearch = async function(req, res){
             success: true,
             code: 200,
             resource: dataFound
-            
-        })}catch(error){
-            console.log(error);
-            return res.json({
-                success: false,
-                code: 500,
-                error: error
+
         });
-        }
-            
+    }catch(error){
+        console.log(error);
+        return res.json({
+            success: false,
+            code: 500,
+            error: error
+        });
+    }
 }
 
 let advancedSearch = function(req, res){
     let searchedFor = req.body.data;
-    let 
     return res.json({
         success: true,
         status: "In progress"
