@@ -6,6 +6,8 @@ var logger = require('morgan');
 var Models  = require('./models');
 var bodyParser = require('body-parser')
 var cors = require('cors')
+var coreHelper = require('./controllers/Helpers/CoreHelper').CoreHelper;
+var cron = require("node-cron")
 
 var routes = require('./routes/index');
 
@@ -131,4 +133,11 @@ function onListening() {
   debug('Listening on ' + bind);
 }
 
+/** 
+ * Cron schedule to send verification reminders and delete non-registered users after set time
+ **/
+cron.schedule("59 59 23 * * *", function(){
+    coreHelper.sendDeletionNotice();
+    coreHelper.deleteNonregisteredUsers();
+});
 module.exports = app;

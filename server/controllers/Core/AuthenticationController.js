@@ -63,7 +63,7 @@ let signUp = async function(req, res){
             correo_personal: contactoNuevo.get("correo_personal"),
             persona_id: nueva.get("persona_id")
         }
-        var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "90 days"});
+        var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: process.env.verification_time + " days"});
         Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"), signupToken);
 
         return res.json({
