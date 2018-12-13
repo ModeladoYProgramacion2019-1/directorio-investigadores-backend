@@ -87,8 +87,19 @@ let create = function(req, res){
                 error: "Missing title parameter"
             });
         }
-        Models.Articulo.create(data).then(function(articulo){
+        var autores = [];
+        if(data.Autores){
+            autores = data.Autores
+            delete data.Autores;
+        }
+        Models.Articulo.create(data).then(async function(articulo){
             if(articulo){
+                for(var i=0; i<autores.length; i++){
+                    Models.PersonaEnArticulo.create({
+                        persona_id: autores[i],
+                        articulo_id: articulo.get("articulo_id")
+                    });
+                }
                 return res.json({
                     success: true,
                     code: 200,
@@ -139,7 +150,7 @@ let update = function(req, res){
             where: {
                 articulo_id: req.params.id
             }
-        }).then(function(articulo){
+        }).then(async function(articulo){
             if(!articulo){
                 return res.json({
                     success: false,
@@ -147,6 +158,21 @@ let update = function(req, res){
                     error: "No matching article found"
                 });
             }else{
+                var autores = [];
+                if(data.Autores){
+                    autores = data.Autores
+                    delete data.Autores;
+                }
+                for(var i=0; i<autores.length; i++){
+                    try{
+                        await Models.PersonaEnArticulo.create({
+                            persona_id: autores[i],
+                            articulo_id: articulo.get("articulo_id")
+                        });
+                    }catch(error){
+                        console.log("Ya esta registrado ese autor")
+                    }
+                }
                 articulo.update(data).then(function(updated){
                     return res.json({
                       success: true,
