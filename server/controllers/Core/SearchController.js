@@ -20,13 +20,13 @@ let simpleSearch = async function(req, res){
             Articulo: []
         }
 
-        var seatsFound = Models.Sede.findAll({
+        var seatsFound = await Models.Sede.findAll({
             where: {
                 nombre: {[Op.like]: searchedFor}
             }
         });
         
-        var articlesFound = Models.Articulo.findAll({
+        var articlesFound = await Models.Articulo.findAll({
             where: {
                 [Op.or]: 
                     [{titulo: {[Op.like]: searchedFor}},
@@ -34,7 +34,7 @@ let simpleSearch = async function(req, res){
             }
         });
         
-        var personsFound = Models.Persona.findAll({
+        var personsFound = await Models.Persona.findAll({
             where: {
                 [Op.or]: 
                     [{nombre: {[Op.like]: searchedFor}},
@@ -43,7 +43,7 @@ let simpleSearch = async function(req, res){
             }
         });
         
-        var groupsFound = Models.Grupo.findAll({
+        var groupsFound = await Models.Grupo.findAll({
             where: {
                 nombre: {[Op.like]: searchedFor}
             }

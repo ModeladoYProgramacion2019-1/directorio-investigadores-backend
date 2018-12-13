@@ -14,8 +14,7 @@ let send = function (data) {
     return new Promise(function (resolve, reject) {
         sgMail.setApiKey(process.env.sendgrid_key);
         if(data.from == null) data.from = "investigadores.soporte@gmail.com";
-        console.log("send email");
-        console.log(data);
+        console.log("sending email");
         sgMail.send(data);
     });
 };

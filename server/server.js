@@ -6,11 +6,8 @@ var logger = require('morgan');
 var Models  = require('./models');
 var bodyParser = require('body-parser')
 var cors = require('cors')
+var coreHelper = require('./controllers/Helpers/CoreHelper').CoreHelper;
 var cron = require("node-cron")
-const Op = Models.Sequelize.Op;
-var Email = require("./controllers/Core/EmailController").Email;
-const fs = require('fs');
-var jwt = require("jsonwebtoken");
 
 var routes = require('./routes/index');
 
@@ -139,33 +136,8 @@ function onListening() {
 /** 
  * Cron schedule to send verification reminders and delete non-registered users after set time
  **/
-cron.schedule("1 * * * * *", function(){
-    Models.sequelize.query("SELECT Contacto.correo_personal, Persona.nombre, Persona.apellido, Persona.persona_id FROM Contacto "
-        + " INNER JOIN Persona ON Contacto.contacto_id=Persona.contacto_id "
-        + " AND is_verified = false AND "
-        + " DATEDIFF(NOW(), Persona.createdAt) >= "+ parseInt(Number(process.env.verification_time)- 2) 
-        + " AND DATEDIFF(NOW(), Persona.createdAt) < " + process.env.verification_time + ";").spread((results, metadata) => {
-        console.log(results);
-        // Sending deletion notice to unregistered users
-        for(i = 0; i < results.length; i++){
-            var tokenData = {
-                nombre: results[i].nombre,
-                apellido: results[i].apellido,
-                correo_personal: results[i].correo_personal,
-                persona_id: results[i].persona_id
-            }
-            var jwtToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "2 days"});
-            Email.sendAccountDeletion(tokenData, results[i].correo_personal, jwtToken);
-        }
-    });
-    Models.sequelize.query("SELECT contacto_id FROM Persona WHERE datediff(createdAt, now())>= "
-    + process.env.verification_time + " AND is_verified = false;").spread((results, metadata) => {
-        for(i = 0; i < results.length; i++){
-            Models.sequelize.query("delete from Persona where contacto_id = " + 
-            results[i].contacto_id+ ";").spread((results, metadata) =>{});
-            Models.sequelize.query("delete from Contacto where contacto_id = " + 
-            results[i].contacto_id+ ";").spread((results, metadata) =>{});
-        }
-    });
+cron.schedule("59 59 23 * * *", function(){
+    coreHelper.sendDeletionNotice();
+    coreHelper.deleteNonregisteredUsers();
 });
 module.exports = app;
