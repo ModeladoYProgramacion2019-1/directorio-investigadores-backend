@@ -53,6 +53,13 @@
             </a>
         </h5>
 
+        <h5>¿Olvidó su contraseña?
+            <a class="btn btn-dark shadow"
+               href="/reset">
+                Cambiela aqui
+            </a>
+        </h5>
+
         <b-modal v-model="showErrorModal"
                hide-footer
                title="Mensaje:">

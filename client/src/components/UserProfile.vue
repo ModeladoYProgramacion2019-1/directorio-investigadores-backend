@@ -4,7 +4,7 @@
         <div v-if="loggedIn"
             class="container-fluid"
             style="padding-bottom : 4rem; padding-left : 3rem;">
-            <b-button class="float-left" variant="outline-light">
+            <b-button class="float-left" variant="outline-light" disabled>
                 Tu perfil
             </b-button>
         </div>
@@ -19,17 +19,7 @@
                 <div class="card-header">
                     Artículos.</div>
                     <div class="card-body">
-                        <h2 class="card-title">37</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="col-4 cardCol">
-                <div class="card text-white bg-dark mb-3"
-                style="width: 14rem; height: 8rem; opacity : 0.88;">
-                <div class="card-header">
-                    Grupos de investigación.</div>
-                    <div class="card-body">
-                        <h2 class="card-title">12</h2>
+                        <h2 class="card-title">{{paperNumber}}</h2>
                     </div>
                 </div>
             </div>
@@ -37,36 +27,33 @@
       </div>
       <br>
 
-      <div v-if="loggedIn" class="container-fluid" style="background-color : #212733; opacity : 0.8;">
+      <div class="container-fluid" style="background-color : #212733; opacity : 0.8; ">
           <div class="row">
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
-                    Nuevo Artículo
-                </b-btn>
-            </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
+
+              <router-link :to="{path: '/persona/' + id + '/articulos'}">
+                  <div class="col buttonCol">
+                      <b-btn  variant="light">
+                          Ver artículos
+                      </b-btn>
+                  </div>
+              </router-link>
+
+              <router-link :to="{path: '/nuevo_articulo'}">
+                  <div v-if="loggedIn" class="col buttonCol">
+                      <b-btn  variant="success">
+                        Nuevo Artículo
+                      </b-btn>
+                  </div>
+              </router-link>
+              
+            <div v-if="loggedIn" class="col buttonCol">
+                <b-btn  href="#" variant="success">
                     Editar Artículos
                 </b-btn>
             </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="info">
+            <div v-if="loggedIn" class="col buttonCol">
+                <b-btn  href="#" variant="info">
                     Editar perfil
-                </b-btn>
-            </div>
-          </div>
-      </div>
-
-      <div class="container-fluid" style="background-color : #212733; opacity : 0.8;">
-          <div class="row">
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
-                    Ver artículos
-                </b-btn>
-            </div>
-            <div class="col buttonCol">
-                <b-btn  href="#" v-b-toggle.accordion1 variant="light">
-                    Ver grupos
                 </b-btn>
             </div>
           </div>
@@ -76,25 +63,25 @@
 
     <div>
       <div>
-    <b-card-group v-if="loggedIn" class="bg-dark">
-        <b-card title="Registrate como Investigador" class="researcherCard m-3">
+    <b-card-group v-if="loggedIn" class="bg-dark" >
+        <b-card v-if="!isResearcher" title="Registrate como Investigador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow"> Ve al registro. </button>
+                <button class = "btn btn-dark shadow"> Ve al registro </button>
             </p>
 
         </b-card>
-        <b-card title="Registrate como Estudiante" class="researcherCard m-3">
+        <b-card v-if="!isStudent" title="Registrate como Estudiante" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                  <button class = "btn btn-dark shadow"> Ve al registro.</button>
+                  <button class = "btn btn-dark shadow"> Ve al registro</button>
             </p>
 
         </b-card>
-        <b-card title="Registrate como Administrador" class="researcherCard m-3">
+        <b-card v-if="!isAdmin" title="Registrate como Administrador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow">Ve al registro</button>
+                <button class = "btn btn-dark shadow">Solicita permisos</button>
             </p>
           </b-card>
         </b-card-group>
@@ -128,6 +115,9 @@ export default {
         mail : "correo@correo.com",
         loggedIn : false,
         isAdmin : false,
+        isResearcher : false,
+        isStudent : false,
+        paperNumber : 0,
       }
     },
     methods : {
@@ -139,6 +129,7 @@ export default {
                 this.id = person.persona_id;
                 this.personName = person.nombre + " " + person.apellido;
                 this.mail = person.Contacto.correo_personal;
+                this.paperNumber = person.Articulos.length ;
             })
         },
         getCookieInfo(){
@@ -151,6 +142,12 @@ export default {
                     this.loggedIn = true;
                     if (user.Administrador != null) {
                         this.isAdmin = true
+                    }
+                    if (user.Estudiante != null) {
+                        this.isStudent = true
+                    }
+                    if (user.Investigador != null) {
+                        this.isResearcher = true
                     }
                 }
             }
@@ -186,9 +183,6 @@ export default {
         object-fit: scale-down;
         max-width: 100%;
     }
-    .btn-margin-left {
-        margin-left: 15px;
-    }
     .btn{
         margin-top: 10px;
         margin-bottom: 10px;
@@ -203,8 +197,9 @@ export default {
         max-width: 14rem;
     }
     .buttonCol {
-        max-width: 10rem;
+        max-width: 9rem;
         padding-left: 3rem;
+        padding-right: 3rem;
     }
     .researcherCard {
         background-color: #b5bdc9;

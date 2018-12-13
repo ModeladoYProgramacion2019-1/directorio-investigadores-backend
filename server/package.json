@@ -21,7 +21,9 @@
     "jsonwebtoken": "^8.4.0",
     "morgan": "~1.9.0",
     "mysql2": "^1.6.1",
+    "node-cron": "^2.0.3",
     "passport": "^0.4.0",
+    "request": "^2.88.0",
     "sequelize": "^4.41.0"
   }
 }

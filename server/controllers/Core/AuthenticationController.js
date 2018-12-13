@@ -9,6 +9,7 @@ let Authentication = function(){
     this.signUp = signUp;
     this.acceptVerification = acceptVerification;
     this.login = login;
+    this.resetPassword = resetPassword;
 }
 
 let signUp = async function(req, res){
@@ -53,7 +54,7 @@ let signUp = async function(req, res){
             contraseña: bcrypt.hashSync(decoded.contraseña, bcrypt.genSaltSync(8)),
             is_verified: false
         }
-        console.log(data_persona)
+
         var nueva = await Models.Persona.create(data_persona);
 
         var tokenData = {
@@ -62,7 +63,7 @@ let signUp = async function(req, res){
             correo_personal: contactoNuevo.get("correo_personal"),
             persona_id: nueva.get("persona_id")
         }
-        var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "90 days"});
+        var signupToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: process.env.verification_time + " days"});
         Email.sendVerifyAccount(nueva, contactoNuevo.get("correo_personal"), signupToken);
 
         return res.json({
@@ -243,6 +244,42 @@ let login = async function(req, res){
         });
     }
 
+}
+
+let resetPassword = async function(req, res){
+
+    if(!req.query.email){
+        return res.json({
+            success: true,
+            code: 400,
+            error: "No se proporcionó un correo"
+        });
+    }
+    var resetContact = await Models.Persona.findOne({
+        include: [{
+            model: Models.Contacto,
+            where:{
+                correo_personal: req.query.email
+            }
+        }]
+    });
+    if(!resetContact){
+        return res.json({
+            code: 400,
+            error: "No se encontró la persona"
+        });
+    }
+    var tokenData = {
+        persona_id: resetContact.get("persona_id"),
+        email: req.query.email,
+        oldPassword: resetContact.get("contraseña")
+    }
+    var resetToken = jwt.sign(tokenData, process.env.JWT_key, {expiresIn: "1 day"});
+    Email.sendResetPassword(resetContact, req.query.email, resetToken);
+    return res.json({
+        success:true,
+        code: 200
+    });
 }
 
 exports.Authentication = new Authentication();

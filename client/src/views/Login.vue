@@ -1,6 +1,6 @@
 <template>
   <div class="Login">
-    <Navbar/>
+    <SimpleNavbar/>
     <SignIn/>
     <Footer/>
   </div>
@@ -8,14 +8,14 @@
 
 <script>
 /* eslint-disable */
-import Navbar from '@/components/Navbar.vue'
+import SimpleNavbar from '@/components/SimpleNavbar.vue'
 import SignIn from '@/components/SignIn.vue'
 import Footer from '@/components/Footer.vue'
 
 export default {
   name: 'Login',
   components: {
-    Navbar,
+    SimpleNavbar,
     SignIn,
     Footer
   }

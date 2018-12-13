@@ -9,7 +9,7 @@
                 {{field}}
             </b-button>
         </div>
-        <h1 class="mb-5">{{paperName}}</h1>
+        <h1 class="mb-5">{{paperTitle}}</h1>
         <h5>Revista: {{journal}}</h5>
         <a :href="link"><h5>Enlace: {{link}}</h5></a>
     </div>
@@ -22,6 +22,7 @@
             <h4>Autores</h4>
         </div>
     </div>
+
 
     <Footer/>
 
@@ -42,16 +43,37 @@ export default {
     },
     data: function () {
       return {
-        id : null,
-        paperName : "Artículo de investigación",
-        field : "Campo de investigación",
-        journal : "revista",
-        link : "http://www.google.com",
-        abstract : "Descripción del articulo"
+        paperId : null,
+        paperTitle : "Artículo de investigación",
+        field : "Sin área de investigación",
+        journal : "n/a",
+        link : "Sin enlace",
+        abstract : "Sin descripción"
       }
     },
     methods : {
         getInfo() {
+            this.paperId = window.location.pathname.split("/").pop()
+            this.$axios.get('/articulo?articulo_id='
+                            + this.paperId).then((response) => {
+                let paper = response.data.resource[0]
+                this.paperTitle = paper.titulo
+                if (paper.revista != null){
+                    this.journal = paper.revista
+                }
+                if (paper.abstract != null){
+                    this.abstract = paper.abstract
+                }
+                if (paper.url != null){
+                    this.link = paper.url
+                }
+                if (paper.campo_id != null){
+                    this.$axios.get('/campo?campo_id='
+                                    + paper.campo_id).then((fieldResponse) => {
+                        this.field = fieldResponse.data.resource[0].nombre;
+                    })
+                }
+    		})
         }
     },
     mounted () {
