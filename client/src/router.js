@@ -104,7 +104,7 @@ export default new Router({
       component: Paper
     },
     {
-      path: '/editprofile',
+      path: '/editar_perfil',
       name: 'EditProfile',
       component: EditProfile
     },
