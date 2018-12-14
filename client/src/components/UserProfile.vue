@@ -45,12 +45,13 @@
                       </b-btn>
                   </div>
               </router-link>
-              
+
             <div v-if="loggedIn" class="col buttonCol">
                 <b-btn  href="#" variant="success">
                     Editar Artículos
                 </b-btn>
             </div>
+
             <div v-if="loggedIn" class="col buttonCol">
                 <b-btn  href="#" variant="info">
                     Editar perfil
@@ -67,14 +68,22 @@
         <b-card v-if="!isResearcher" title="Registrate como Investigador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow"> Ve al registro </button>
+                <router-link :to="{path: '/nuevo_investigador'}">
+                    <button class = "btn btn-dark shadow">
+                        Ve al registro
+                    </button>
+                </router-link>
             </p>
 
         </b-card>
         <b-card v-if="!isStudent" title="Registrate como Estudiante" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                  <button class = "btn btn-dark shadow"> Ve al registro</button>
+                <router-link :to="{path: '/nuevo_estudiante'}">
+                    <button class = "btn btn-dark shadow">
+                        Ve al registro
+                    </button>
+                </router-link>
             </p>
 
         </b-card>
