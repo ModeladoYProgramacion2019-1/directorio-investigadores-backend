@@ -120,10 +120,9 @@ export default {
             var user = null
             user = JSON.parse(this.$cookie.get('user'))
             if (user != null) {
-                if (user.persona_id == window.location.pathname.split("/").pop()) {
-                    if (user.Investigador != null) {
-                        this.isResearcher = true
-                    }
+                this.person_id = user.persona_id
+                if (user.Investigador != null) {
+                    this.isResearcher = true
                 }
             }
         },
@@ -153,26 +152,29 @@ export default {
          * Sends a new Researcher JSON to the database for its creation.
          */
         sendToBackend() {
+            console.log(this.person_id)
             if (this.field_id == 0) {
                 this.modalMessage = "El campo no puede permanecer indefinido"
                 this.showErrorModal = true
             } else {
                 var tokenData = {
+                    tipo: "investigador",
                     titulo: this.title,
                     persona_id: this.person_id,
                     campo_id: this.field_id,
                 }
-                var token = me.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
+                var token = this.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
                     {expiresIn: "70d"})
-                this.$axios.post('/email?token=' + token,
+                this.$axios.post('/email',
                     {
                         type: "investigador",
                         persona_id: this.person_id,
+                        token: token,
                     }
-                ).then(function(response){
+                ).then(response => {
                     console.log(response)
                     if(response.data){
-                        if(response.success){
+                        if(response.data.success){
                             this.modalMessage = "La solicitud de registro fue enviada"
                             this.showSuccessModal = true
                         }else{

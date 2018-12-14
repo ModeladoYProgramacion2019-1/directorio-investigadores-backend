@@ -36,6 +36,38 @@
         <button type="button" class="btn btn-primary" @click="sendToBackend">Registrate</button>
         </div>
       </form>
+
+
+      <!-- Error modal -->
+      <b-modal v-model="showErrorModal"
+             hide-footer
+             title="Mensaje:">
+              <div class="d-block text-center">
+                  <h3>{{modalMessage}}</h3>
+              </div>
+              <b-btn class="mt-3"
+                     variant="outline-danger"
+                     block
+                     @click="hideErrorModal">
+                  Cerrar
+              </b-btn>
+      </b-modal>
+
+      <!-- Success modal -->
+      <b-modal v-model="showSuccessModal"
+             hide-footer
+             title="Mensaje:">
+              <div class="d-block text-center">
+                  <h3>{{modalMessage}}</h3>
+              </div>
+              <b-btn class="mt-3"
+                     variant="outline-success"
+                     block
+                     @click="hideSuccesModal">
+                  Cerrar
+              </b-btn>
+      </b-modal>
+
     </header>
 </template>
 
@@ -48,10 +80,28 @@
                 lastName: "",
                 email: "",
                 password: "",
-                confirmation: ""
+                confirmation: "",
+                //Modal data
+                modalMessage : "",
+                showErrorModal : false,
+                showSuccessModal : false,
             }
         },
         methods: {
+            /**
+             * Hides the error modal.
+             */
+            hideErrorModal () {
+                this.showErrorModal = false;
+                this.modalMessage = "";
+            },
+            /**
+             * Hides the success modal.
+             */
+            hideSuccesModal () {
+                this.showSuccessModal = false;
+                this.modalMessage = "";
+            },
             sendToBackend(){
                 let me = this;
                 if(me.password == me.confirmation){
@@ -62,20 +112,29 @@
                         contraseña: me.password
                     }
                     var token = me.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key, {expiresIn: "1 minute"})
-                    me.$axios.post('/signUp?token='+token).then(function(response){
+                    me.$axios.post('/signUp?token='+token).then(response => {
                         console.log(response)
                         if(response.data){
-                            if(response.success){
-                                //TODO notify that the email was sent successfully
+                            if(response.data.success){
+                                this.modalMessage = "La solicitud de registro "
+                                                  + "fue enviada, revise el correo "
+                                                  + "que ingresó para completar el"
+                                                  + "registro."
+                                this.showSuccessModal = true
                             }else{
-                                //TODO notify of an error
+                                this.modalMessage = "Ocurrió un error durante "
+                                                  + "el registro, quizá ya se "
+                                                  + "registró el mismo correo."
+                                this.showErrorModal = true
                             }
                         }else{
-                            //TODO notify of an error
+                            this.modalMessage = "Ocurrió un error durante el registro"
+                            this.showErrorModal = true
                         }
                     });
                 }else{
-                    //TODO notify that passwords don't match
+                    this.modalMessage = "Las contraseñas no coinciden"
+                    this.showErrorModal = true
                 }
             }
         }
@@ -87,8 +146,9 @@
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 700;
     }
-
-
+    h3{
+        color: black
+    }
     header.signUpHead {
         position: center;
         background: url('../assets/images/login.png') no-repeat center center;

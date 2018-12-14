@@ -9,6 +9,7 @@ import State from './views/State.vue'
 import Campus from './views/Campus.vue'
 import Institute from './views/Institute.vue'
 import Verify from './views/Verify.vue'
+import UpgradeVerify from './views/UpgradeVerify.vue'
 import Profile from './views/Profile.vue'
 import EditProfile from './views/EditProfile.vue'
 import Paper from './views/Paper.vue'
@@ -40,6 +41,21 @@ export default new Router({
       path: '/verifica',
       name: 'Verify',
       component: Verify
+    },
+    {
+      path: '/verifica/estudiante',
+      name: 'VerifyStudent',
+      component: UpgradeVerify
+    },
+    {
+      path: '/verifica/investigador',
+      name: 'VerifyResearcher',
+      component: UpgradeVerify
+    },
+    {
+      path: '/verifica/administrador',
+      name: 'VerifyAdmin',
+      component: UpgradeVerify
     },
     {
 
