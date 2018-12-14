@@ -81,7 +81,7 @@ export default {
     }
     div.stateDiv {
         position: relative;
-        background: url('../assets/images/state.png') no-repeat center center;
+        background: url('../assets/images/paper.png') no-repeat center center;
         background-size: cover;
         background-attachment : fixed;
         padding-top: 3rem;

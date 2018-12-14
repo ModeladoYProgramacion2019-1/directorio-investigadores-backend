@@ -16,6 +16,9 @@ import Results from './views/Results.vue'
 import Reset from './views/Reset.vue'
 import Papers from './views/Papers.vue'
 import NewPaper from './views/NewPaper.vue'
+import EditPaper from './views/EditPaper.vue'
+import NewResearcher from './views/NewResearcher.vue'
+import NewStudent from './views/NewStudent.vue'
 
 Vue.use(Router)
 
@@ -64,6 +67,21 @@ export default new Router({
       path: '/nuevo_articulo',
       name: 'NewPaper',
       component: NewPaper
+    },
+    {
+      path: '/nuevo_investigador',
+      name: 'NewResearcher',
+      component: NewResearcher
+    },
+    {
+      path: '/nuevo_estudiante',
+      name: 'NewStudent',
+      component: NewStudent
+    },
+    {
+      path: '/editar_articulo/:id',
+      name: 'EditPaper',
+      component: EditPaper
     },
     {
       path: '/busqueda',
