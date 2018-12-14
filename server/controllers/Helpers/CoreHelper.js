@@ -13,6 +13,9 @@ let isLikeSearch = function(input){
     console.log(input);
     return input.indexOf('%') == 0 && input.lastIndexOf('%') == input.length - 1;
 }
+
+/** Sends an email notice to non-registered users two days before we delete their information 
+**/
 let sendDeletionNotice = function(){
     Models.sequelize.query("SELECT Contacto.correo_personal, Persona.nombre, Persona.apellido, Persona.persona_id FROM Contacto "
         + " INNER JOIN Persona ON Contacto.contacto_id=Persona.contacto_id "
@@ -33,6 +36,10 @@ let sendDeletionNotice = function(){
         }
     });
 }
+
+/** Deletes non-registered users from the database 
+after they exceed the registration time
+**/
 
 let deleteNonRegisteredUsers = function(){
     Models.sequelize.query("SELECT contacto_id FROM Persona WHERE datediff(createdAt, now())>= "
