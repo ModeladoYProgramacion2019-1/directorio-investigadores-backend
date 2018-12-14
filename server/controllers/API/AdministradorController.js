@@ -2,7 +2,7 @@ const Models  = require('../../models/index');
 const Op = Models.Sequelize.Op;
 const CoreHelper = require('../Helpers/CoreHelper').CoreHelper;
 
-let Estudiante = function(){
+let Administrador = function(){
     this.show = show;
     this.list = list;
     this.create = create;
@@ -10,20 +10,20 @@ let Estudiante = function(){
     this.update = update;
 };
 
-
 /*
-	Method to list students
+	Method to list administrators
 
-	@param req request received to specify which students list
+	@param req request received to specify which administrators list
 	@param res response returned to the entity who made the request
 
 	The method receives the query params through the request,
-	and filters the students in the database based on the query,
+	and filters the administrators in the database based on the query,
 	returning the result of the query as a json.
 
 	@returns a json response with the query result or an error,
 	and the corresponding response code
 */
+
 let list = function(req, res){
     try{
         var consulta = {}
@@ -39,26 +39,20 @@ let list = function(req, res){
             include: [
               {model: Models.Permiso}
             ]
-          },
-          {
-            model: Models.Campo
-          },
-          {
-            model: Models.Investigador
           }
         ]
-        Models.Estudiante.findAll(consulta).then(function(estudiantes){
-            if(!estudiantes){
+        Models.Administrador.findAll(consulta).then(function(administradores){
+            if(!administradores){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching student found"
+                  error: "No matching admin found"
                 });
             }else{
                 return res.json({
                   success: true,
                   code: 200,
-                  resource: estudiantes
+                  resource: administradores
                 });
             }
         });
@@ -72,15 +66,14 @@ let list = function(req, res){
     }
 }
 
-
 /*
-  Method to show a specific student's information
+  Method to show a specific administrator's information
 
-  @param req request received to specify which student's information to show
+  @param req request received to specify which administrator's information to show
   @param res response returned to the entity who made the request
 
-  The method receives a request containing the student's id
-	and returns a json containing the student's information
+  The method receives a request containing the administrator's id
+	and returns a json containing the administrator's information
 	whose id matches the received id
 
   @returns a json response with the query result or an error,
@@ -88,9 +81,9 @@ let list = function(req, res){
 */
 let show = function(req, res){
     try{
-        Models.Estudiante.findOne({
-          where:{
-              estudiante_id: req.params.id
+        Models.Administrador.findOne({
+          where: {
+              administrador_id: req.params.id
           },
           include: [
             {
@@ -98,26 +91,20 @@ let show = function(req, res){
               include: [
                 {model: Models.Permiso}
               ]
-            },
-            {
-              model: Models.Campo
-            },
-            {
-              model: Models.Investigador
             }
           ]
-        }).then(function(estudiante){
-            if(!estudiante){
+        }).then(function(administrador){
+            if(!administrador){
                 return res.json({
                   success: false,
                   code: 400,
-                  error: "No matching student found"
+                  error: "No matching admin found"
                 });
             }else{
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: estudiante
+                    resource: administrador
                 });
             }
         });
@@ -132,13 +119,13 @@ let show = function(req, res){
 }
 
 /*
-	Method to create a new student
+	Method to create a new administrator
 
-  @param req request received containing the new student's information
-  @param res response returned containing the new student's instance
+  @param req request received containing the new administrator's information
+  @param res response returned containing the new administrator's instance
 
-  The method receives a request containing the new student's information
-  and returns a json containing the new student's instance saved in the
+  The method receives a request containing the new administrator's information
+  and returns a json containing the new administrator's instance saved in the
 	database.
 
   @returns a json response with the query result or an error,
@@ -148,25 +135,25 @@ let show = function(req, res){
 let create = function(req, res){
     try{
         var data = req.body;
-        if(!data.nivel_estudiando){
+        if(!data.id_persona){
             return res.json({
                 success: false,
                 code: 400,
-                error: "Missing current level of studies parameter"
+                error: "Missing persona_id parameter"
             });
         }
-        Models.Estudiante.create(data).then(function(estudiante){
-            if(estudiante){
+        Models.Administrador.create(data).then(function(administrador){
+            if(administrador){
                 return res.json({
                     success: true,
                     code: 200,
-                    resource: estudiante
+                    resource: administrador
                 });
             }else{
                 return res.json({
                     success: false,
                     code: 500,
-                    error: "Could not create student"
+                    error: "Could not create admin"
                 });
             }
         });
@@ -181,28 +168,29 @@ let create = function(req, res){
 }
 
 /*
-  Method to destroy a student
+  Method to destroy an administrator
 
-  @param req request received to specify which student to destroy
-  @param res response returned containing the student's instance that was
+  @param req request received to specify which administrator to destroy
+  @param res response returned containing the administrator's instance that was
   destroyed
 
-  The method receives a request containing the student's id,
-  destroys the student and returns a json containing the
-  student's information whose id matches the received id
+  The method receives a request containing the administrator's id,
+  destroys the administrator and returns a json containing the
+  administrator's information whose id matches the received id
 
   @returns a json response with the query result or an error,
   and the corresponding response code
 */
-
 let destroy = function(req, res){
     try{
-        Models.Estudiante.destroy({
-            where: { estudiante_id: req.params.id}
-        }).then(function (estudiante) {
+        Models.Administrador.destroy({
+            where: {
+              administrador_id: req.params.id
+            }
+        }).then(function (administrador) {
             return res.json({
                 success: true,
-                resource: estudiante
+                resource: administrador
             });
         });
     }catch(error){
@@ -215,37 +203,35 @@ let destroy = function(req, res){
     }
 }
 
-
 /*
-  Method to update a specific student's information
+  Method to update a specific administrator's information
 
-  @param req request received to specify which student's information to update
-  @param res response returned containing the student's instance
+  @param req request received to specify which administrator's information to update
+  @param res response returned containing the administrator's instance
 
-  The method receives a request containing the student's id,
-  update student's information and returns a json containing
-  the student's information whose id matches the received id
+  The method receives a request containing the administrator's id,
+  update administrator's information and returns a json containing
+  the administrator's information whose id matches the received id
 
   @returns a json response with the query result or an error,
   and the corresponding response code
 */
-
 let update = function(req, res){
     try{
         var data = req.body;
-        Models.Estudiante.findOne({
+        Models.Administrador.findOne({
             where:{
-                estudiante_id: req.params.id
+                administrador_id: req.params.id
             }
-        }).then(function(estudiante){
-            if(!estudiante){
+        }).then(function(administrador){
+            if(!administrador){
                 return res.json({
                     success: false,
                     code: 400,
-                    error: "No matching student found"
+                    error: "No matching admin found"
                 });
             }else{
-                estudiante.update(data).then(function(updated){
+                administrador.update(data).then(function(updated){
                     return res.json({
                       success: true,
                       code: 200,
@@ -264,4 +250,4 @@ let update = function(req, res){
     }
 }
 
-exports.Estudiante = new Estudiante();
+exports.Administrador = new Administrador();

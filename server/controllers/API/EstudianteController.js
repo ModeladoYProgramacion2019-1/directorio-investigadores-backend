@@ -10,7 +10,6 @@ let Estudiante = function(){
     this.update = update;
 };
 
-
 /*
 	Method to list students
 
