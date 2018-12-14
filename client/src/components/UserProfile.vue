@@ -92,7 +92,9 @@
         <b-card v-if="!isAdmin" title="Registrate como Administrador" class="researcherCard m-3">
             <p class="card-text">
                 <br>
-                <button class = "btn btn-dark shadow">Solicita permisos</button>
+                <button class = "btn btn-dark shadow" @click="sendToBackend">
+                    Solicita permisos
+                </button>
             </p>
           </b-card>
         </b-card-group>
@@ -105,6 +107,37 @@
 
       </div>
     </div>
+
+    <!-- Error modal -->
+    <b-modal v-model="showErrorModal"
+           hide-footer
+           title="Mensaje:">
+            <div class="d-block text-center">
+                <h3>{{modalMessage}}</h3>
+            </div>
+            <b-btn class="mt-3"
+                   variant="outline-danger"
+                   block
+                   @click="hideErrorModal">
+                Cerrar
+            </b-btn>
+    </b-modal>
+
+    <!-- Success modal -->
+    <b-modal v-model="showSuccessModal"
+           hide-footer
+           title="Mensaje:">
+            <div class="d-block text-center">
+                <h3>{{modalMessage}}</h3>
+            </div>
+            <b-btn class="mt-3"
+                   variant="outline-success"
+                   block
+                   @click="hideSuccesModal">
+                Cerrar
+            </b-btn>
+    </b-modal>
+
   </div>
 </template>
 
@@ -129,6 +162,10 @@ export default {
         isResearcher : false,
         isStudent : false,
         paperNumber : 0,
+        //Modal data
+        modalMessage : "",
+        showSuccessModal : false,
+        showErrorModal : false,
       }
     },
     methods : {
@@ -162,7 +199,53 @@ export default {
                     }
                 }
             }
-        }
+        },
+        /**
+         * Hides the error modal.
+         */
+        hideErrorModal () {
+            this.showErrorModal = false;
+            this.modalMessage = "";
+        },
+        /**
+         * Hides the success modal.
+         */
+        hideSuccesModal () {
+            this.showSuccessModal = false;
+            this.modalMessage = "";
+        },
+        /**
+         * Sends a new Admin JSON to the database for its creation.
+         */
+        sendToBackend() {
+            var tokenData = {
+                tipo: "administrador",
+                persona_id: this.id,
+            }
+            var token = this.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
+                {expiresIn: "70d"})
+            this.$axios.post('/email',
+                {
+                    type: "administrador",
+                    persona_id: this.id,
+                    token: token,
+                }
+            ).then(response => {
+                console.log(response)
+                    if(response.data){
+                        if(response.data.success){
+                            this.modalMessage = "La solicitud de registro fue enviada"
+                            this.showSuccessModal = true
+                        }else{
+                            this.modalMessage = "Ocurrió un error durante el registro"
+                            this.showErrorModal = true
+                        }
+                    }else{
+                        this.modalMessage = "Ocurrió un error durante el registro"
+                        this.showErrorModal = true
+                    }
+            });
+        },
     },
     mounted () {
         this.getInfo()
