@@ -15,6 +15,7 @@ const Sede = require('../controllers/API/SedeController').Sede;
 
 const Authentication = require('../controllers/Core/AuthenticationController').Authentication;
 const Search = require('../controllers/Core/SearchController').Search;
+const Email = require('../controllers/Core/EmailController').Email;
 
 /*********************SERVE STATIC FILES*****************************/
 
@@ -126,5 +127,7 @@ router.get('/API/reset', Authentication.resetPassword);
 
 router.post('/API/simpleSearch', Search.simpleSearch);
 router.post('/API/advancedSearch', Search.advancedSearch);
+
+router.post('/API/email', Email.sendAccountUpgrade);
 
 module.exports = router;
