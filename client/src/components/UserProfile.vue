@@ -52,11 +52,13 @@
                 </b-btn>
             </div>
 
+            <router-link :to="{path: '/editar_perfil'}">
             <div v-if="loggedIn" class="col buttonCol">
-                <b-btn  href="#" variant="info">
+                <b-btn variant="info">
                     Editar perfil
                 </b-btn>
             </div>
+            </router-link>
           </div>
       </div>
 
