@@ -1,12 +1,12 @@
 <template>
-    <div v-if="hasPermission" class="NewPaper">
+    <div v-if="!isStudent" class="NewStudent">
 
         <!-- Main navbar -->
         <Navbar/>
 
         <!-- Title -->
         <div class ="titleDiv text-white text-center">
-            <h1 class="mb-5">Nuevo Artículo</h1>
+            <h1 class="mb-5">Registro de Estudiante</h1>
         </div>
 
         <!-- Field dropdown -->
@@ -15,56 +15,53 @@
                         :text="field" variant="success" boundary="viewport">
               <div class="scrollable-menu">
                   <b-dropdown-item v-for="field in fields"
-                                   @click="setField(field.campo_id, field.nombre)">
+                                @click="setField(field.campo_id, field.nombre)">
                       {{field.nombre}}
                   </b-dropdown-item>
               </div>
             </b-dropdown>
         </div>
 
-        <!-- Title input -->
-        <div class="bDiv">
-            <h5>Título</h5>
-            <div class="form-group container text-center">
-              <input v-validate= "'required'"v-model="title" title = "title"
-                     type="text" class="form-control">
-            </div>
-        </div>
-
-        <!-- Abstract input -->
+        <!-- Level input -->
         <div class="aDiv">
-            <h5>Abstract</h5>
+            <h5>Nivel</h5>
             <div class="form-group container text-center">
-              <input v-validate= "'required'"v-model="abstract" abstract = "abstract"
+              <input v-validate= "'required'"v-model="level" level = "level"
                      type="text" class="form-control">
             </div>
         </div>
 
-        <!-- Link input -->
-        <div class="bDiv">
-            <h5>Url</h5>
-            <div class="form-group container text-center">
-              <input v-validate= "'required'"v-model="link" link = "link"
-                     type="text" class="form-control">
-            </div>
-        </div>
-
-        <!-- Journal input -->
+        <!-- Studies input -->
         <div class="aDiv">
-            <h5>Revista</h5>
+            <h5>Máximo grado de estudio</h5>
             <div class="form-group container text-center">
-              <input v-validate= "'required'"v-model="journal" journal = "journal"
+              <input v-validate= "'required'"v-model="studies" studies = "studies"
                      type="text" class="form-control">
             </div>
         </div>
 
-        <!-- Authors search input -->
-        <div class="cDiv">
-            <h5>Autores (Escriba un nombre y presione enter)</h5>
+        <!-- Graduation date input -->
+        <div class="aDiv">
+            <h5>Fecha de graduación</h5>
             <div class="form-group container text-center">
-              <input v-validate= "'required'"v-model="author" author = "author"
-                     type="text" class="form-control" @change="getAuthor">
+              <input v-validate= "'required'"v-model="date" date = "date"
+                     type="date" class="form-control">
             </div>
+        </div>
+
+        <!-- Researcher search input -->
+        <div class="bDiv">
+
+            <!-- Input -->
+            <h5>Investigador (Escriba un correo y presione enter)</h5>
+            <div v-if="!selectedResearcher" class="form-group container text-center">
+              <input v-validate="'required'"
+                    v-model="researcherMail"
+                    researcherMail = "researcherMail"
+                     type="text" class="form-control" @change="getResearcher">
+            </div>
+
+            <!-- Search results -->
             <div class="card-columns">
                 <b-card  v-for="result in results"
                 bg-variant="dark" text-variant="white" :title="result.nombre + ' ' + result.apellido "
@@ -73,26 +70,30 @@
 
                 <div>
                     <b-button variant="secondary"
-                              @click="addAuthor(result.persona_id,
-                                                result.nombre + ' ' + result.apellido)">
-                        Agregar Autor
+                              @click="addResearcher(result.persona_id,
+                                                    result.nombre + ' '
+                                                    + result.apellido)">
+                        Agregar Investigador
                     </b-button>
                 </div>
                 </b-card>
             </div>
-            <h6 v-for="(auth, key) in authors">
-                • {{auth}}
+
+            <!-- Added researcher -->
+            <h6 v-for="(researcher, key) in researchers">
+                • {{researcher}}
                 <button type="button"
-                        class="btn btn-dark" variant="dark" @click="deleteAuthor(key)">
+                        class="btn btn-dark" variant="dark" @click="deleteResearcher(key)">
                     Eliminar
                 </button>
             </h6>
+
         </div>
 
         <!-- Register button -->
         <div class="bar text-center">
             <button type="button" class="btn btn-light" @click="sendToBackend">
-                Crea artículo
+                Regístrate
             </button>
         </div>
 
@@ -134,7 +135,7 @@
     <div v-else>
         <Navbar/>
         <h1 style="padding-bottom:2rem;">
-            Lo sentimos, no tiene permiso para crear artículos
+            Usted ya está registrado como estudiante.
         </h1>
         <Footer/>
     </div>
@@ -147,47 +148,68 @@ import Footer from '@/components/Footer.vue'
 var functions = require('@/functions')
 
 export default {
-    name: 'NewPaper',
+    name: 'NewStudent',
     components: {
         Navbar,
         Footer
     },
     data: function() {
         return {
-            //UI data
-            author: "",
+            //UI data.
+            researcherMail: "",
             field: "Campo de investigación",
             fields: [],
-            hasPermission: false,
-            modalMessage : "",
+            isStudent: false,
+            researcher: "",
             results: [],
+            //Modal data
+            modalMessage : "",
             showErrorModal : false,
             showSuccessModal : false,
-            //JSON data
-            abstract: "",
-            authors: {},
+            //JSON data.
+            level: "",
+            studies: "",
+            date: "",
             field_id: 0,
-            journal: "",
-            link: "",
-            title: "",
+            researcher_id: 0,
+            researchers: {},
+            selectedResearcher: false,
+            researcher_person_id: 0,
+            person_id: null,
         }
     },
-    methods: {
+    methods : {
         /**
-         * Adds a new author to the authors dictionary.
+         * Adds a new researcher to the researchers dictionary.
          */
-        addAuthor(id, name){
-            this.authors[id] = name;
-            this.author = ""
+        addResearcher(id, name){
+            this.researchers[id] = name;
+            this.researcherMail = ""
             this.results = null
+            this.selectedResearcher = true
+            this.researcher_person_id = id
         },
         /**
-         * Searches for an author in the database.
+         * Deletes an researcher from the researchers dictionary.
          */
-        getAuthor(){
-            this.$axios.get('/persona?nombre='
-                            + this.author).then((response) => {
-                this.results = response.data.resource
+        deleteResearcher(id){
+            this.$delete(this.researchers, id)
+            this.selectedResearcher = false
+        },
+        /**
+         * Searches for an researcher in the database.
+         */
+        getResearcher(){
+            this.results = []
+            this.$axios.get('/contacto?correo_personal=%'
+                            + this.researcherMail + '%').then((contactResponse) => {
+                var contactResults = contactResponse.data.resource
+                for (var contact in contactResults) {
+                    this.$axios.get('/persona?contacto_id='
+                    + contactResults[contact].contacto_id).then((response) => {
+                        this.results.push(response.data.resource[0])
+                    })
+                }
             })
         },
         /**
@@ -197,17 +219,9 @@ export default {
             var user = null
             user = JSON.parse(this.$cookie.get('user'))
             if (user != null) {
-                if (user.persona_id == window.location.pathname.split("/").pop()) {
-                    if (user.Administrador != null) {
-                        this.hasPermission = true
-                    }
-                    else if (user.Investigador != null) {
-                        this.hasPermission = true
-                    }
-                    if (user.Estudiante != null) {
-                        this.hasPermission = true
-                    }
-
+                this.person_id = user.persona_id
+                if (user.Estudiante != null) {
+                    this.isStudent = true
                 }
             }
         },
@@ -218,12 +232,6 @@ export default {
             this.$axios.get('/campo').then((response) => {
                 this.fields = response.data.resource
             })
-        },
-        /**
-         * Deletes an author from the authors dictionary.
-         */
-        deleteAuthor(id){
-            this.$delete(this.authors, id)
         },
         /**
          * Hides the error modal.
@@ -240,51 +248,53 @@ export default {
             this.modalMessage = "";
         },
         /**
-         * Sends a new Paper JSON to the database for its creation.
+         * Sends a new Student JSON to the database for its creation.
          */
-        sendToBackend(){
-            if (this.title == "") {
-                this.modalMessage = "El título no puede estar vacío"
+        sendToBackend() {
+            if (!this.selectedResearcher) {
+                this.modalMessage = "Debe seleccionar UN investigador"
                 this.showErrorModal = true
             } else if (this.field_id == 0) {
                 this.modalMessage = "El campo no puede permanecer indefinido"
                 this.showErrorModal = true
             } else {
-                let authorsList = []
-                for (var key in this.authors) {
-                    authorsList.push(key)
+                var researcher_id = 0
+                this.$axios.get('/investigador?persona_id='
+                + this.researcher_person_id).then((response) => {
+                    researcher_id = response.data.resource[0].investigador_id
+
+                })
+                var tokenData = {
+                    nivel_estudiando: this.level,
+                    maximo_grado: this.level,
+                    fecha_graduacion: this.date,
+                    persona_id: this.person_id,
+                    investigador_id: researcher_id,
+                    campo_id: this.field_id
                 }
-                this.$axios.post('/articulo',
+                var token = me.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
+                    {expiresIn: "70d"})
+                this.$axios.post('/email?token=' + token,
                     {
-                        titulo : this.title,
-                        abstract: this.abstract,
-                        url: this.link,
-                        revista: this.journal,
-                        campo_id: this.field_id,
-                        autores: authorsList,
+                        type: "estudiante",
+                        persona_id: this.person_id,
+                        investigador_id: researcher_id
                     }
-                ).then(response => {
+                ).then(function(response){
                     console.log(response)
                     if(response.data){
-                        if(response.data.success){
-                            this.modalMessage = "El artículo se creó exitosamente"
+                        if(response.success){
+                            this.modalMessage = "La solicitud de registro fue enviada"
                             this.showSuccessModal = true
                         }else{
-                            this.modalMessage = "Ocurrió un error al crear el artículo"
+                            this.modalMessage = "Ocurrió un error durante el registro"
                             this.showErrorModal = true
                         }
                     }else{
-                        this.modalMessage = "Ocurrió un error al crear el artículo"
+                        this.modalMessage = "Ocurrió un error durante el registro"
                         this.showErrorModal = true
                     }
-                })
-                this.abstract = ""
-                this.authors = {}
-                this.field_id = 0
-                this.journal = ""
-                this.link = ""
-                this.title = ""
-                this.field = "Campo de investigación"
+                });
             }
         },
         /**
@@ -293,7 +303,7 @@ export default {
         setField(id, nombre){
             this.field_id = id
             this.field = nombre
-        },
+        }
     },
     mounted () {
         this.getCookieInfo()
@@ -341,16 +351,6 @@ export default {
     }
     div.bDiv {
         position: relative;
-        background-color: #1B212D;
-        padding-top: 0.5rem;
-        padding-bottom: 0.5rem;
-        padding-left: 1.5rem;
-        padding-right: 1.5rem;
-        color: white;
-        text-align: left;
-    }
-    div.cDiv {
-        position: relative;
         background-color: #992033;
         padding-top: 0.5rem;
         padding-bottom: 0.5rem;
@@ -359,7 +359,7 @@ export default {
         color: white;
         text-align: left;
     }
-    div.NewPaper{
+    div.NewStudent{
         background-color: #E3E7ED;
     }
     .scrollable-menu {
