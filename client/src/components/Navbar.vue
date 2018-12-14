@@ -2,12 +2,18 @@
     <nav class="navbar navbar-light  sticky-top ">
       <div class="container">
         <a class="navbar-brand" href="/">Red Nacional de Investigación</a>
-        <form class="form-inline">
+        <div class="form-inline">
 
             <input class="form-control mr-sm-2"
                    type="search"
                    placeholder="¿Que está buscando?"
-                   aria-label="Search">
+                   aria-label="Search"
+                   v-model="searchTerm">
+
+             <button class="btn btn-primary btn-margin-left"
+                     @click="performSimpleSearch">
+                 Buscar
+             </button>
 
             <router-link to="/busqueda">
                 <a class="btn btn-secondary" href="#">Búsqueda avanzada</a>
@@ -31,7 +37,7 @@
                     @click="logOut">
                 Salir
             </button>
-        </form>
+        </div>
       </div>
     </nav>
 </template>
@@ -42,7 +48,8 @@
         data: function () {
           return {
             isLoggedIn : false,
-            person_id : null
+            person_id  : null,
+            searchTerm : ""
           }
         },
         methods : {
@@ -57,6 +64,10 @@
             logOut(){
                 this.$cookie.delete('user')
                 this.$router.push({ name: 'home'})
+            },
+            performSimpleSearch(){
+                let me = this;
+                console.log("SEARCHING FOR: "+me.searchTerm);
             }
         },
         mounted () {
