@@ -6,7 +6,8 @@ var jwt = require("jsonwebtoken");
 let CoreHelper = function(){
     this.isLikeSearch = isLikeSearch;
     this.sendDeletionNotice = sendDeletionNotice;
-    this.deleteNonRegisteredUsers = deleteNonRegisteredUsers
+    this.deleteNonRegisteredUsers = deleteNonRegisteredUsers;
+    this.isLike = isLike
 };
 
 let isLikeSearch = function(input){
@@ -14,15 +15,19 @@ let isLikeSearch = function(input){
     return input.indexOf('%') == 0 && input.lastIndexOf('%') == input.length - 1;
 }
 
+let isLike = function(input){
+    return '%' + input + '%';
+}
 /** Sends an email notice to non-registered users two days before we delete their information 
 **/
 let sendDeletionNotice = function(){
-    Models.sequelize.query("SELECT Contacto.correo_personal, Persona.nombre, Persona.apellido, Persona.persona_id FROM Contacto "
-        + " INNER JOIN Persona ON Contacto.contacto_id=Persona.contacto_id "
-        + " AND is_verified = false AND "
+    Models.sequelize.query("SELECT Contacto.correo_personal, Persona.nombre, "
+        + " Persona.apellido, Persona.persona_id FROM Contacto INNER JOIN Persona ON "
+        + " Contacto.contacto_id=Persona.contacto_id AND is_verified = false AND "
         + " DATEDIFF(NOW(), Persona.createdAt) >= "+ parseInt(Number(process.env.verification_time)- 2) 
-        + " AND DATEDIFF(NOW(), Persona.createdAt) < " + parseInt(Number(process.env.verification_time)- 1) + ";").spread((results, metadata) => {
-        console.log(results);
+        + " AND DATEDIFF(NOW(), Persona.createdAt) < " + parseInt(Number(process.env.verification_time)- 1) 
+        + ";").spread((results, metadata) => {
+        console.log("Sending deletion notice to " + results);
         // Sending deletion notice to unregistered users
         for(i = 0; i < results.length; i++){
             var tokenData = {

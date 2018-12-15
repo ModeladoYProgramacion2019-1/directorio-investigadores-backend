@@ -12,7 +12,8 @@ let Search = function(){
 let simpleSearch = async function(req, res){
     try{
         console.log(req.body);
-        let searchedFor = '%' + req.body.data + '%';
+        let searchedFor = CoreHelper.isLike(req.body.data);
+        console.log(searchedFor);
         let dataFound = {
             Persona: [],
             Grupo: [],
@@ -44,8 +45,14 @@ let simpleSearch = async function(req, res){
                 [Op.or]:
                     [{nombre: {[Op.like]: searchedFor}},
                     {apellido: {[Op.like]: searchedFor}}]
-                // Buscar correo en la tabla direccion
-            }
+            },include: [{
+                model: Models.Contacto,
+                where: {
+                    [Op.or]:
+                        [{correo_personal: {[Op.like]: searchedFor}},
+                        {correo_institucion: {[Op.like]: searchedFor}}]
+                }
+            }]
         });
 
         var groupsFound = await Models.Grupo.findAll({
@@ -54,16 +61,15 @@ let simpleSearch = async function(req, res){
             }
         });
 
-        dataFound.Persona.push(personsFound);
-        dataFound.Grupo.push(groupsFound);
-        dataFound.Sede.push(seatsFound);
-        dataFound.Articulo.push(articlesFound);
+        dataFound.Persona = personsFound;
+        dataFound.Grupo = groupsFound;
+        dataFound.Sede = seatsFound;
+        dataFound.Articulo = articlesFound;
         console.log(dataFound.toString())
         return res.json({
             success: true,
             code: 200,
-            resource: dataFound
-
+            resource: dataFound 
         });
     }catch(error){
         console.log(error);
@@ -74,13 +80,70 @@ let simpleSearch = async function(req, res){
         });
     }
 }
-
-let advancedSearch = function(req, res){
-    let searchedFor = req.body.data;
-    return res.json({
-        success: true,
-        status: "In progress"
-    });
+/* This is not completely finished, it allows for partial advanced searches so far
+*/
+let advancedSearch = async function(req, res){
+    try{ 
+        let results = {}
+        if (req.body.Sede){
+            var searchedFor = req.body.Sede;
+            var seatsFound = await Models.Sede.findAll({
+                where: {
+                    nombre: {[Op.like]: CoreHelper.isLike(searchedFor.nombre)}
+                }
+            });
+            console.log("Buscando en Sede");
+            results = {
+                Sede: seatsFound
+            }
+            
+        }else if(req.body.Articulo){
+            var searchedFor = req.body.Articulo;
+            var articlesFound = await Models.Articulo.findAll({
+                where: {
+                    titulo: CoreHelper.isLike(searchedFor.titulo)
+                }, include: [{
+                    model: Models.Campo
+                }]
+            });
+            console.log("Buscando en Articulo");
+            results = {
+                Articulo: articlesFound
+            }
+            
+        }else if(req.body.Persona){
+            var searchedFor = req.body.Persona;
+            var personsFound = await Models.Persona.findAll({
+                where: {
+                    [Op.or]:
+                        [{nombre: {[Op.like]: CoreHelper.isLike(searchedFor.nombre)}},
+                        {apellido: {[Op.like]: CoreHelper.isLike(searchedFor.apellido)}}]
+            },include: [{
+                model: Models.Contacto,
+                where: {
+                    [Op.or]:
+                        [{correo_personal: {[Op.like]: CoreHelper.isLike(searchedFor.correo)}},
+                        {correo_institucion: {[Op.like]: CoreHelper.isLike(searchedFor.correo)}}]
+                }
+                }]
+            });
+            console.log("Buscando en Persona");
+            results = {
+                Persona: personsFound
+            }
+        }return res.json({
+            success: true,
+            code: 200,
+            resource: results 
+        });
+    }catch(error){
+        console.log(error);
+        return res.json({
+            success: false,
+            code: 500,
+            error: error
+        });
+    }
 }
 
 exports.Search = new Search();
