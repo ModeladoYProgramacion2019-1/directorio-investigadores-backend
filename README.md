@@ -71,7 +71,7 @@ cd directorio-investigadores-backend/client/
 
 y en ambas ejecuta **npm start**
 
-La aplicacion se ejecuta en modo desarollo corriendo en ***localhost:8080*** por omisión y la API se ejecuta en localhost:3000 por omisión.
+La aplicacion se ejecuta en modo desarollo corriendo en ***localhost:8080*** por omisión y la API se ejecuta en ***localhost:3000*** por omisión.
 
 La estructura del proyecto esta dividida en dos partes con fin de mantener el modelo MVC. Para claridad se separaron las carpetas en **client** donde se contiene la vista y **server** donde esta el modelo. El controlador serian las peticiones HTTP que se realizan para que estos se comuniquen. Se ejecutan dos servidores el que sirve la vista es un servidor HTTP simple que distribuye el codigo HTML compilado que resulta de ejecutar el comando **npm run build** como salida de ese comando se encuentran instrucciones de como levantar ese pequeño servidor HTML, este bien podria ser un apache o nginx pero no fue implementado por restricciones de tiempo. Aquel que sirve el modelo y atiende todas las peticiones HTTP del cliente es el que se ejecuta usando el framework Expressjs
 
