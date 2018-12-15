@@ -2,6 +2,21 @@
     <div class="SearchResults">
         <header class ="searchHeader text-white text-center">
             <h1 class="mb-5">Resultados de la búsqueda</h1>
+
+            <!-- Error modal -->
+            <b-modal v-model="showErrorModal"
+                   hide-footer
+                   title="Mensaje:">
+                    <div class="d-block text-center">
+                        <h3 style="color: black">{{modalMessage}}</h3>
+                    </div>
+                    <b-btn class="mt-3"
+                           variant="outline-danger"
+                           block
+                           @click="hideErrorModal">
+                        Cerrar
+                    </b-btn>
+            </b-modal>
         </header>
 
         <div class="searchBox" role="tablist">
@@ -105,19 +120,57 @@ export default {
     name: 'SearchResults',
     data: function(){
         return {
-            paperNumber : 2,
+            paperNumber : 0,
             peopleNumber : 0,
             campusNumber : 0,
             groupNumber : 0,
-            papers : ['Artículo A', 'Artículo B'],
+            papers : [],
             people : [],
             campi : [],
-            groups : []
+            groups : [],
+            showErrorModal : false,
+            modalMessage : ""
         }
     },
     methods : {
+        hideErrorModal () {
+            this.showErrorModal = false;
+            this.modalMessage = "";
+        },
         getInfo() {
+          let me = this;
+          var url = window.location.pathname;
+          var searchedFor = url.slice(url.indexOf("busqueda=")+9, url.length);
+          console.log(searchedFor);
+          me.$axios.post('/simpleSearch', {data: searchedFor}).then(response => {
+              console.log(response)
+              if(response.data){
+                  if(response.data.resource){
+                      var resources = response.data.resource;
+                      console.log(JSON.stringify(resources));
+                      me.paperNumber = resources.Articulo[0].length;
+                      me.peopleNumber = resources.Persona[0].length;
+                      me.campusNumber = resources.Sede[0].length;
+                      me.groupNumber = resources.Grupo[0].length;
 
+                      me.papers = resources.Articulo[0];
+                      me.people = resources.Persona[0];
+                      me.campi = resources.Sede[0];
+                      me.groups = resources.Grupo[0];
+
+                      if(me.paperNumber == 0 && me.peopleNumber == 0 && me.campusNumber == 0 && me.groupNumber == 0){
+                        me.modalMessage = "No se encontraron resultados"
+                        me.showErrorModal = true
+                      }
+                  }else{
+                      me.modalMessage = "No se encontraron resultados"
+                      me.showErrorModal = true
+                  }
+              }else{
+                  me.modalMessage = "No se encontraron resultados"
+                  me.showErrorModal = true
+              }
+          });
         }
     },
     mounted () {

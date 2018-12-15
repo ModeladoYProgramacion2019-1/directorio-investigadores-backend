@@ -10,10 +10,9 @@
                    aria-label="Search"
                    v-model="searchTerm">
 
-             <button class="btn btn-primary btn-margin-left"
-                     @click="performSimpleSearch">
-                 Buscar
-             </button>
+             <router-link :to="{name : 'Results', query : { busqueda: searchTerm } }">
+                     <a class="btn btn-secondary" href="#">Buscar</a>
+             </router-link>
 
             <router-link to="/busqueda">
                 <a class="btn btn-secondary" href="#">Búsqueda avanzada</a>
