@@ -1,12 +1,12 @@
 # Directorio de investigadores
 Tercer proyecto Modelado y Programacion 2019-1
 
-#Integrantes Equipo 1
-Arteaga Vázquez Alan Ernesto
-Coronel Ruiz Aldair
-Farrera Ortega Cesar Augusto
-Martner Varela Ismael Lautaro
-Méndez Gallegos Ligia Natalia
+# Integrantes Equipo 1
+* Arteaga Vázquez Alan Ernesto
+* Coronel Ruiz Aldair
+* Farrera Ortega Cesar Augusto
+* Martner Varela Ismael Lautaro
+* Méndez Gallegos Ligia Natalia
 
 ## Requerimientos
 
@@ -71,12 +71,12 @@ cd directorio-investigadores-backend/client/
 
 y en ambas ejecuta **npm start**
 
-La aplicacion se ejecuta en modo desarollo corriendo en localhost:8080 por omisión y la API se ejecuta en localhost:3000 por omisión.
+La aplicacion se ejecuta en modo desarollo corriendo en ***localhost:8080*** por omisión y la API se ejecuta en ***localhost:3000*** por omisión.
 
 La estructura del proyecto esta dividida en dos partes con fin de mantener el modelo MVC. Para claridad se separaron las carpetas en **client** donde se contiene la vista y **server** donde esta el modelo. El controlador serian las peticiones HTTP que se realizan para que estos se comuniquen. Se ejecutan dos servidores el que sirve la vista es un servidor HTTP simple que distribuye el codigo HTML compilado que resulta de ejecutar el comando **npm run build** como salida de ese comando se encuentran instrucciones de como levantar ese pequeño servidor HTML, este bien podria ser un apache o nginx pero no fue implementado por restricciones de tiempo. Aquel que sirve el modelo y atiende todas las peticiones HTTP del cliente es el que se ejecuta usando el framework Expressjs
 
 Un ejemplo del archivo .env tanto para la carpeta de **client** y **server** se encuentra en el siguiente repositorio privado. https://github.com/Hylandude/Proyecto03-informacion-sensible Ahi se encuentra la llave de sendgrid utilizada para enviar correos en caso de que no quieran crear una cuenta. Asi como un archivo .pem para acceder a la instancia de AWS que esta ejecutando el proyecto de manera virtual. Esta se encuentra corriendo y ejecutando los procesos como se indica arriba.
 
 ## Errores conocidos
-* La vista de reinicio de contraseña manda el correo de reinicio sinembargo no es posible completar el proceso
+* La vista de reinicio de contraseña manda el correo de reinicio sin embargo no es posible completar el proceso
 * La busqueda avanzada no regresa resultados
