@@ -1,12 +1,12 @@
 # Directorio de investigadores
 Tercer proyecto Modelado y Programacion 2019-1
 
-#Integrantes Equipo 1
-Arteaga Vázquez Alan Ernesto
-Coronel Ruiz Aldair
-Farrera Ortega Cesar Augusto
-Martner Varela Ismael Lautaro
-Méndez Gallegos Ligia Natalia
+# Integrantes Equipo 1
+* Arteaga Vázquez Alan Ernesto
+* Coronel Ruiz Aldair
+* Farrera Ortega Cesar Augusto
+* Martner Varela Ismael Lautaro
+* Méndez Gallegos Ligia Natalia
 
 ## Requerimientos
 
