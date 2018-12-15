@@ -288,6 +288,33 @@
 
           </b-tab>
 
+          <b-tab title="Información de investigador" active>
+            <div class="text-left mb-3">
+              <h3>Información de investigador</h3>
+              <h5>Edita o actualiza tu información como investigador</h5>
+              <hr>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Máximo grado de estudios</label>
+              <input  v-validate="'required'" name="studies" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('studies') }}</span>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Nivel que se está estudiando</label>
+              <input  v-validate="'required'" name="studiesA" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('studiesA') }}</span>
+            </div>
+
+            <div class="form-group container text-left">
+              <label class="control-label">Fecha de graduación</label>
+              <input  v-validate="'required|date_format:DD-MM-YYYY'" name="date" type="text" class="form-control col-sm-5">
+              <span style="color:red">{{ errors.first('date') }}</span>
+            </div>
+
+          </b-tab>
+
 
         </b-tabs>
       </b-card>

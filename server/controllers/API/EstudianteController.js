@@ -10,6 +10,19 @@ let Estudiante = function(){
     this.update = update;
 };
 
+/*
+	Method to list students
+
+	@param req request received to specify which students list
+	@param res response returned to the entity who made the request
+
+	The method receives the query params through the request,
+	and filters the students in the database based on the query,
+	returning the result of the query as a json.
+
+	@returns a json response with the query result or an error,
+	and the corresponding response code
+*/
 let list = function(req, res){
     try{
         var consulta = {}
@@ -58,6 +71,20 @@ let list = function(req, res){
     }
 }
 
+
+/*
+  Method to show a specific student's information
+
+  @param req request received to specify which student's information to show
+  @param res response returned to the entity who made the request
+
+  The method receives a request containing the student's id
+	and returns a json containing the student's information
+	whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let show = function(req, res){
     try{
         Models.Estudiante.findOne({
@@ -103,6 +130,20 @@ let show = function(req, res){
     }
 }
 
+/*
+	Method to create a new student
+
+  @param req request received containing the new student's information
+  @param res response returned containing the new student's instance
+
+  The method receives a request containing the new student's information
+  and returns a json containing the new student's instance saved in the
+	database.
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
+
 let create = function(req, res){
     try{
         var data = req.body;
@@ -138,6 +179,21 @@ let create = function(req, res){
     }
 }
 
+/*
+  Method to destroy a student
+
+  @param req request received to specify which student to destroy
+  @param res response returned containing the student's instance that was
+  destroyed
+
+  The method receives a request containing the student's id,
+  destroys the student and returns a json containing the
+  student's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
+
 let destroy = function(req, res){
     try{
         Models.Estudiante.destroy({
@@ -157,6 +213,21 @@ let destroy = function(req, res){
         });
     }
 }
+
+
+/*
+  Method to update a specific student's information
+
+  @param req request received to specify which student's information to update
+  @param res response returned containing the student's instance
+
+  The method receives a request containing the student's id,
+  update student's information and returns a json containing
+  the student's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 
 let update = function(req, res){
     try{

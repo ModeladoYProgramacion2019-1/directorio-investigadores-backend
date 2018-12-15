@@ -10,6 +10,20 @@ let Rol = function(){
     this.update = update;
 };
 
+/*
+	Method to list rols
+
+	@param req request received to specify which rols list
+	@param res response returned to the entity who made the request
+
+	The method receives the query params through the request,
+	and filters the rols in the database based on the query,
+	returning the result of the query as a json.
+
+	@returns a json response with the query result or an error,
+	and the corresponding response code
+*/
+
 let list = function(req, res){
     try{
         var consulta = {}
@@ -49,6 +63,19 @@ let list = function(req, res){
     }
 }
 
+/*
+  Method to show a specific rol's information
+
+  @param req request received to specify which rol's information to show
+  @param res response returned to the entity who made the request
+
+  The method receives a request containing the rol's id
+	and returns a json containing the rol's information
+	whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let show = function(req, res){
     try{
         Models.Rol.findOne({
@@ -85,6 +112,20 @@ let show = function(req, res){
     }
 };
 
+/*
+	Method to create a new rol
+
+  @param req request received containing the new rol's information
+  @param res response returned containing the new rol's instance
+
+  The method receives a request containing the new rol's information
+  and returns a json containing the new rol's instance saved in the
+	database.
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
+
 let create = function(req, res){
     try{
         var data = req.body;
@@ -120,6 +161,20 @@ let create = function(req, res){
     }
 }
 
+/*
+  Method to destroy a rol
+
+  @param req request received to specify which rol to destroy
+  @param res response returned containing the rol's instance that was
+  destroyed
+
+  The method receives a request containing the rol's id,
+  destroys the rol and returns a json containing the
+  rol's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let destroy = function(req, res){
     try{
         Models.Rol.destroy({
@@ -140,6 +195,19 @@ let destroy = function(req, res){
     }
 }
 
+/*
+  Method to update a specific rol's information
+
+  @param req request received to specify which rol's information to update
+  @param res response returned containing the rol's instance
+
+  The method receives a request containing the rol's id,
+  update rol's information and returns a json containing
+  the rol's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let update = function(req, res){
     try{
         var data = req.body;

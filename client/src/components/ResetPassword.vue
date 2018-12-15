@@ -15,6 +15,36 @@
       <button type="button" class="btn btn-primary" @click="sendToBackend">Cambiar</button>
       </div>
 
+      <!-- Error modal -->
+      <b-modal v-model="showErrorModal"
+             hide-footer
+             title="Mensaje:">
+              <div class="d-block text-center">
+                  <h3>{{modalMessage}}</h3>
+              </div>
+              <b-btn class="mt-3"
+                     variant="outline-danger"
+                     block
+                     @click="hideErrorModal">
+                  Cerrar
+              </b-btn>
+      </b-modal>
+
+      <!-- Success modal -->
+      <b-modal v-model="showSuccessModal"
+             hide-footer
+             title="Mensaje:">
+              <div class="d-block text-center">
+                  <h3>{{modalMessage}}</h3>
+              </div>
+              <b-btn class="mt-3"
+                     variant="outline-success"
+                     block
+                     @click="hideSuccesModal">
+                  Cerrar
+              </b-btn>
+      </b-modal>
+
     </header>
 </template>
 
@@ -23,23 +53,46 @@
         name: 'ResetPassword',
         data: function(){
             return {
-                email: ""
+                email: "",
+                //Modal data
+                modalMessage : "js",
+                showErrorModal : false,
+                showSuccessModal : false,
             }
         },
         methods: {
+            /**
+             * Hides the error modal.
+             */
+            hideErrorModal () {
+                this.showErrorModal = false;
+                this.modalMessage = "";
+            },
+            /**
+             * Hides the success modal.
+             */
+            hideSuccesModal () {
+                this.showSuccessModal = false;
+                this.modalMessage = "";
+            },
             sendToBackend(){
                 let me = this;
                 if(me.email){
-                    me.$axios.get('/reset?email='+me.email).then(function(response){
+                    me.$axios.get('/reset?email='+me.email).then(response => {
                         console.log(response)
                         if(response.data){
-                            if(response.success){
-                                //TODO notify that the email was sent successfully
+                            if(response.data.success){
+                                this.modalMessage = "Revise el correo "
+                                                  + "que ingresó para completar el "
+                                                  + "cambio de contraseña."
+                                this.showSuccessModal = true
                             }else{
-                                //TODO notify of an error
+                                this.modalMessage = "Lo sentimos, Ocurrió un error"
+                                this.showErrorModal = true
                             }
                         }else{
-                            //TODO notify of an error
+                            this.modalMessage = "Lo sentimos, Ocurrió un error"
+                            this.showErrorModal = true
                         }
                     });
                 }
@@ -53,8 +106,9 @@
         font-family: 'Avenir', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         font-weight: 700;
     }
-
-
+    h3{
+        color: black
+    }
     header.resetHead {
         position: center;
         background: url('../assets/images/login.png') no-repeat center center;

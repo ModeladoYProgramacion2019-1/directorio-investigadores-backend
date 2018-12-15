@@ -10,6 +10,20 @@ let Persona = function(){
     this.update = update;
 };
 
+/*
+	Method to list people
+
+	@param req request received to specify which people list
+	@param res response returned to the entity who made the request
+
+	The method receives the query params through the request,
+	and filters the people in the database based on the query,
+	returning the result of the query as a json.
+
+	@returns a json response with the query result or an error,
+	and the corresponding response code
+*/
+
 let list = function(req, res){
     try{
         var consulta = {}
@@ -106,6 +120,20 @@ let list = function(req, res){
     }
 }
 
+
+/*
+  Method to show a specific person's information
+
+  @param req request received to specify which person's information to show
+  @param res response returned to the entity who made the request
+
+  The method receives a request containing the person's id
+	and returns a json containing the person's information
+	whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let show = function(req, res){
     try{
         Models.Persona.findOne({
@@ -199,6 +227,20 @@ let show = function(req, res){
     }
 }
 
+/*
+	Method to create a new person
+
+  @param req request received containing the new person's information
+  @param res response returned containing the new person's instance
+
+  The method receives a request containing the new person's information
+  and returns a json containing the new person's instance saved in the
+	database.
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
+
 let create = function(req, res){
     try{
         var data = req.body;
@@ -234,6 +276,20 @@ let create = function(req, res){
     }
 }
 
+/*
+  Method to destroy a person
+
+  @param req request received to specify which person to destroy
+  @param res response returned containing the person's instance that was
+  destroyed
+
+  The method receives a request containing the person's id,
+  destroys the person and returns a json containing the
+  person's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let destroy = function(req, res){
     try{
         Models.Persona.destroy({
@@ -254,6 +310,19 @@ let destroy = function(req, res){
     }
 }
 
+/*
+  Method to update a specific person's information
+
+  @param req request received to specify which person's information to update
+  @param res response returned containing the person's instance
+
+  The method receives a request containing the person's id,
+  update person's information and returns a json containing
+  the person's information whose id matches the received id
+
+  @returns a json response with the query result or an error,
+  and the corresponding response code
+*/
 let update = function(req, res){
     try{
         var data = req.body;

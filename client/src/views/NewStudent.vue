@@ -251,6 +251,7 @@ export default {
          * Sends a new Student JSON to the database for its creation.
          */
         sendToBackend() {
+            console.log(this.person_id)
             if (!this.selectedResearcher) {
                 this.modalMessage = "Debe seleccionar UN investigador"
                 this.showErrorModal = true
@@ -258,13 +259,17 @@ export default {
                 this.modalMessage = "El campo no puede permanecer indefinido"
                 this.showErrorModal = true
             } else {
+                console.log(this.researcher_person_id)
                 var researcher_id = 0
                 this.$axios.get('/investigador?persona_id='
                 + this.researcher_person_id).then((response) => {
+                    console.log(response)
                     researcher_id = response.data.resource[0].investigador_id
-
+                    console.log(response.data.resource[0])
                 })
+                console.log(researcher_id)
                 var tokenData = {
+                    tipo: "estudiante",
                     nivel_estudiando: this.level,
                     maximo_grado: this.level,
                     fecha_graduacion: this.date,
@@ -272,18 +277,19 @@ export default {
                     investigador_id: researcher_id,
                     campo_id: this.field_id
                 }
-                var token = me.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
+                var token = this.$jwt.sign(tokenData, process.env.VUE_APP_JWT_key,
                     {expiresIn: "70d"})
-                this.$axios.post('/email?token=' + token,
+                this.$axios.post('/email',
                     {
                         type: "estudiante",
                         persona_id: this.person_id,
+                        token: token,
                         investigador_id: researcher_id
                     }
-                ).then(function(response){
+                ).then (response =>{
                     console.log(response)
                     if(response.data){
-                        if(response.success){
+                        if(response.data.success){
                             this.modalMessage = "La solicitud de registro fue enviada"
                             this.showSuccessModal = true
                         }else{
