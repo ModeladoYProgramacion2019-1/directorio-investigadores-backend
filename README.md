@@ -49,3 +49,15 @@ Y en la carpeta de **/server** se necesita un archivo **.env** que contenga lo s
 * **frontend_url** Define la ubicacion de donde se esta ejecutando el proceso de frontend
 * **verification_time** Define el tiempo que tarda en correr el CRON para borrar los registros sin completar
 * **main_admin_email** Define el correo electronico que se encargara de mandar verificaciones a los nuevos usuarios
+
+
+Finalmente accede a 
+
+```
+cd directorio-investigadores-backend/server/
+```
+```
+cd directorio-investigadores-backend/client/
+```
+
+y en ambas ejecuta **npm run** 
